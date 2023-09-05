@@ -28,48 +28,50 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        IsMyTurn = true;
         MyGameObj = GetComponent<GameObject>();
         myAudioSource = GetComponent<AudioSource>();
     }
+    void OnMouseDrag()
+    {
+        if (IsMyTurn)
+        {
+            float distance = Camera.main.WorldToScreenPoint(transform.position).z;
 
-
-
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
+            Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos);
+            objPos.y = -0.5f;
+            transform.position = objPos;
+        }
+    }
     private void shoot()
     {
-        if (IsMyTurn)//내턴이라면
+        if (IsPieceSelected) //기물이 선택되었다면
         {
-            //기물선택을 하라고 말한다
-
-            if (IsPieceSelected) //기물이 선택되었다면
+            if (Input.GetKeyDown(KeyCode.Space) && IsDir == false && IsPower == false) //스페이스바를 눌렀다면
             {
-                //스페이스바를 누르라는 말이 나온다
-
-
-                if (Input.GetKeyDown(KeyCode.Space) && IsDir == false && IsPower == false) //스페이스바를 눌렀다면
+                //방향조절 시스템이 먼저 활성화 된다.
+                DirSys.SetActive(true);
+                IsDir = true;
+                if (Input.GetKeyDown(KeyCode.Space) && IsDir == true && IsPower == false) //스페이스바를 다시한번 눌렀다면
                 {
-                    //방향조절 시스템이 먼저 활성화 된다.
-                    DirSys.SetActive(true);
-                    IsDir = true;
-                    if (Input.GetKeyDown(KeyCode.Space) && IsDir == true && IsPower == false) //스페이스바를 다시한번 눌렀다면
+                    //방향이 확정된다
+
+                    //방향시스템이 비활성화된다
+                    DirSys.SetActive(false);
+                    //파워시스템이 활성화된다.
+                    PowerSys.SetActive(true);
+                    IsPower = true;
+                    if (Input.GetKeyDown(KeyCode.Space) && IsDir == true && IsPower == true) //스페이스바를 다시한번 눌렀다면
                     {
-                        //방향이 확정된다
+                        //파워가 확정된다.
 
-                        //방향시스템이 비활성화된다
-                        DirSys.SetActive(false);
-                        //파워시스템이 활성화된다.
-                        PowerSys.SetActive(true);
-                        IsPower = true;
-                        if (Input.GetKeyDown(KeyCode.Space) && IsDir == true && IsPower == true) //스페이스바를 다시한번 눌렀다면
-                        {
-                            //파워가 확정된다.
+                        //튕기는 소리 재생
+                        myAudioSource.PlayOneShot(ShootSound);
+                        //발사(이동)
 
-                            //튕기는 소리 재생
-                            myAudioSource.PlayOneShot(ShootSound);
-                            //발사(이동)
-
-                            //내 턴 종료
-                            IsMyTurn = false;
-                        }
+                        //내 턴 종료
+                        IsMyTurn = false;
                     }
                 }
             }
