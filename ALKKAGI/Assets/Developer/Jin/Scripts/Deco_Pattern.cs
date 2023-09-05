@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Base_Player
 {
+    // hp delay speed name cooldown
     protected int Hp;
     protected float Cooldown;
     protected string Name;
@@ -24,7 +25,7 @@ public class InitDeco : Base_Player
     }
     public override string Get_All_Information()
     {
-        return $"Hp : {this.Hp}\nCoolDown : {this.Cooldown}\nName : {this.Name}";
+        return $"Hp : {this.Hp} | CoolDown : {this.Cooldown} | Name : {this.Name}";
     }
     public override int Get_Hp() { return this.Hp; }
     public override float Get_Cooldown() { return this.Cooldown; }
