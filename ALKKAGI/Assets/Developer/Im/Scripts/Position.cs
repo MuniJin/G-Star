@@ -5,6 +5,8 @@ using UnityEngine;
 public class Position : MonoBehaviour
 {
     //player is red
+    //기물을 배치해주는 스크립트
+
     private int[,] LocalPos = new int[10, 9]; //빈칸 0, 1~14 기물
     private int Auto = 0;
 

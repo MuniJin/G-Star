@@ -125,13 +125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3880adf8ab63724a9ed6112b1609f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsMyTurn: 0
   DisX: 0
   DisZ: 0
   ShootPower: 0
   Pita: 0
   Direction: {x: 0, y: 0, z: 0}
   MainObj: {fileID: 8568185996068189990}
+  GM: {fileID: 0}
 --- !u!1 &1868778668512807863
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 5536538}
   m_Layer: 0
   m_Name: Horse_Red
-  m_TagString: Untagged
+  m_TagString: RedPiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -372,5 +372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DragObj: {fileID: 284623742}
+  GM: {fileID: 0}
   Arrow: {x: 0, y: 0, z: 0}
   MoveSpeed: 0

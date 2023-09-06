@@ -6,15 +6,8 @@ using UnityEngine.EventSystems;
 
 public class AlggagiDrag : MonoBehaviour
 {
-    // 1. 유닛선택
-    // 2. 방향선택
-    // 3. 힘조절
-    // 4. 충돌확인
-    // 5. 승패확인
-    // 6. 충돌확인(외벽) 3초뒤 삭제
+    //드래그를 통해 이동에 필요한 값을 계산하는 스크립트
 
-    //충돌 -> 둘의 시작 좌표값저장 -> 충돌로 인한 운동 -> 승패확인 -> 승리시, 일반진행
-    public bool IsMyTurn = false;
     private bool IsPieceSelected = false;
     private Vector3 MoveDis;
     public float DisX;
@@ -23,15 +16,16 @@ public class AlggagiDrag : MonoBehaviour
     public float Pita = 0f;
     public  Vector3 Direction = new Vector3 (0,0,0);
     public GameObject MainObj;
+    public GameObject GM;
 
     private void Start()
     {
-        IsMyTurn = true;
+        GM = GameObject.Find("GameManager");
     }
 
     void OnMouseDrag()
     {
-        if (IsMyTurn)
+        if (GM.GetComponent<GameManager>().IsMyTurn)
         {
             float distance = Camera.main.WorldToScreenPoint(transform.position).z;
     

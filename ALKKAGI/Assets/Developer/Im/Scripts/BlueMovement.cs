@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class BlueMovement : MonoBehaviour
 {
-    public float moveSpeed = 3.0f; // 이동 속도를 설정할 변수
+    // 3. 힘조절
+    // 4. 충돌확인
+    // 5. 승패확인
+    // 6. 충돌확인(외벽) 3초뒤 삭제
 
-    private void Update()
-    {
-        // 이동 방향을 설정합니다. 여기서는 오른쪽으로 이동하는 예시입니다.
-        Vector3 moveDirection = Vector3.right;
+    //충돌 -> 둘의 시작 좌표값저장 -> 충돌로 인한 운동 -> 승패확인 -> 승리시, 일반진행
 
-        // 이동 거리를 설정합니다.
-        float moveDistance = moveSpeed * Time.deltaTime;
-
-        // 현재 위치에서 이동 방향으로 이동 거리만큼 이동합니다.
-        transform.position += moveDirection * moveDistance;
-    }
 }
