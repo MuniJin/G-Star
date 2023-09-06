@@ -47,4 +47,16 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
+    public void Death(int deathPiece)
+    {
+        //데스 사운드 재생
+        //죽은 유닛 setactive false;
+
+    }
+
+    public void GameOver(int who)
+    {
+
+    }
 }

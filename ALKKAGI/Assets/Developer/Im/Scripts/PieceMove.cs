@@ -21,10 +21,10 @@ public class PieceMove : MonoBehaviour
         rb = this.gameObject.GetComponent<Rigidbody>(); //오브젝트의 리지드바디를 자동으로 넣어주기
     }
 
-    //private void RotationReset() //기울기 초기화
-    //{
-    //    this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-    //}
+    private void RotationReset() //기울기 초기화
+    {
+        this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
 
     public void MoveStart() //기물 이동
     {
@@ -39,23 +39,12 @@ public class PieceMove : MonoBehaviour
         {
             GameObject collidedObject = collision.gameObject;
 
-            //rb.velocity = Vector3.zero;
-            //RotationReset();
+            rb.velocity = Vector3.zero;
+            RotationReset();
             GM.GetComponent<GameManager>().CrashObjR = this.gameObject;
             GM.GetComponent<GameManager>().CrashObjB = collidedObject;
             GM.GetComponent<GameManager>().RedPieceLocal = this.gameObject.transform.position;
             GM.GetComponent<GameManager>().BluePieceLocal = collidedObject.transform.position;
         }
-
-        if (collision.gameObject.tag == "death")
-        {
-            Invoke("Destroy", 3f);
-        }
     }
-
-    private void Destroy()
-    {
-        Destroy(this.gameObject);
-    }
-
 }
