@@ -17,10 +17,12 @@ public class AlggagiDrag : MonoBehaviour
     public bool IsMyTurn = false;
     private bool IsPieceSelected = false;
     private Vector3 MoveDis;
-    private float DisX;
-    private float DisZ;
+    public float DisX;
+    public float DisZ;
     public float ShootPower = 0f;
     public float Pita = 0f;
+    public  Vector3 Direction = new Vector3 (0,0,0);
+    public GameObject MainObj;
 
     private void Start()
     {
@@ -35,7 +37,7 @@ public class AlggagiDrag : MonoBehaviour
     
             Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
             Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos);
-            objPos.y = -0.5f;
+            objPos.y = -0.1f;
             transform.position = objPos;
     
             IsPieceSelected = true;
@@ -50,6 +52,7 @@ public class AlggagiDrag : MonoBehaviour
             DisX = MoveDis.x;
             DisZ = MoveDis.z;
             MoveMath();
+            MainObj.GetComponent<PieceMove>().MoveStart();
             IsPieceSelected = false;
         }
     }
@@ -57,5 +60,7 @@ public class AlggagiDrag : MonoBehaviour
     {
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //드래그 한 거리값
         ShootPower = ((float)Math.Floor(Pita * 100) / 100)*2; //속도값
+        Vector3 direction = new Vector3 (DisX, 0, DisZ);
+        MainObj.GetComponent<PieceMove>().Arrow = -direction;
     }
 }

@@ -4,35 +4,38 @@ using UnityEngine;
 
 public class PieceMove : MonoBehaviour
 {
-    public GameObject DragObj;
-    public float MoveSpeed;
-    private bool MoveTrue = false;
+    public GameObject DragObj; //드래그되는 오브젝트(Trigger 오브젝트)
+    private Rigidbody rb; // 해당 오브젝트의 리지드바디
+    public Vector3 Arrow; //이동방향
+    public float MoveSpeed; //이동속도
+    private bool RotateZero = false; //기물의 기울기가 0,0,0이 맞는지 확인하는 변수
+
 
     private void Start()
     {
-        MoveTrue = true;
-        StartCoroutine(MoveStart());
+        RotateZero = true; // 처음엔 0,0,0이 기본값이기에 true
+        rb = this.gameObject.GetComponent<Rigidbody>(); //오브젝트의 리지드바디를 자동으로 넣어주기
+        MoveStart(); //test code
     }
 
-    private void PieceMoveMent()
+    private void Update()
     {
-        MoveSpeed =  DragObj.GetComponent<AlggagiDrag>().ShootPower;
-        MoveStart();
-    }
-    IEnumerator MoveStart()
-    {
-        Debug.Log("start");
-        // 이동 방향을 설정합니다. 이거 어카지
-        Vector3 moveDirection = Vector3.right;
-
-        // 이동 거리를 설정합니다.
-        float moveDistance = MoveSpeed * Time.deltaTime;
-
-        // 현재 위치에서 이동 방향으로 이동 거리만큼 이동합니다.
-        transform.position += moveDirection * moveDistance;
-        while (MoveTrue)
+        if (!RotateZero)
         {
-            yield return 0;
+            RotationReset();
         }
     }
+
+    private void RotationReset() //기울기 초기화
+    {
+        this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    public void MoveStart() //기물 이동
+    {
+        MoveSpeed = DragObj.GetComponent<AlggagiDrag>().ShootPower;
+        rb.AddForce(Arrow* MoveSpeed, ForceMode.Impulse);
+    }
+
+    
 }
