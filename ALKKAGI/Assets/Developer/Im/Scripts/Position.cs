@@ -5,6 +5,8 @@ using UnityEngine;
 public class Position : MonoBehaviour
 {
     //player is red
+    //기물을 배치해주는 스크립트
+
     private int[,] LocalPos = new int[10, 9]; //빈칸 0, 1~14 기물
     private int Auto = 0;
 
@@ -12,6 +14,7 @@ public class Position : MonoBehaviour
     public int BST = 0; //BlueSetType 랜덤변수
     public GameObject[] pieces; //빨 -> 파 / 졸 -> 포 -> 차 -> 상 -> 마 -> 사 -> 궁
     public GameObject SelPannel;
+    public GameObject DeathRange;
 
     private void Start()
     {
@@ -25,12 +28,14 @@ public class Position : MonoBehaviour
         {
             AutoPos();
             SelPannel.SetActive(true);
+            DeathRange.SetActive(true);
         }
         else //플레이어가 직접 세팅
         {
             AutoPosBlue();
             BlueSettingSelect();
             PosSetting();
+            DeathRange.SetActive(true);
         }
     }
     
@@ -48,7 +53,7 @@ public class Position : MonoBehaviour
             for (int j = 0; j < 9; j++)
             {
                 if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 14)
-                    Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2, -0.5f, i * -2), Quaternion.identity);
+                    Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2,0f, i * -2), Quaternion.identity);
             }
         }
     }
