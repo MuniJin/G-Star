@@ -11,12 +11,22 @@ public class Character : Default_Character
     private string str;
     public float speed = 5f;
 
+    public Transform bulParent;
+    public Transform bulParent2;
+    public Transform bulParent3;
+    public GameObject bullet;
+
     private void Update()
     {
         Move();
 
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack(bulParent.position, 40f);
+        }
     }
 
     public override void Move()
@@ -30,9 +40,12 @@ public class Character : Default_Character
     {
         throw new System.NotImplementedException();
     }
-    public override void Attack()
+
+    public override void Attack(Vector3 bulpos, float shootPower)
     {
-        throw new System.NotImplementedException();
+        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
+        Rigidbody rb = go.AddComponent<Rigidbody>();
+        rb.AddForce(Vector3.forward * shootPower, ForceMode.Impulse);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +61,7 @@ public class Character : Default_Character
     {
         throw new System.NotImplementedException();
     }
+
     public void ChooseCharacter()
     {
         GameObject clickedBtn = EventSystem.current.currentSelectedGameObject;

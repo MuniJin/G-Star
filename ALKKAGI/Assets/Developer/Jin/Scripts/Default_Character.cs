@@ -6,7 +6,7 @@ public abstract class Default_Character : MonoBehaviour
 {
     public abstract void Move();
     public abstract void Jump();
-    public abstract void Attack();
+    public abstract void Attack(Vector3 bulpos, float shootPower);
 
     public abstract IEnumerator Skill(GameObject go);
 }
@@ -22,7 +22,7 @@ public class Decorator_Character : Default_Character
     {
         throw new System.NotImplementedException();
     }
-    public override void Attack()
+    public override void Attack(Vector3 bulpos, float shootPower)
     {
         throw new System.NotImplementedException();
     }
@@ -100,11 +100,24 @@ public class Knight : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
+        Vector3 b1, b2;
+
         if (!useSkill)
         {
             useSkill = true;
 
-            yield return new WaitForSeconds(cooldown);
+            for (int i = 0; i < 3; i++)
+            {
+                b1 = go.GetComponent<Character>().bulParent2.position;
+                b2 = go.GetComponent<Character>().bulParent3.position;
+
+                go.GetComponent<Character>().Attack(b1, 60f);
+                go.GetComponent<Character>().Attack(b2, 60f);
+
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            yield return new WaitForSeconds(cooldown - 0.6f);
             useSkill = false;
         }
     }
