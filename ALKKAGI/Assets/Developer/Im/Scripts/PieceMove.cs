@@ -31,33 +31,46 @@ public class PieceMove : MonoBehaviour
     {
         GM.GetComponent<GameManager>().IsMyTurn = false;
         MoveSpeed = DragObj.GetComponent<AlggagiDrag>().ShootPower;
-        rb.AddForce(Arrow* MoveSpeed, ForceMode.Impulse);
+        rb.AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
     }
 
-private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece")
+        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<GameManager>().CrashObjB != collision.gameObject)
         {
             GameObject collidedObject = collision.gameObject;
 
-            SaveSpeed = rb.velocity;
-            rb.velocity = Vector3.zero;
-            RotationReset();
             GM.GetComponent<GameManager>().CrashObjR = this.gameObject;
             GM.GetComponent<GameManager>().CrashObjB = collidedObject;
             GM.GetComponent<GameManager>().RedPieceLocal = this.gameObject.transform.position;
             GM.GetComponent<GameManager>().BluePieceLocal = collidedObject.transform.position;
+
+            // Save the velocity before setting it to zero
+            SaveSpeed = rb.velocity;
+
+            // Set the velocity of both objects to zero
+            rb.velocity = Vector3.zero;
+            GM.GetComponent<GameManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            RotationReset();
+
+            GM.GetComponent<GameManager>().FPSResult();
         }
     }
 
-    public void Win()
+
+
+    public void Win() //FPS½Â¸®½Ã
     {
+        GM.GetComponent<GameManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.8f);
+        rb.AddForce(-SaveSpeed * 0.2f);
         SaveSpeed = new Vector3(0, 0, 0);
     }
 
     public void lose()
     {
-        rb.AddForce(-SaveSpeed);
+        GM.GetComponent<GameManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.2f);
+        rb.AddForce(-SaveSpeed * 0.8f);
         SaveSpeed = new Vector3(0, 0, 0);
     }
 }

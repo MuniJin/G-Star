@@ -15,11 +15,12 @@ public class Position : MonoBehaviour
     public GameObject[] pieces; //빨 -> 파 / 졸 -> 포 -> 차 -> 상 -> 마 -> 사 -> 궁
     public GameObject SelPannel;
     public GameObject DeathRange;
-    public GameObject ParentObj;
+    public GameObject ParentObjR;
+    public GameObject ParentObjB;
+    public GameObject GM;
 
     private void Start()
     {
-        ParentObj = GameObject.Find("Base");
         GameStart();
     }
 
@@ -59,10 +60,14 @@ public class Position : MonoBehaviour
                     GameObject newPiece = Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2, 0f, i * -2), Quaternion.identity);
 
                     // 아래 라인을 사용하여 ParentObj를 부모로 설정합니다.
-                    newPiece.transform.SetParent(ParentObj.transform);
+                    if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 7)
+                        newPiece.transform.SetParent(ParentObjR.transform);
+                    if (LocalPos[i, j] > 7 && LocalPos[i, j] <= 14)
+                        newPiece.transform.SetParent(ParentObjB.transform);
                 }
             }
         }
+        GM.GetComponent<GameManager>().childCount = GM.GetComponent<GameManager>().BluePieces.transform.childCount;
     }
     public void BlueSettingSelect()
     {

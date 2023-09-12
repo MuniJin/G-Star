@@ -49,7 +49,7 @@ public class DeathZone : MonoBehaviour
             }
         }
 
-        if (collisionObj.tag == "BluePiece(Clone)")
+        if (collisionObj.tag == "BluePiece")
         {
             if (collisionObj.name == "Solider_Blue(Clone)")
             {
