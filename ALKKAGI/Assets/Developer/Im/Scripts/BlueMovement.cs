@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,13 @@ public class BlueMovement : MonoBehaviour
 {
     // 5. 승패확인
 
-    //충돌 -> 둘의 시작 좌표값저장 -> 충돌로 인한 운동 -> 승패확인 -> 승리시, 일반진행
-
+    private Vector3 MoveDis;
+    public float DisX;
+    public float DisZ;
+    public float ShootPower = 0f;
+    public float Pita = 0f;
+    public float MoveSpeed; //이동속도
+    private Vector3 direction;
     public GameObject GM;
 
     private void Start()
@@ -17,31 +23,23 @@ public class BlueMovement : MonoBehaviour
 
     public void BlueMove()
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<PieceMove>().SaveSpeed = this.gameObject.GetComponent<Rigidbody>().velocity;
-
+        MoveSpeed = UnityEngine.Random.Range(2f, 4f);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(direction * MoveSpeed, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void PowerMath()
     {
-        //if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject)
-        //{
-        //    GameObject collidedObject = collision.gameObject;
-        //
-        //    GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
-        //    GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
-        //    GM.GetComponent<AlKKAGIManager>().RedPieceLocal = this.gameObject.transform.position;
-        //    GM.GetComponent<AlKKAGIManager>().BluePieceLocal = collidedObject.transform.position;
-        //
-        //    // Save the velocity before setting it to zero
-        //    SaveSpeed = rb.velocity;
-        //
-        //    // Set the velocity of both objects to zero
-        //    rb.velocity = Vector3.zero;
-        //    GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //
-        //    RotationReset();
-        //
-        //    GM.GetComponent<AlKKAGIManager>().FPSResult();
-        //}
+        //RED팀 지정
+        //해당 기물과 자신의 기물의 거리 측정
+        //해당 기물을 맞추는 방향 설정
+        //거리에 따라 줄 힘 설정
+        
+    }
+
+    private void MoveMath()
+    {
+        Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //드래그 한 거리값
+        ShootPower = ((float)Math.Floor(Pita * 100) / 100) * 2; //속도값
+        direction = new Vector3(DisX, 0, DisZ);
     }
 }
