@@ -11,6 +11,7 @@ public class PieceMove : MonoBehaviour
     private Rigidbody rb; // 해당 오브젝트의 리지드바디
     public Vector3 Arrow; //이동방향
     public float MoveSpeed; //이동속도
+    public Vector3 SaveSpeed; //저장된 속도
     private bool RotateZero = false; //기물의 기울기가 0,0,0이 맞는지 확인하는 변수
 
 
@@ -33,12 +34,13 @@ public class PieceMove : MonoBehaviour
         rb.AddForce(Arrow* MoveSpeed, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision collision)
+private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece")
         {
             GameObject collidedObject = collision.gameObject;
 
+            SaveSpeed = rb.velocity;
             rb.velocity = Vector3.zero;
             RotationReset();
             GM.GetComponent<GameManager>().CrashObjR = this.gameObject;
@@ -46,5 +48,16 @@ public class PieceMove : MonoBehaviour
             GM.GetComponent<GameManager>().RedPieceLocal = this.gameObject.transform.position;
             GM.GetComponent<GameManager>().BluePieceLocal = collidedObject.transform.position;
         }
+    }
+
+    public void Win()
+    {
+        SaveSpeed = new Vector3(0, 0, 0);
+    }
+
+    public void lose()
+    {
+        rb.AddForce(-SaveSpeed);
+        SaveSpeed = new Vector3(0, 0, 0);
     }
 }

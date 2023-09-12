@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BluePiece
   - RedPiece
+  - DeathZone
   layers:
   - Default
   - TransparentFX
