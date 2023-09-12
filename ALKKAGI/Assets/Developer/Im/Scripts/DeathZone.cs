@@ -14,37 +14,37 @@ public class DeathZone : MonoBehaviour
         {
             if (collisionObj.name == "Solider_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(1);
+                GM.GetComponent<AlKKAGIManager>().Death(1);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Cannon_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(2);
+                GM.GetComponent<AlKKAGIManager>().Death(2);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Chariot_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(3);
+                GM.GetComponent<AlKKAGIManager>().Death(3);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Elephant_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(4);
+                GM.GetComponent<AlKKAGIManager>().Death(4);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Horse_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(5);
+                GM.GetComponent<AlKKAGIManager>().Death(5);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Guard_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(6);
+                GM.GetComponent<AlKKAGIManager>().Death(6);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "King_Red(Clone)")
             {
-                GM.GetComponent<GameManager>().GameOver(0);
+                GM.GetComponent<AlKKAGIManager>().GameOver(0);
                 Destroy(collisionObj);
             }
         }
@@ -53,37 +53,37 @@ public class DeathZone : MonoBehaviour
         {
             if (collisionObj.name == "Solider_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(7);
+                GM.GetComponent<AlKKAGIManager>().Death(7);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Cannon_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(8);
+                GM.GetComponent<AlKKAGIManager>().Death(8);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Chariot_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(9);
+                GM.GetComponent<AlKKAGIManager>().Death(9);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Elephant_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(10);
+                GM.GetComponent<AlKKAGIManager>().Death(10);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Horse_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(11);
+                GM.GetComponent<AlKKAGIManager>().Death(11);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "Guard_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().Death(12);
+                GM.GetComponent<AlKKAGIManager>().Death(12);
                 Destroy(collisionObj);
             }
             if (collisionObj.name == "King_Blue(Clone)")
             {
-                GM.GetComponent<GameManager>().GameOver(1);
+                GM.GetComponent<AlKKAGIManager>().GameOver(1);
                 Destroy(collisionObj);
             }
         }

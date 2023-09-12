@@ -25,7 +25,7 @@ public class AlggagiDrag : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (GM.GetComponent<GameManager>().IsMyTurn)
+        if (GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
             float distance = Camera.main.WorldToScreenPoint(transform.position).z;
     

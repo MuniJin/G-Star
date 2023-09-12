@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class AlKKAGIManager : MonoBehaviour
 {
     private GameObject randomChildObject;
     public GameObject BluePieces;
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private AudioSource myAudioSource;
 
     private bool IsWin = false;
-    public bool IsMyTurn = false;
+    public bool IsMyTurn = false; // true老版快, Red畔 // false老版快, Blue畔
 
     public GameObject CrashObjR;
     public GameObject CrashObjB;
