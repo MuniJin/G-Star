@@ -5,39 +5,55 @@ using UnityEngine.UI;
 
 public class Status : MonoBehaviour
 {
-
     [SerializeField] Text textHp;
-    //[SerializeField] Text textCooltime;
 
-    static int MaxHp = 100;
-    //static int MaxCoolTime = 10;
+    static float MaxHp = 100;
+    private float currentHealth =100;
 
-    int currentHP = 10;
-    
-
-    void StartStat()
-    {
-        //textHp.text = currentHP.ToString();
-    }
     private void Start()
     {
         StartStat();
     }
 
-    private void StartManager(int hp)
+    void StartStat()
     {
-        if(currentHP <= MaxHp)
-        {
-            currentHP += hp;
-            if (currentHP > MaxHp)
-                currentHP = MaxHp;
-        }
+        textHp.text = currentHealth.ToString();
+    }
+
+    // HP를 변경하는 메서드
+    public void ChangeHP(float hpChange)
+    {
+        currentHealth += hpChange;
+
+        // 최대 HP를 넘지 않도록 체크
+        if (currentHealth > MaxHp)
+            currentHealth = MaxHp;
+
+        // 최소 HP는 0 미만이 되지 않도록 체크
+        if (currentHealth < 0)
+            currentHealth = 0;
+
         HpText();
+    }
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        Debug.Log(currentHealth);
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
     }
 
     void HpText()
     {
-        textHp.text = currentHP.ToString();
+        textHp.text = currentHealth.ToString();
     }
-    
+    private void Die()
+    {
+        // 플레이어가 죽었을 때 실행할 동작을 추가합니다.
+        // 여기서는 간단하게 게임 오브젝트를 비활성화합니다.
+        gameObject.SetActive(false);
+    }
 }
+
