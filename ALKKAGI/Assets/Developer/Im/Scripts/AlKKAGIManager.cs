@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class AlKKAGIManager : MonoBehaviour
 {
+    private int leftBlue = 15;
+    private int BluePattern = 0;
     private GameObject randomChildObject;
     public GameObject BluePieces;
     public GameObject[] LeftPieces;
@@ -23,6 +25,7 @@ public class AlKKAGIManager : MonoBehaviour
     public Vector3 RedPieceLocal = new Vector3(0, 0, 0);
     public Vector3 BluePieceLocal = new Vector3(0, 0, 0);
     public int childCount = 0;
+    private bool IsCrash = false;
 
     private void Start()
     {
@@ -41,10 +44,10 @@ public class AlKKAGIManager : MonoBehaviour
 
     public void FPSResult()
     {
-        if (Random.Range(1, 4) > 2)
-            IsWin = false;
-        else
-            IsWin = true;
+        if (Random.Range(1, 4) > 2) //test
+            IsWin = false;               //test
+        else                                //test
+            IsWin = true;                //test
 
         if (IsWin) //½Â¸®
         {
@@ -76,19 +79,25 @@ public class AlKKAGIManager : MonoBehaviour
 
     public void BlueSelect()
     {
-        if (childCount > 0)
+        BluePattern = Random.Range(1, 4);
+        if (BluePattern == 1)
         {
-            randomChildObject = BluePieces.transform.GetChild(Random.Range(1, 17)).gameObject;
+            randomChildObject = BluePieces.transform.GetChild(Random.Range(0, 8 - leftBlue)).gameObject;
         }
-        else
+        if (BluePattern == 2)
         {
-            Debug.LogError("No child objects to select.");
+            randomChildObject = BluePieces.transform.GetChild(Random.Range(9+leftBlue,  11 - leftBlue)).gameObject;
+        }
+        if (BluePattern == 3)
+        {
+            randomChildObject = BluePieces.transform.GetChild(Random.Range(11+leftBlue, 16- leftBlue)).gameObject;
         }
     }
     private void BlueTurn()
     {
         BlueSelect();
         randomChildObject.GetComponent<BlueMovement>().BlueMove();
+        CrashObjB = null;
         IsMyTurn = true;
     }
 
@@ -129,35 +138,39 @@ public class AlKKAGIManager : MonoBehaviour
             LeftPieces[13 + f].SetActive(false);
             f++;
         }
-        if (deathPiece == 7)
+        if (deathPiece > 6)
         {
-            LeftPieces[15 + g].SetActive(false);
-            g++;
-        }
-        if (deathPiece == 8)
-        {
-            LeftPieces[20 + h].SetActive(false);
-            h++;
-        }
-        if (deathPiece == 9)
-        {
-            LeftPieces[22 + i].SetActive(false);
-            i++;
-        }
-        if (deathPiece == 10)
-        {
-            LeftPieces[24 + j].SetActive(false);
-            j++;
-        }
-        if (deathPiece == 11)
-        {
-            LeftPieces[26 + k].SetActive(false);
-            k++;
-        }
-        if (deathPiece == 12)
-        {
-            LeftPieces[28 + l].SetActive(false);
-            l++;
+            leftBlue++;
+            if (deathPiece == 7)
+            {
+                LeftPieces[15 + g].SetActive(false);
+                g++;
+            }
+            if (deathPiece == 8)
+            {
+                LeftPieces[20 + h].SetActive(false);
+                h++;
+            }
+            if (deathPiece == 9)
+            {
+                LeftPieces[22 + i].SetActive(false);
+                i++;
+            }
+            if (deathPiece == 10)
+            {
+                LeftPieces[24 + j].SetActive(false);
+                j++;
+            }
+            if (deathPiece == 11)
+            {
+                LeftPieces[26 + k].SetActive(false);
+                k++;
+            }
+            if (deathPiece == 12)
+            {
+                LeftPieces[28 + l].SetActive(false);
+                l++;
+            }
         }
     }
 }

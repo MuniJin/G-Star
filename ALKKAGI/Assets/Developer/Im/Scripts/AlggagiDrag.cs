@@ -20,7 +20,7 @@ public class AlggagiDrag : MonoBehaviour
 
     private void Start()
     {
-        GM = GameObject.Find("GameManager");
+        GM = GameObject.Find("AlKKAGIManager");
     }
 
     void OnMouseDrag()
@@ -31,7 +31,7 @@ public class AlggagiDrag : MonoBehaviour
     
             Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
             Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos);
-            objPos.y = -0.1f;
+            objPos.y = 0.5f;
             transform.position = objPos;
     
             IsPieceSelected = true;

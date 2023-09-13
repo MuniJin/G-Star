@@ -38,6 +38,7 @@ public class PieceMove : MonoBehaviour
     {
         if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject)
         {
+            SaveSpeed += rb.velocity;
             GameObject collidedObject = collision.gameObject;
 
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
@@ -45,10 +46,7 @@ public class PieceMove : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().RedPieceLocal = this.gameObject.transform.position;
             GM.GetComponent<AlKKAGIManager>().BluePieceLocal = collidedObject.transform.position;
 
-            // Save the velocity before setting it to zero
-            SaveSpeed = rb.velocity;
 
-            // Set the velocity of both objects to zero
             rb.velocity = Vector3.zero;
             GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
@@ -62,15 +60,13 @@ public class PieceMove : MonoBehaviour
 
     public void Win() //FPS½Â¸®½Ã
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.8f);
-        rb.AddForce(-SaveSpeed * 0.2f);
-        SaveSpeed = new Vector3(0, 0, 0);
+        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.8f, ForceMode.Impulse);
+        rb.AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
     }
 
     public void lose()
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.2f);
-        rb.AddForce(-SaveSpeed * 0.8f);
-        SaveSpeed = new Vector3(0, 0, 0);
+        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
+        rb.AddForce(-SaveSpeed * 0.8f, ForceMode.Impulse);
     }
 }
