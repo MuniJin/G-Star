@@ -1,40 +1,36 @@
-// Some stupid rigidbody based movement by Dani
-
 using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    //Assingables
+    // 플레이어 및 카메라의 Transform 컴포넌트를 할당하는 변수들
     public Transform playerCam;
     public Transform orientation;
-    
-    //Other
+
+    // 리지드바디 컴포넌트
     private Rigidbody rb;
 
-    //Rotation and look
+    // 회전 및 시선 관련 변수
     private float xRotation;
     private float sensitivity = 50f;
     private float sensMultiplier = 1f;
-    
+
     //Movement
-    public float moveSpeed = 900;
+    public float moveSpeed = 600;
     public float maxSpeed = 20;
     public bool grounded;
     public LayerMask whatIsGround;
     
-    public float counterMovement = 0.175f;
-    private float threshold = 0.01f;
     public float maxSlopeAngle = 35f;
 
     public float crouchSpeedMultiplier = 0.5f;
     public float airSpeedMultiplier = 0.5f;
 
     //Crouch & Slide
-    private Vector3 crouchScale = new Vector3(1, 0.5f, 1);
+    private Vector3 crouchScale = new Vector3(1, 0.7f, 1);
     private Vector3 playerScale;
-    public float slideForce = 400;
-    public float slideCounterMovement = 0.2f;
+    public float slideForce = 100;
+    public float slideCounterMovement = 0.1f;
 
     //Jumping
     private bool readyToJump = true;
@@ -43,11 +39,10 @@ public class PlayerMovement : MonoBehaviour {
     
     //Input
     float x, y;
-    bool jumping, sprinting, crouching;
+    bool jumping, crouching;
     
     //Sliding
     private Vector3 normalVector = Vector3.up;
-    private Vector3 wallNormalVector;
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -69,9 +64,6 @@ public class PlayerMovement : MonoBehaviour {
         Look();
     }
 
-    /// <summary>
-    /// Find user input. Should put this in its own class but im lazy
-    /// </summary>
     private void MyInput() {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
@@ -102,22 +94,16 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Movement()
     {
-        // Extra gravity
+        // 추가 중력을 적용하여 땅에 더 꾸준히 붙을 수 있도록 합니다.
         rb.AddForce(Vector3.down * Time.deltaTime * 10);
 
-        // Find actual velocity relative to where player is looking
-        Vector2 mag = FindVelRelativeToLook();
-        float xMag = mag.x, yMag = mag.y;
-
-        // Counteract sliding and sloppy movement
-        CounterMovement(x, y, mag);
-
-        // If holding jump && ready to jump, then jump
+        // 점프 버튼을 누르고 준비 상태일 때 점프합니다.
         if (readyToJump && jumping) Jump();
 
-        // Set max speed based on crouching, grounded, and jump readiness
+        // 최대 속도를 설정합니다.
         float maxSpeed = this.maxSpeed;
 
+        // 앉기 중인지, 공중에 있는지, 점프 준비 상태인지에 따라 최대 속도를 조정합니다.
         if (crouching)
         {
             maxSpeed *= crouchSpeedMultiplier; // 앉은 상태에서의 최대 속도를 줄입니다.
@@ -127,11 +113,11 @@ public class PlayerMovement : MonoBehaviour {
             maxSpeed *= airSpeedMultiplier; // 공중에 있거나 점프 준비가 되지 않은 경우 최대 속도를 줄입니다.
         }
 
-        // Apply forces to move player
+        // 움직이는 플레이어에게 힘을 가합니다.
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime);
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime);
 
-        // Limit the player's speed to the calculated maxSpeed
+        // 플레이어의 속도를 최대 속도로 제한합니다.
         Vector2 horizontalVelocity = new Vector2(rb.velocity.x, rb.velocity.z);
         if (horizontalVelocity.magnitude > maxSpeed)
         {
@@ -140,113 +126,73 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void Jump() {
-        if (grounded && readyToJump) {
+    private void Jump()
+    {
+        if (grounded && readyToJump)
+        {
             readyToJump = false;
 
-            //Add jump forces
-            rb.AddForce(Vector2.up * jumpForce * 1.5f);
+            // 점프 힘을 추가합니다.
+            rb.AddForce(Vector2.up * jumpForce * 0.5f);
             rb.AddForce(normalVector * jumpForce * 0.5f);
-            
-            //If jumping while falling, reset y velocity.
+
+            // 점프 중에 떨어질 때, y 속도를 재설정합니다.
             Vector3 vel = rb.velocity;
             if (rb.velocity.y < 0.5f)
                 rb.velocity = new Vector3(vel.x, 0, vel.z);
-            else if (rb.velocity.y > 0) 
+            else if (rb.velocity.y > 0)
                 rb.velocity = new Vector3(vel.x, vel.y / 2, vel.z);
-            
+
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
-    
+
     private void ResetJump() {
         readyToJump = true;
     }
     
     private float desiredX;
-    private void Look() {
+    private void Look()
+    {
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
 
-        //Find current look rotation
+        // 현재의 시선 회전을 찾습니다.
         Vector3 rot = playerCam.transform.localRotation.eulerAngles;
         desiredX = rot.y + mouseX;
-        
-        //Rotate, and also make sure we dont over- or under-rotate.
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        //Perform the rotations
+        // 회전하고, 회전이 과도하지 않도록 조정합니다.
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -45f, 90f);
+
+        // 회전을 수행합니다.
         playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
         orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
     }
 
-    private void CounterMovement(float x, float y, Vector2 mag) {
-        if (!grounded || jumping) return;
 
-        //Slow down sliding
-        if (crouching) {
-            rb.AddForce(moveSpeed * Time.deltaTime * -rb.velocity.normalized * slideCounterMovement);
-            return;
-        }
-
-        //Counter movement
-        //캐릭터의 현재 속도 벡터에서 시점의 오른쪽 방향과 얼마나 다른지를 나타내며, x는 플레이어의 입력에서 수평 이동 입력을 나타냅니다.
-        //이 부분은 주로 플레이어가 이동 방향을 반대로 하지 않도록 방지하는 데 사용됩니다.
-        if (Math.Abs(mag.x) > threshold && Math.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0)) {
-            rb.AddForce(moveSpeed * orientation.transform.right * Time.deltaTime * -mag.x * counterMovement);
-        }
-        if (Math.Abs(mag.y) > threshold && Math.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0)) {
-            rb.AddForce(moveSpeed * orientation.transform.forward * Time.deltaTime * -mag.y * counterMovement);
-        }
-        
-        //Limit diagonal running. This will also cause a full stop if sliding fast and un-crouching, so not optimal.
-        if (Mathf.Sqrt((Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2))) > maxSpeed) {
-            float fallspeed = rb.velocity.y;
-            Vector3 n = rb.velocity.normalized * maxSpeed;
-            rb.velocity = new Vector3(n.x, fallspeed, n.z);
-        }
-    }
-
-    /// <summary>
-    /// Find the velocity relative to where the player is looking
-    /// Useful for vectors calculations regarding movement and limiting movement
-    /// </summary>
-    /// <returns></returns>
-    public Vector2 FindVelRelativeToLook() {
-        float lookAngle = orientation.transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
-
-        float u = Mathf.DeltaAngle(lookAngle, moveAngle);
-        float v = 90 - u;
-
-        float magnitue = rb.velocity.magnitude;
-        float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
-        float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
-        
-        return new Vector2(xMag, yMag);
-    }
-
-    private bool IsFloor(Vector3 v) {
+    // 플레이어가 바닥에 있는지 확인합니다.
+    private bool IsFloor(Vector3 v)
+    {
         float angle = Vector3.Angle(Vector3.up, v);
         return angle < maxSlopeAngle;
     }
 
+    // 바닥 감지를 처리합니다.
     private bool cancellingGrounded;
-    
-    /// <summary>
-    /// Handle ground detection
-    /// </summary>
-    private void OnCollisionStay(Collision other) {
-        //Make sure we are only checking for walkable layers
+    private void OnCollisionStay(Collision other)
+    {
+        // 걷기 가능한 레이어만 확인하도록 합니다.
         int layer = other.gameObject.layer;
         if (whatIsGround != (whatIsGround | (1 << layer))) return;
 
-        //Iterate through every collision in a physics update
-        for (int i = 0; i < other.contactCount; i++) {
+        // 각 물체와의 충돌에 대해 반복합니다.
+        for (int i = 0; i < other.contactCount; i++)
+        {
             Vector3 normal = other.contacts[i].normal;
-            //FLOOR
-            if (IsFloor(normal)) {
+            // 바닥(FLOOR)
+            if (IsFloor(normal))
+            {
                 grounded = true;
                 cancellingGrounded = false;
                 normalVector = normal;
@@ -254,16 +200,18 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
 
-        //Invoke ground/wall cancel, since we can't check normals with CollisionExit
+        // 충돌 종료 시 노멀을 확인할 수 없으므로 노멀 확인을 위해 지연 시간을 설정합니다.
         float delay = 3f;
-        if (!cancellingGrounded) {
+        if (!cancellingGrounded)
+        {
             cancellingGrounded = true;
             Invoke(nameof(StopGrounded), Time.deltaTime * delay);
         }
     }
 
-    private void StopGrounded() {
+    // 바닥 감지 상태를 해제합니다.
+    private void StopGrounded()
+    {
         grounded = false;
     }
-    
 }
