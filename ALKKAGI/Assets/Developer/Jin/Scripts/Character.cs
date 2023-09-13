@@ -21,8 +21,7 @@ public class Character : Default_Character
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
-        Cursor.visible = false; // 마우스를 보이지 않게 설정
+        ShowCursor();
 
         _d = this.gameObject.AddComponent<Cannon>();
     }
@@ -37,7 +36,25 @@ public class Character : Default_Character
 
         if (Input.GetMouseButtonDown(0))
             Attack(bulParent.position, 40f);
+
+        if (Input.GetKeyDown(KeyCode.R))
+            ShowCursor();
     }
+
+    private void ShowCursor()
+    {
+        if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
     private void RotatePlayer()
     {
         // 마우스 입력을 받아 회전 값을 조절합니다.
