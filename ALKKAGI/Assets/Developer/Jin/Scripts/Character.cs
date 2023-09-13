@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class Character : Default_Character
 {
     private Decorator_Character _d;
+    
     private string str;
     public float speed = 5f;
 
@@ -16,17 +17,40 @@ public class Character : Default_Character
     public Transform bulParent3;
     public GameObject bullet;
 
+    public float sensitivity = 2.0f;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
+        Cursor.visible = false; // 마우스를 보이지 않게 설정
+
+        _d = this.gameObject.AddComponent<Cannon>();
+    }
+
     private void Update()
     {
         Move();
+        RotatePlayer();
 
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
 
         if (Input.GetMouseButtonDown(0))
-        {
             Attack(bulParent.position, 40f);
-        }
+    }
+    private void RotatePlayer()
+    {
+        // 마우스 입력을 받아 회전 값을 조절합니다.
+        float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+
+
+        // 플레이어의 Y 회전 값에 마우스 X 입력을 더합니다.
+        transform.Rotate(Vector3.up * mouseX);
+
+        //// 카메라의 X 회전 값을 마우스 Y 입력에 따라 조절합니다.
+        //Camera camera = GetComponentInChildren<Camera>();
+        //camera.transform.Rotate(Vector3.left * mouseY);
     }
 
     public override void Move()
@@ -45,7 +69,7 @@ public class Character : Default_Character
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
         Rigidbody rb = go.AddComponent<Rigidbody>();
-        rb.AddForce(Vector3.forward * shootPower, ForceMode.Impulse);
+        rb.AddForce(this.transform.forward * shootPower, ForceMode.Impulse);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

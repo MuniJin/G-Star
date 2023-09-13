@@ -946,6 +946,7 @@ MonoBehaviour:
   bulParent2: {fileID: 1860017280}
   bulParent3: {fileID: 2085387637}
   bullet: {fileID: 2181231739292663079, guid: c9758a5d498292d4187115308c9766b8, type: 3}
+  sensitivity: 2
 --- !u!54 &732335830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2314,7 +2315,7 @@ GameObject:
   - component: {fileID: 1969538176}
   - component: {fileID: 1969538175}
   - component: {fileID: 1969538174}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
