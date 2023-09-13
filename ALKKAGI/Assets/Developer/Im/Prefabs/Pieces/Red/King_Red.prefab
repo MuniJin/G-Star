@@ -132,6 +132,7 @@ MonoBehaviour:
   Direction: {x: 0, y: 0, z: 0}
   MainObj: {fileID: 3372283315209472969}
   GM: {fileID: 0}
+  Arrow: {fileID: 7331112124471289405, guid: 6686f7c421e5e0d4eb64245f7556829f, type: 3}
 --- !u!1 &3206700149494177264
 GameObject:
   m_ObjectHideFlags: 0

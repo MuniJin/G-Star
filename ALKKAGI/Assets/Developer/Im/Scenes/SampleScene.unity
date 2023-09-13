@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd189a6926e7074fba471ee3d54520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomChildObject: {fileID: 0}
   BluePieces: {fileID: 453702579}
   LeftPieces:
   - {fileID: 1016653346}
@@ -295,15 +296,13 @@ MonoBehaviour:
   - {fileID: 702709829}
   - {fileID: 1253598231}
   - {fileID: 920792297}
+  LeftBluePiece: []
   ShootSound: {fileID: 0}
   CrashSound: {fileID: 0}
   DeathSound: {fileID: 0}
   IsMyTurn: 0
   CrashObjR: {fileID: 0}
   CrashObjB: {fileID: 0}
-  RedPieceLocal: {x: 0, y: 0, z: 0}
-  BluePieceLocal: {x: 0, y: 0, z: 0}
-  childCount: 0
 --- !u!1 &4413911
 GameObject:
   m_ObjectHideFlags: 0

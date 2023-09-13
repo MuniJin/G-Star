@@ -6,7 +6,7 @@ public class DeathZone : MonoBehaviour
 {
     public GameObject GM;
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         GameObject collisionObj = collision.gameObject;
         

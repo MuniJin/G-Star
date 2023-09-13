@@ -12,17 +12,15 @@ public class PieceMove : MonoBehaviour
     public Vector3 Arrow; //이동방향
     public float MoveSpeed; //이동속도
     public Vector3 SaveSpeed; //저장된 속도
-    private bool RotateZero = false; //기물의 기울기가 0,0,0이 맞는지 확인하는 변수
 
 
     private void Start()
     {
         GM = GameObject.Find("AlKKAGIManager");
-        RotateZero = true; // 처음엔 0,0,0이 기본값이기에 true
         rb = this.gameObject.GetComponent<Rigidbody>(); //오브젝트의 리지드바디를 자동으로 넣어주기
     }
 
-    private void RotationReset() //기울기 초기화
+    public void RotationReset() //기울기 초기화
     {
         this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
@@ -43,16 +41,12 @@ public class PieceMove : MonoBehaviour
 
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
-            GM.GetComponent<AlKKAGIManager>().RedPieceLocal = this.gameObject.transform.position;
-            GM.GetComponent<AlKKAGIManager>().BluePieceLocal = collidedObject.transform.position;
-
 
             rb.velocity = Vector3.zero;
             GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-            RotationReset();
 
-            GM.GetComponent<AlKKAGIManager>().FPSResult();
+            GM.GetComponent<AlKKAGIManager>().Crash();
         }
     }
 

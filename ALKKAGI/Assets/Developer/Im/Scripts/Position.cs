@@ -67,7 +67,7 @@ public class Position : MonoBehaviour
                 }
             }
         }
-        GM.GetComponent<AlKKAGIManager>().childCount = GM.GetComponent<AlKKAGIManager>().BluePieces.transform.childCount;
+        GM.GetComponent<AlKKAGIManager>().BluePieceSet();
     }
     public void BlueSettingSelect()
     {

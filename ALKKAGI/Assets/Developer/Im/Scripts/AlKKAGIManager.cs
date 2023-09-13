@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class AlKKAGIManager : MonoBehaviour
 {
-    private int leftBlue = 15;
+    private int leftBlue = 0;
     private int BluePattern = 0;
-    private GameObject randomChildObject;
+    public GameObject randomChildObject;
     public GameObject BluePieces;
     public GameObject[] LeftPieces;
+    public GameObject[] LeftBluePiece;
 
     public AudioClip ShootSound;
     public AudioClip CrashSound;
@@ -22,10 +23,6 @@ public class AlKKAGIManager : MonoBehaviour
 
     public GameObject CrashObjR;
     public GameObject CrashObjB;
-    public Vector3 RedPieceLocal = new Vector3(0, 0, 0);
-    public Vector3 BluePieceLocal = new Vector3(0, 0, 0);
-    public int childCount = 0;
-    private bool IsCrash = false;
 
     private void Start()
     {
@@ -33,13 +30,15 @@ public class AlKKAGIManager : MonoBehaviour
         myAudioSource = GetComponent<AudioSource>();
     }
 
-    private void Crash()
+    public void Crash()
     {
         //충돌음 재생
         myAudioSource.PlayOneShot(CrashSound);
         //fps 씬 변환
-        SceneManager.LoadScene("FPS씬 / 임시변수임");
+        //SceneManager.LoadScene("FPS씬 / 임시변수임");
 
+
+        FPSResult(); // test
     }
 
     public void FPSResult()
@@ -79,18 +78,38 @@ public class AlKKAGIManager : MonoBehaviour
 
     public void BlueSelect()
     {
-        BluePattern = Random.Range(1, 4);
-        if (BluePattern == 1)
+        BluePattern = Random.Range(1, 5);
+        if (BluePattern == 1) //패턴1 뒷열
         {
-            randomChildObject = BluePieces.transform.GetChild(Random.Range(0, 8 - leftBlue)).gameObject;
+            randomChildObject = LeftBluePiece[Random.Range(0, 8)];
         }
-        if (BluePattern == 2)
+        if (BluePattern == 2)//패턴2 포
         {
-            randomChildObject = BluePieces.transform.GetChild(Random.Range(9+leftBlue,  11 - leftBlue)).gameObject;
+            randomChildObject = LeftBluePiece[Random.Range(9, 11)];
         }
-        if (BluePattern == 3)
+        if (BluePattern == 3)//패턴3 졸병
         {
-            randomChildObject = BluePieces.transform.GetChild(Random.Range(11+leftBlue, 16- leftBlue)).gameObject;
+            randomChildObject = LeftBluePiece[Random.Range(11,16)];
+        }
+        if(BluePattern == 4)//패턴4 왕
+        {
+            if (LeftBluePiece[8].transform.localPosition != new Vector3(0, 0, 0)) //왕이 공격당했다면
+            {
+
+            }
+            else if (leftBlue > 8) // 절반이상 죽었다면
+            {
+
+            }
+            else //아니면 왕은 안움직임
+            {
+                BlueSelect();
+            }
+        }
+        if(randomChildObject == null)//선택된 대상이 null값일때
+        {
+            Debug.Log("repick");
+            BlueSelect();//다시 고른다
         }
     }
     private void BlueTurn()
@@ -99,6 +118,17 @@ public class AlKKAGIManager : MonoBehaviour
         randomChildObject.GetComponent<BlueMovement>().BlueMove();
         CrashObjB = null;
         IsMyTurn = true;
+    }
+
+    public void BluePieceSet()
+    {
+        // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
+        LeftBluePiece = new GameObject[BluePieces.transform.childCount];
+
+        for (int i = 0; i < BluePieces.transform.childCount; i++)
+        {
+            LeftBluePiece[i] = BluePieces.transform.GetChild(i).gameObject;
+        }
     }
 
     private int a, b, c, d, e, f, g, h, i, j, k, l;
