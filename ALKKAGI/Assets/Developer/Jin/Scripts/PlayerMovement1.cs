@@ -270,7 +270,7 @@ public class PlayerMovement1 : Default_Character {
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
         Rigidbody rb = go.AddComponent<Rigidbody>();
-        rb.AddForce(orientation.transform.forward * shootPower, ForceMode.Impulse);
+        rb.AddForce(playerCam.transform.forward * shootPower, ForceMode.Impulse);
     }
 
     private void UseSkill()
