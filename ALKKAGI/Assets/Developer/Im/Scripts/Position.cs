@@ -15,6 +15,9 @@ public class Position : MonoBehaviour
     public GameObject[] pieces; //빨 -> 파 / 졸 -> 포 -> 차 -> 상 -> 마 -> 사 -> 궁
     public GameObject SelPannel;
     public GameObject DeathRange;
+    public GameObject ParentObjR;
+    public GameObject ParentObjB;
+    public GameObject GM;
 
     private void Start()
     {
@@ -52,10 +55,19 @@ public class Position : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 14)
-                    Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2,0f, i * -2), Quaternion.identity);
+                if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 14) 
+                {
+                    GameObject newPiece = Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2, 0f, i * -2), Quaternion.identity);
+
+                    // 아래 라인을 사용하여 ParentObj를 부모로 설정합니다.
+                    if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 7)
+                        newPiece.transform.SetParent(ParentObjR.transform);
+                    if (LocalPos[i, j] > 7 && LocalPos[i, j] <= 14)
+                        newPiece.transform.SetParent(ParentObjB.transform);
+                }
             }
         }
+        GM.GetComponent<AlKKAGIManager>().BluePieceSet();
     }
     public void BlueSettingSelect()
     {

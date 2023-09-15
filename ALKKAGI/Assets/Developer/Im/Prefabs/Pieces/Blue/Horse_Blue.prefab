@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7868493938405401594}
   - component: {fileID: 1492250831443214975}
   - component: {fileID: 2517551269348670221}
+  - component: {fileID: 8929644333285877029}
   m_Layer: 0
   m_Name: Horse_Blue
-  m_TagString: EnemyPiece
+  m_TagString: BluePiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,6 +63,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 0.2, z: 1.2}
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &8929644333285877029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4604493947858096900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78498f59e3735b74ebad8592babace70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5695683431902975921
 GameObject:
   m_ObjectHideFlags: 0

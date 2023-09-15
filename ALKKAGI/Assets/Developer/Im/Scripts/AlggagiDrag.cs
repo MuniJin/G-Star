@@ -16,24 +16,31 @@ public class AlggagiDrag : MonoBehaviour
     public float Pita = 0f;
     public  Vector3 Direction = new Vector3 (0,0,0);
     public GameObject MainObj;
+    public GameObject Arrow;
     public GameObject GM;
 
     private void Start()
     {
-        GM = GameObject.Find("GameManager");
+        GM = GameObject.Find("AlKKAGIManager");
     }
 
     void OnMouseDrag()
     {
-        if (GM.GetComponent<GameManager>().IsMyTurn)
+        if (GM.GetComponent<AlKKAGIManager>().IsMyTurn) //내턴일때 드래그시
         {
-            float distance = Camera.main.WorldToScreenPoint(transform.position).z;
+            MainObj.GetComponent<PieceMove>().RotationReset(); //회전값 초기화
+            float distance = Camera.main.WorldToScreenPoint(transform.position).z; 
     
-            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-            Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos);
-            objPos.y = -0.1f;
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance); //마우스 포지션 가져오기
+            Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos); //오브젝트 포지션에 마우스 포지션을 대입
+            objPos.y = 0.5f;
             transform.position = objPos;
-    
+
+            Arrow.transform.position = new Vector3(-objPos.x, 0.5f, -objPos.z) + MainObj.transform.position*2;
+
+            Vector3 direction = Arrow.transform.position - MainObj.transform.position;
+            Arrow.transform.rotation = Quaternion.LookRotation(direction);
+
             IsPieceSelected = true;
         }
     }
@@ -43,6 +50,7 @@ public class AlggagiDrag : MonoBehaviour
         {
             MoveDis = this.gameObject.transform.localPosition;
             this.gameObject.transform.localPosition = new Vector3(0,0,0);
+            Arrow.transform.localPosition = new Vector3(0, 0, 0); 
             DisX = MoveDis.x;
             DisZ = MoveDis.z;
             MoveMath();
