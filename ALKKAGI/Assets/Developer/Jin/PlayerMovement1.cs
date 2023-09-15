@@ -11,6 +11,13 @@ public class PlayerMovement1 : Default_Character {
 
     private string str;
 
+    public Transform bulParent;
+    public Transform bulParent2;
+    public Transform bulParent3;
+    public GameObject bullet;
+
+    public GameObject kingSkill;
+
     // 플레이어 및 카메라의 Transform 컴포넌트를 할당하는 변수들
     public Transform playerCam;
     public Transform orientation;
@@ -60,6 +67,7 @@ public class PlayerMovement1 : Default_Character {
         playerScale =  transform.localScale;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        whatIsGround = LayerMask.GetMask("Ground");
     }
 
     private void ShowCursor()
@@ -89,6 +97,12 @@ public class PlayerMovement1 : Default_Character {
 
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Jump();
+
+        if (Input.GetMouseButtonDown(0))
+            Attack(bulParent.position, 40f);
     }
 
     private void MyInput() {
@@ -254,8 +268,11 @@ public class PlayerMovement1 : Default_Character {
 
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        throw new NotImplementedException();
+        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
+        Rigidbody rb = go.AddComponent<Rigidbody>();
+        rb.AddForce(orientation.transform.forward * shootPower, ForceMode.Impulse);
     }
+
     private void UseSkill()
     {
         if (_d != null)
