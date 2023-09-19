@@ -7,7 +7,7 @@ public class AlKKAGIManager : MonoBehaviour
 {
     private int leftBlue = 0;
     private int BluePattern = 0;
-    private GameObject randomChildObject;
+    public GameObject randomChildObject;
     public GameObject BluePieces;
     public GameObject RedPieces;
     public GameObject[] LeftPieces;
@@ -63,11 +63,16 @@ public class AlKKAGIManager : MonoBehaviour
             CrashObjR.GetComponent<PieceMove>().lose();
         }
         if (IsMyTurn == false)
+        {
             BlueTurn();
+
+        }
         else
+        {
             IsMyTurn = true;
-    }
-    
+            
+        }
+    } 
     public void GameOver(int who)
     {
         if (who == 0)

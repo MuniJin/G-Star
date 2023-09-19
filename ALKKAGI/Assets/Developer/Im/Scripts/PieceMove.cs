@@ -52,8 +52,15 @@ public class PieceMove : MonoBehaviour
     {
         if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject)
         {
+            if (GM.GetComponent<AlKKAGIManager>().IsMyTurn)
+            {
+                Debug.Log("show");
+                SaveSpeed += GM.GetComponent<AlKKAGIManager>().randomChildObject.GetComponent<Rigidbody>().velocity;
+            }
+            else 
+                SaveSpeed += rb.velocity;
+
             IsCrash = true;
-            SaveSpeed += rb.velocity;
             GameObject collidedObject = collision.gameObject;
 
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;

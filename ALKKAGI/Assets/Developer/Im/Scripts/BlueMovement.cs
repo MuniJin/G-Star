@@ -18,14 +18,10 @@ public class BlueMovement : MonoBehaviour
     {
         GM = GameObject.Find("AlKKAGIManager");
     }
-    public void BlueMove()
-    {
-        StartCoroutine("RaySet") ;
-    }
 
     public void MoveStart() //기물 이동
     {
-        Invoke("RocateRed", 2f);
+        Invoke("RocateRed", 1f);
     }
 
     private void MoveMath()
@@ -39,7 +35,6 @@ public class BlueMovement : MonoBehaviour
 
     private void RocateRed()
     {
-        Debug.Log("show");
         GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
         if (Target == null)
         {
