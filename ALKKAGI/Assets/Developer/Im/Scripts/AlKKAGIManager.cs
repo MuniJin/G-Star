@@ -7,10 +7,12 @@ public class AlKKAGIManager : MonoBehaviour
 {
     private int leftBlue = 0;
     private int BluePattern = 0;
-    public GameObject randomChildObject;
+    private GameObject randomChildObject;
     public GameObject BluePieces;
+    public GameObject RedPieces;
     public GameObject[] LeftPieces;
-    public GameObject[] LeftBluePiece;
+    private GameObject[] LeftBluePiece;
+    public GameObject[] LeftRedPiece;
 
     public AudioClip ShootSound;
     public AudioClip CrashSound;
@@ -18,15 +20,17 @@ public class AlKKAGIManager : MonoBehaviour
 
     private AudioSource myAudioSource;
 
-    private bool IsWin = false;
-    public bool IsMyTurn = false; // true일경우, Red턴 // false일경우, Blue턴
+    private bool IsWin;
+    public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
+    public bool IsMove;
 
     public GameObject CrashObjR;
     public GameObject CrashObjB;
 
     private void Start()
     {
-        IsMyTurn = true;
+        IsMyTurn = true; 
+        IsMove = true;
         myAudioSource = GetComponent<AudioSource>();
     }
 
@@ -41,7 +45,7 @@ public class AlKKAGIManager : MonoBehaviour
         FPSResult(); // test
     }
 
-    public void FPSResult()
+    private void FPSResult()
     {
         if (Random.Range(1, 4) > 2) //test
             IsWin = false;               //test
@@ -58,7 +62,10 @@ public class AlKKAGIManager : MonoBehaviour
             Debug.Log("FPS 패배");
             CrashObjR.GetComponent<PieceMove>().lose();
         }
-        BlueTurn();
+        if (IsMyTurn == false)
+            BlueTurn();
+        else
+            IsMyTurn = true;
     }
     
     public void GameOver(int who)
@@ -79,48 +86,55 @@ public class AlKKAGIManager : MonoBehaviour
     public void BlueSelect()
     {
         BluePattern = Random.Range(1, 5);
+
         if (BluePattern == 1) //패턴1 뒷열
         {
-            randomChildObject = LeftBluePiece[Random.Range(0, 8)];
+            randomChildObject = LeftBluePiece[Random.Range(0, 8)]; //0~7
+            repick();
+            randomChildObject.GetComponent<BlueMovement>().MoveStart();
         }
         if (BluePattern == 2)//패턴2 포
         {
-            randomChildObject = LeftBluePiece[Random.Range(9, 11)];
+            randomChildObject = LeftBluePiece[Random.Range(9, 11)]; //9~10
+            repick();
+            randomChildObject.GetComponent<BlueMovement>().MoveStart();
         }
         if (BluePattern == 3)//패턴3 졸병
         {
-            randomChildObject = LeftBluePiece[Random.Range(11,16)];
+            randomChildObject = LeftBluePiece[Random.Range(11, 16)]; //11~15
+            repick();
+            randomChildObject.GetComponent<BlueMovement>().MoveStart();
         }
-        if(BluePattern == 4)//패턴4 왕
+        if (BluePattern == 4)//패턴4 왕
         {
-            if (LeftBluePiece[8].transform.localPosition != new Vector3(0, 0, 0)) //왕이 공격당했다면
+            randomChildObject = LeftBluePiece[8]; //8
+            if (leftBlue > 8) //왕이 공격당했거나 절반이상 죽었다면
             {
-
-            }
-            else if (leftBlue > 8) // 절반이상 죽었다면
-            {
-
+                randomChildObject.GetComponent<BlueMovement>().MoveStart();
             }
             else //아니면 왕은 안움직임
             {
                 BlueSelect();
             }
         }
-        if(randomChildObject == null)//선택된 대상이 null값일때
+    }
+    private void repick()
+    {
+        if (randomChildObject == null)//선택된 대상이 null값일때
         {
             Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
     }
-    private void BlueTurn()
+    public void BlueTurn()
     {
         BlueSelect();
-        randomChildObject.GetComponent<BlueMovement>().BlueMove();
         CrashObjB = null;
+        CrashObjR = null;
         IsMyTurn = true;
     }
 
-    public void BluePieceSet()
+    public void PieceSet()
     {
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
         LeftBluePiece = new GameObject[BluePieces.transform.childCount];
@@ -128,6 +142,14 @@ public class AlKKAGIManager : MonoBehaviour
         for (int i = 0; i < BluePieces.transform.childCount; i++)
         {
             LeftBluePiece[i] = BluePieces.transform.GetChild(i).gameObject;
+        }
+        
+        // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
+        LeftRedPiece = new GameObject[RedPieces.transform.childCount];
+
+        for (int i = 0; i < RedPieces.transform.childCount; i++)
+        {
+            LeftRedPiece[i] = RedPieces.transform.GetChild(i).gameObject;
         }
     }
 

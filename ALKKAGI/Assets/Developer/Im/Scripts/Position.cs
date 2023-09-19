@@ -41,7 +41,7 @@ public class Position : MonoBehaviour
             DeathRange.SetActive(true);
         }
     }
-    
+
     public void GAS()
     {
         SettingSelect();
@@ -67,9 +67,9 @@ public class Position : MonoBehaviour
                 }
             }
         }
-        GM.GetComponent<AlKKAGIManager>().BluePieceSet();
+        GM.GetComponent<AlKKAGIManager>().PieceSet();
     }
-    public void BlueSettingSelect()
+    private void BlueSettingSelect()
     {
         //Blue Elephant[11] && Horse[12]
         if (BST == 1)
@@ -104,7 +104,7 @@ public class Position : MonoBehaviour
         }
     }
 
-    public void SettingSelect()//상차림 버튼 활성화 1, 2, 3, 4 {상마상마 / 마상마상 / 마상상마 / 상마마상}
+    private void SettingSelect()//상차림 버튼 활성화 1, 2, 3, 4 {상마상마 / 마상마상 / 마상상마 / 상마마상}
     {
         //red Elephant[4] && Horse[5]
         if (SetType == 1)
