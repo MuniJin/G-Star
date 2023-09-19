@@ -22,6 +22,11 @@ public class Health : MonoBehaviour
         }
     }
 
+    // 현재 HP 값을 반환하는 메서드 추가
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
     private void Die()
     {
         // 플레이어가 죽었을 때 실행할 동작을 추가합니다.
