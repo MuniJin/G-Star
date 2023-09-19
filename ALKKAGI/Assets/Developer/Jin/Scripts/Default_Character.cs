@@ -186,14 +186,20 @@ public class Cannon : Decorator_Character
 // »ç : ¼¶±¤Åº
 public class Guards : Decorator_Character
 {
-    private float cooldown = 5f;
+    private float cooldown = 2f;
     private bool useSkill = false;
+
+    public GameObject bang;
 
     public override IEnumerator Skill(GameObject go)
     {
         if (!useSkill)
         {
             useSkill = true;
+            
+            GameObject b = Instantiate(bang, go.GetComponent<PlayerMovement1>().bulParent.position, Quaternion.identity);
+            b.AddComponent<Rigidbody>();
+            //b.AddComponent<Rigidbody>().AddForce(go.GetComponent<PlayerMovement1>().playerCam.transform.forward * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;
@@ -201,7 +207,7 @@ public class Guards : Decorator_Character
     }
 }
 
-// ¿Õ : ?
+// ¿Õ : º´»ç º®¼¼¿ì±â
 public class King : Decorator_Character
 {
     private float cooldown = 5f;
@@ -215,7 +221,6 @@ public class King : Decorator_Character
 
             Vector3 ksPos = go.transform.position + go.GetComponent<PlayerMovement>().orientation.forward * 5f;
             GameObject ks = Instantiate(go.GetComponent<PlayerMovement1>().kingSkill, ksPos, go.GetComponent<PlayerMovement>().orientation.rotation);
-
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;

@@ -18,6 +18,8 @@ public class PlayerMovement1 : Default_Character {
 
     public GameObject kingSkill;
 
+    public GameObject guardSkill;
+
     // 플레이어 및 카메라의 Transform 컴포넌트를 할당하는 변수들
     public Transform playerCam;
     public Transform orientation;
@@ -313,6 +315,7 @@ public class PlayerMovement1 : Default_Character {
                     break;
                 case "Guards":
                     _d = this.gameObject.AddComponent<Guards>();
+                    _d.GetComponent<Guards>().bang = guardSkill;
                     break;
                 case "King":
                     _d = this.gameObject.AddComponent<King>();
