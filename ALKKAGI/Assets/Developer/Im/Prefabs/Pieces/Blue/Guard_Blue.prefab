@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1018923097868343078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6, y: 0, z: -4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_Children:
   - {fileID: 9091645580736173463}
   m_Father: {fileID: 0}
@@ -76,6 +76,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GM: {fileID: 0}
+  Pita: 0
+  DisX: 0
+  DisZ: 0
+  SaveSpeed: {x: 0, y: 0, z: 0}
+  redObjects: []
+  targetTag: RedPiece
+  rotationDuration: 1
 --- !u!1 &2062636169120508271
 GameObject:
   m_ObjectHideFlags: 0

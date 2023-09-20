@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625824926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 0.18, y: 0.125, z: 0.18}
   m_Children: []
   m_Father: {fileID: 4238298491034957354}
@@ -206,14 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3880adf8ab63724a9ed6112b1609f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisX: 0
-  DisZ: 0
   ShootPower: 0
-  Pita: 0
-  Direction: {x: 0, y: 0, z: 0}
   MainObj: {fileID: 3372283315209472969}
   Arrow: {fileID: 1625824926}
-  GM: {fileID: 0}
 --- !u!1 &3206700149494177264
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,10 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DragObj: {fileID: 194375910501274963}
-  GM: {fileID: 0}
   Arrow: {x: 0, y: 0, z: 0}
-  MoveSpeed: 0
-  SaveSpeed: {x: 0, y: 0, z: 0}
 --- !u!1 &7078550392203282526
 GameObject:
   m_ObjectHideFlags: 0

@@ -125,14 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3880adf8ab63724a9ed6112b1609f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DisX: 0
-  DisZ: 0
   ShootPower: 0
-  Pita: 0
-  Direction: {x: 0, y: 0, z: 0}
   MainObj: {fileID: 5159643002196298658}
   Arrow: {fileID: 513562852290807061}
-  GM: {fileID: 0}
 --- !u!1 &513562852290807061
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513562852290807061}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 0.08, y: 0.125, z: 0.08}
   m_Children: []
   m_Father: {fileID: 2319745950619577250}
@@ -324,7 +319,7 @@ Transform:
   m_GameObject: {fileID: 5159643002196298658}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_Children:
   - {fileID: 5652190804398039735}
   - {fileID: 2018122356}
@@ -374,10 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DragObj: {fileID: 2018122355}
-  GM: {fileID: 0}
   Arrow: {x: 0, y: 0, z: 0}
-  MoveSpeed: 0
-  SaveSpeed: {x: 0, y: 0, z: 0}
 --- !u!1 &6414115784380314699
 GameObject:
   m_ObjectHideFlags: 0

@@ -301,10 +301,14 @@ MonoBehaviour:
   ShootSound: {fileID: 0}
   CrashSound: {fileID: 0}
   DeathSound: {fileID: 0}
+  IsWin: 0
+  blueT: 0
   IsMyTurn: 0
   IsMove: 0
   CrashObjR: {fileID: 0}
   CrashObjB: {fileID: 0}
+  CrashObjRLocal: {x: 0, y: 0, z: 0}
+  CrashObjBLocal: {x: 0, y: 0, z: 0}
 --- !u!1 &4413911
 GameObject:
   m_ObjectHideFlags: 0

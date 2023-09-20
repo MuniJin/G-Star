@@ -15,6 +15,13 @@ public class BlueMovement : MonoBehaviour
     public Vector3 SaveSpeed;
     private Vector3 dir;
     float totalSpeed;
+
+    public List<GameObject> redObjects = new List<GameObject>();
+    public string targetTag = "RedPiece"; // 검색할 태그
+    public float rotationDuration = 1.0f; // 회전을 완료할 시간 (초)
+
+
+
     private void Start()
     {
         GM = GameObject.Find("AlKKAGIManager");
@@ -29,15 +36,18 @@ public class BlueMovement : MonoBehaviour
     {
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //이 기물과 상대 기물의 거리값
         MoveSpeed = ((float)Math.Floor(Pita)); //속도값
-        Vector3 direction = new Vector3(DisX*100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
+        Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
         Arrow = direction;
         this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
-
+ 
+        redObjects.Clear(); //검색한 오브젝트 초기화
         Debug.Log("파랑 움직임");
     }
 
     private void RocateRed()
     {
+        StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
+
         GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
         if (Target == null)
         {
@@ -57,10 +67,10 @@ public class BlueMovement : MonoBehaviour
         if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject && !GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
             Debug.Log("상대턴충돌");
-         
+
             GameObject collidedObject = collision.gameObject;
             AlKKAGIManager alm = GM.GetComponent<AlKKAGIManager>();
-           
+
             alm.CrashObjR = collidedObject;
             alm.CrashObjB = this.gameObject;
 
@@ -71,10 +81,13 @@ public class BlueMovement : MonoBehaviour
 
             this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             alm.CrashObjR.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            
+
             alm.Crash();
         }
     }
+
+
+
     public void RedWin()
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
@@ -85,26 +98,41 @@ public class BlueMovement : MonoBehaviour
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
     }
+    private IEnumerator GetRedPiecesCoroutine()
+    {
+        targetTag = "RedPiece"; // 검색할 태그
+        rotationDuration = 1.0f; // 회전을 완료할 시간 (초)   float elapsedTime = 0f;
 
-    //IEnumerable RaySet()
-    //{
-    //    RaycastHit hitInfo;
+        List<GameObject> redPieces = new List<GameObject>();
+        float elapsedTime = 0f;
 
-    //    Ray ray = new Ray();
-    //    ray.origin = this.gameObject.transform.localPosition;
-    //    ray.direction = this.transform.forward;
+        while (elapsedTime < rotationDuration)
+        {
+            while (elapsedTime < rotationDuration)
+            {
+                // 회전 코드
+                transform.Rotate(Vector3.up * 360f * Time.deltaTime);
 
-    //    if (Physics.Raycast(ray, out hitInfo, 30))
-    //    {
-    //        // 충돌한 물체의 위치
-    //        Vector3 hitPoint = hitInfo.point;
+                // 레이 발사
+                Ray ray = new Ray(transform.position, transform.forward);
+                RaycastHit hitInfo;
 
-    //        // 충돌한 물체의 노멀 벡터
-    //        Vector3 hitNormal = hitInfo.normal;
+                if (Physics.Raycast(ray, out hitInfo))
+                {
+                    // 충돌한 오브젝트의 태그 확인
+                    if (hitInfo.collider.CompareTag(targetTag))
+                    {
+                        if (!redObjects.Contains(hitInfo.collider.gameObject))
+                        {
+                            // RedPiece 태그가 있는 오브젝트를 redObjects 리스트에 추가
+                            redObjects.Add(hitInfo.collider.gameObject);
+                        }
+                    }
+                }
 
-    //        // 충돌한 물체의 게임 오브젝트
-    //        GameObject hitObject = hitInfo.collider.gameObject;
-    //    }
-    //    yield return 0;
-    //}
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
 }
