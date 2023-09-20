@@ -13,7 +13,8 @@ public class BlueMovement : MonoBehaviour
     private Vector3 targetlocal;
     private Vector3 Arrow;
     public Vector3 SaveSpeed;
-
+    private Vector3 dir;
+    float totalSpeed;
     private void Start()
     {
         GM = GameObject.Find("AlKKAGIManager");
@@ -31,6 +32,8 @@ public class BlueMovement : MonoBehaviour
         Vector3 direction = new Vector3(DisX*100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
         Arrow = direction;
         this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
+
+        Debug.Log("파랑 움직임");
     }
 
     private void RocateRed()
@@ -49,25 +52,59 @@ public class BlueMovement : MonoBehaviour
         }
     }
 
-    IEnumerable RaySet()
+    private void OnCollisionEnter(Collision collision)
     {
-        RaycastHit hitInfo;
-
-        Ray ray = new Ray();
-        ray.origin = this.gameObject.transform.localPosition;
-        ray.direction = this.transform.forward;
-
-        if (Physics.Raycast(ray, out hitInfo, 30))
+        if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject && !GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
-            // 충돌한 물체의 위치
-            Vector3 hitPoint = hitInfo.point;
+            Debug.Log("상대턴충돌");
+         
+            GameObject collidedObject = collision.gameObject;
+            AlKKAGIManager alm = GM.GetComponent<AlKKAGIManager>();
+           
+            alm.CrashObjR = collidedObject;
+            alm.CrashObjB = this.gameObject;
 
-            // 충돌한 물체의 노멀 벡터
-            Vector3 hitNormal = hitInfo.normal;
 
-            // 충돌한 물체의 게임 오브젝트
-            GameObject hitObject = hitInfo.collider.gameObject;
+            SaveSpeed = this.gameObject.GetComponent<Rigidbody>().velocity;
+            totalSpeed = SaveSpeed.magnitude;
+            dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
+
+            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            alm.CrashObjR.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            
+            alm.Crash();
         }
-        yield return 0;
     }
+    public void RedWin()
+    {
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.7f, ForceMode.Impulse);
+    }
+    public void Redlose() //FPS승리시
+    {
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
+    }
+
+    //IEnumerable RaySet()
+    //{
+    //    RaycastHit hitInfo;
+
+    //    Ray ray = new Ray();
+    //    ray.origin = this.gameObject.transform.localPosition;
+    //    ray.direction = this.transform.forward;
+
+    //    if (Physics.Raycast(ray, out hitInfo, 30))
+    //    {
+    //        // 충돌한 물체의 위치
+    //        Vector3 hitPoint = hitInfo.point;
+
+    //        // 충돌한 물체의 노멀 벡터
+    //        Vector3 hitNormal = hitInfo.normal;
+
+    //        // 충돌한 물체의 게임 오브젝트
+    //        GameObject hitObject = hitInfo.collider.gameObject;
+    //    }
+    //    yield return 0;
+    //}
 }

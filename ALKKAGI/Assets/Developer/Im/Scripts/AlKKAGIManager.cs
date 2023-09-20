@@ -20,29 +20,32 @@ public class AlKKAGIManager : MonoBehaviour
 
     private AudioSource myAudioSource;
 
-    private bool IsWin;
+    public bool IsWin;
+    public bool blueT;
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove;
 
     public GameObject CrashObjR;
     public GameObject CrashObjB;
 
+    public Vector3 CrashObjRLocal;
+    public Vector3 CrashObjBLocal;
+
     private void Start()
     {
-        IsMyTurn = true; 
+        IsMyTurn = true;
         IsMove = true;
         myAudioSource = GetComponent<AudioSource>();
     }
 
     public void Crash()
     {
-        //충돌음 재생
-        myAudioSource.PlayOneShot(CrashSound);
-        //fps 씬 변환
-        //SceneManager.LoadScene("FPS씬 / 임시변수임");
+        myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
+
+        //SceneManager.LoadScene("FPS씬 / 임시변수임");  //fps 씬 변환
 
 
-        FPSResult(); // test
+        FPSResult(); // test용, 나중에 지워야함
     }
 
     private void FPSResult()
@@ -52,39 +55,31 @@ public class AlKKAGIManager : MonoBehaviour
         else                                //test
             IsWin = true;                //test
 
-        if (IsWin) //승리
+        if (IsMyTurn)
         {
-            Debug.Log("FPS 승리");
-            CrashObjR.GetComponent<PieceMove>().Win();
+            if (IsWin) //승리
+            {
+                Debug.Log("FPS 승리");
+                CrashObjR.GetComponent<PieceMove>().Win();
+            }
+            else //패배
+            {
+                Debug.Log("FPS 패배");
+                CrashObjR.GetComponent<PieceMove>().lose();
+            }
         }
-        else //패배
+        if (!IsMyTurn)
         {
-            Debug.Log("FPS 패배");
-            CrashObjR.GetComponent<PieceMove>().lose();
-        }
-        if (IsMyTurn == false)
-        {
-            BlueTurn();
-
-        }
-        else
-        {
-            IsMyTurn = true;
-            
-        }
-    } 
-    public void GameOver(int who)
-    {
-        if (who == 0)
-        {
-            //Blue Is Win
-
-        }
-
-        if (who == 1)
-        {
-            //Red Is Win
-
+            if (IsWin) //승리
+            {
+                Debug.Log("FPS 승리");
+                CrashObjB.GetComponent<BlueMovement>().RedWin();
+            }
+            else //패배
+            {
+                Debug.Log("FPS 패배");
+                CrashObjB.GetComponent<BlueMovement>().Redlose();
+            }
         }
     }
 
@@ -123,6 +118,27 @@ public class AlKKAGIManager : MonoBehaviour
             }
         }
     }
+
+    public void BlueTurn()
+    {
+        blueT = true;
+        Invoke("BlueStart", 1f);
+    }
+    private void BlueStart()
+    {
+        IsMyTurn = false;
+        Debug.Log("파랑턴 시작");
+        BlueSelect();
+        Invoke("RedTurn", 3f);
+    }
+    private void RedTurn()
+    {
+        blueT = false;
+        CrashObjB = null;
+        CrashObjR = null;
+        IsMyTurn = true;
+        IsMove = true;
+    }
     private void repick()
     {
         if (randomChildObject == null)//선택된 대상이 null값일때
@@ -130,15 +146,12 @@ public class AlKKAGIManager : MonoBehaviour
             Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
+        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f | randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
+        {
+            Debug.Log("repick");
+            BlueSelect();//다시 고른다
+        }
     }
-    public void BlueTurn()
-    {
-        BlueSelect();
-        CrashObjB = null;
-        CrashObjR = null;
-        IsMyTurn = true;
-    }
-
     public void PieceSet()
     {
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
@@ -148,7 +161,7 @@ public class AlKKAGIManager : MonoBehaviour
         {
             LeftBluePiece[i] = BluePieces.transform.GetChild(i).gameObject;
         }
-        
+
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
         LeftRedPiece = new GameObject[RedPieces.transform.childCount];
 
@@ -165,7 +178,7 @@ public class AlKKAGIManager : MonoBehaviour
         myAudioSource.PlayOneShot(DeathSound);
 
         //죽은 유닛 setactive false;
-        if (deathPiece == 1) 
+        if (deathPiece == 1)
         {
             LeftPieces[a].SetActive(false);
             a++;
@@ -228,6 +241,20 @@ public class AlKKAGIManager : MonoBehaviour
                 LeftPieces[28 + l].SetActive(false);
                 l++;
             }
+        }
+    }
+    public void GameOver(int who)
+    {
+        if (who == 0)
+        {
+            //Blue Is Win
+
+        }
+
+        if (who == 1)
+        {
+            //Red Is Win
+
         }
     }
 }

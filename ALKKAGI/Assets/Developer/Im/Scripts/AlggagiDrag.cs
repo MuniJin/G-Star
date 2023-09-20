@@ -14,7 +14,6 @@ public class AlggagiDrag : MonoBehaviour
     private float DisZ;
     public float ShootPower = 0f;
     private float Pita = 0f;
-    private Vector3 Direction = new Vector3(0, 0, 0);
     public GameObject MainObj;
     public GameObject Arrow;
     private GameObject GM;
@@ -52,7 +51,8 @@ public class AlggagiDrag : MonoBehaviour
         {
             MoveDis = this.gameObject.transform.localPosition;
             this.gameObject.transform.localPosition = new Vector3(0, 0.15f, 0);
-            Arrow.transform.localPosition = new Vector3(0, 0.15f, 0);
+            Arrow.transform.localPosition = new Vector3(0, 0.2f, 0);
+            Arrow.transform.rotation = Quaternion.Euler(0, 0, 0);
             DisX = MoveDis.x;
             DisZ = MoveDis.z;
             MoveMath();

@@ -13,7 +13,8 @@ public class PieceMove : MonoBehaviour
     private float MoveSpeed; //이동속도
     private Vector3 SaveSpeed; //저장된 속도
     private bool IsCrash;
-
+    private Vector3 dir;
+    float totalSpeed;
 
     private void Start()
     {
@@ -29,59 +30,68 @@ public class PieceMove : MonoBehaviour
     public void MoveStart() //기물 이동
     {
         IsCrash = false;
-        GM.GetComponent<AlKKAGIManager>().IsMyTurn = false;
         MoveSpeed = DragObj.GetComponent<AlggagiDrag>().ShootPower;
         rb.AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
-        Invoke("NotCrash", 1f);
+        Invoke("NotCrash", 1f); //매니저로 뺴야함
     }
     private void NotCrash()
     {
         if (!IsCrash)
         {
             Debug.Log("헛스윙");
-            GM.GetComponent<AlKKAGIManager>().BlueTurn();
-            GM.GetComponent<AlKKAGIManager>().IsMove = true;
+            GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
+            GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+            if (!GM.GetComponent<AlKKAGIManager>().blueT)
+                GM.GetComponent<AlKKAGIManager>().BlueTurn();
         }
         else
         {
             Debug.Log("충돌!");
-            GM.GetComponent<AlKKAGIManager>().IsMove = true;
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject)
+        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
-            if (GM.GetComponent<AlKKAGIManager>().IsMyTurn)
-            {
-                Debug.Log("show");
-                SaveSpeed += GM.GetComponent<AlKKAGIManager>().randomChildObject.GetComponent<Rigidbody>().velocity;
-            }
-            else 
-                SaveSpeed += rb.velocity;
-
+            Debug.Log("내턴충돌");
             IsCrash = true;
             GameObject collidedObject = collision.gameObject;
 
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
 
+            SaveSpeed = rb.velocity;
+            totalSpeed = SaveSpeed.magnitude;
             rb.velocity = Vector3.zero;
-            GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
+            GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            
             GM.GetComponent<AlKKAGIManager>().Crash();
         }
     }
 
     public void Win() //FPS승리시
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.8f, ForceMode.Impulse);
-        rb.AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
+        rb.AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
+
+        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
+        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+
+        if (!GM.GetComponent<AlKKAGIManager>().blueT)
+            GM.GetComponent<AlKKAGIManager>().BlueTurn();
     }
 
     public void lose()
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
-        rb.AddForce(-SaveSpeed * 0.8f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.4f, ForceMode.Impulse);
+        rb.AddForce(dir * totalSpeed * 0.7f, ForceMode.Impulse);
+
+        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
+        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+
+        if (!GM.GetComponent<AlKKAGIManager>().blueT)
+            GM.GetComponent<AlKKAGIManager>().BlueTurn();
     }
 }
