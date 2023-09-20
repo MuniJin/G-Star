@@ -1,12 +1,15 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
+    private NavMeshAgent navMeshAgent;
     // 적이 장애물을 감지하는 범위를 설정합니다.
     private int range;
     private float speed;
     private bool isThereAnyThing = false;
+    private float rayhit = 1f;
 
     // 적이 추적할 대상을 지정합니다.
     public GameObject target;
@@ -16,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     // 초기화 함수
     void Start()
     {
+        navMeshAgent = GetComponent<NavMeshAgent>();
         range = 80;
         speed = 10f;
         rotationSpeed = 15f;
@@ -24,6 +28,10 @@ public class EnemyAI : MonoBehaviour
     // 프레임마다 호출되는 업데이트 함수
     void Update()
     {
+        if (target != null)
+        {
+            navMeshAgent.SetDestination(target.transform.position);
+        }
         // 아무 것도 앞에 없다면 대상을 향해 부드럽게 회전합니다.
         if (!isThereAnyThing)
         {
@@ -33,6 +41,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         // 적을 전진시킵니다.
+        
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
 
         // 앞에 장애물이 있는지 확인합니다.
@@ -41,15 +50,20 @@ public class EnemyAI : MonoBehaviour
         Transform rightRay = transform;
 
         // Physics.Raycast를 사용하여 장애물을 감지합니다.
-        if (Physics.Raycast(leftRay.position + (transform.right * 7), transform.forward, out hit, range) ||
-            Physics.Raycast(rightRay.position - (transform.right * 7), transform.forward, out hit, range))
+        if (rayhit <= 1)
         {
-            if (hit.collider.gameObject.CompareTag("Obstacles"))
+            if (Physics.Raycast(leftRay.position + (transform.right * 7), transform.forward, out hit, range) ||
+            Physics.Raycast(rightRay.position - (transform.right * 7), transform.forward, out hit, range))
             {
-                isThereAnyThing = true;
-                transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+                if (hit.collider.gameObject.CompareTag("Obstacles"))
+                {
+                    isThereAnyThing = true;
+                    transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+                }
             }
         }
+
+            
 
         // 이제 오브젝트 끝 부분에 두 개의 RayCast를 더 쏴서 오브젝트가 이미 장애물을 통과했는지를 감지합니다.
         // 이 변수를 false로 설정하여 앞에 아무것도 없음을 의미합니다.
