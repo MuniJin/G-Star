@@ -4,8 +4,12 @@ using UnityEngine;
 
 public abstract class Default_Character : MonoBehaviour
 {
-    public abstract void Move();
-    public abstract void Jump();
+    public int _hp { get; set; }
+    public float _coolDown { get; set; }
+    public float _damage { get; set; }
+
+    protected abstract void Move();
+    protected abstract void Jump();
     public abstract void Attack(Vector3 bulpos, float shootPower);
 
     public abstract IEnumerator Skill(GameObject go);
@@ -13,24 +17,11 @@ public abstract class Default_Character : MonoBehaviour
 
 public class Decorator_Character : Default_Character
 {
+    protected override void Move() => throw new System.NotImplementedException();
+    protected override void Jump() => throw new System.NotImplementedException();
+    public override void Attack(Vector3 bulpos, float shootPower) => throw new System.NotImplementedException();
 
-    public override void Move()
-    {
-        throw new System.NotImplementedException();
-    }
-    public override void Jump()
-    {
-        throw new System.NotImplementedException();
-    }
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override IEnumerator Skill(GameObject go)
-    {
-        throw new System.NotImplementedException();
-    }
+    public override IEnumerator Skill(GameObject go) => throw new System.NotImplementedException();
 }
 
 // 쫄 : 이동속도 버프
@@ -131,7 +122,7 @@ public class Cannon : Decorator_Character
     private float cooldown = 5f;
     private bool useSkill = false;
 
-    public LayerMask groundLayer;
+    private LayerMask groundLayer;
 
     private void Start()
     {
