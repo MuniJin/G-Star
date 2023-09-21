@@ -35,11 +35,11 @@ public class Pawn : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
-            go.GetComponent<PlayerMovement1>().moveSpeed *= 2f;
+            go.GetComponent<Player_Character>().speed *= 2f;
          
             yield return new WaitForSeconds(cooldown);
             
-            go.GetComponent<PlayerMovement1>().moveSpeed /= 2f;
+            go.GetComponent<Player_Character>().speed /= 2f;
             useSkill = false;
         }
     }
@@ -56,7 +56,7 @@ public class Rook : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
-            Vector3 forwardDirection = go.GetComponent<PlayerMovement1>().orientation.forward;
+            Vector3 forwardDirection = go.transform.forward;
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
@@ -101,11 +101,11 @@ public class Knight : Decorator_Character
             {
                 // 공격 아직 미구현이므로 주석처리해둠
 
-                b1 = go.GetComponent<PlayerMovement1>().bulParent2.position;
-                b2 = go.GetComponent<PlayerMovement1>().bulParent3.position;
+                b1 = go.transform.position + Vector3.right;
+                b2 = go.transform.position + (Vector3.right * 2f);
 
-                go.GetComponent<PlayerMovement1>().Attack(b1, 60f);
-                go.GetComponent<PlayerMovement1>().Attack(b2, 60f);
+                go.GetComponent<Player_Character>().Attack(b1, 60f);
+                go.GetComponent<Player_Character>().Attack(b2, 60f);
 
                 yield return new WaitForSeconds(0.2f);
             }
