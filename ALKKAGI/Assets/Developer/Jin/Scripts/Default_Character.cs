@@ -99,8 +99,6 @@ public class Knight : Decorator_Character
 
             for (int i = 0; i < 3; i++)
             {
-                // 공격 아직 미구현이므로 주석처리해둠
-
                 b1 = go.transform.position + Vector3.right;
                 b2 = go.transform.position + (Vector3.right * 2f);
 
@@ -142,6 +140,7 @@ public class Cannon : Decorator_Character
              
                 if (Input.GetMouseButtonDown(1))
                 {
+                    Debug.Log("dd");
                     // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;

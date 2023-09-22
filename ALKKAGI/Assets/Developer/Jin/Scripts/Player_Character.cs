@@ -12,8 +12,10 @@ public class Player_Character : Default_Character
     private Rigidbody rb;
 
     private GameObject bullet;
+    public GameObject playerObj;
 
-    public float speed = 5f;
+    public float speed = 1f;
+    private float jumpForce = 5f;
 
     private void Start()
     {
@@ -29,10 +31,13 @@ public class Player_Character : Default_Character
             Jump();
 
         if (Input.GetMouseButtonDown(0))
-            Attack(new Vector3(this.transform.position.x + 1f, 0.75f, this.transform.position.z), 40f);
+            Attack(bulPos.transform.position, 40f);
 
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
+
+        if (Input.GetKeyDown(KeyCode.R))
+            ShowCursor();
     }
 
     private void FixedUpdate()
@@ -60,8 +65,8 @@ public class Player_Character : Default_Character
     [SerializeField]
     private float rotCamY = 3f;
 
-    private float limitMinX = -80f;
-    private float limitMaxX = 50f;
+    private float limitMinX = -40f;
+    private float limitMaxX = 40f;
     private float eulerAngleX;
     private float eulerAngleY;
 
@@ -75,7 +80,8 @@ public class Player_Character : Default_Character
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
+        playerObj.transform.rotation = Quaternion.Euler(270f, 180f + eulerAngleY, 0f);
+        Camera.main.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
     }
 
     private float ClampAngle(float angle, float min, float max)
@@ -94,21 +100,23 @@ public class Player_Character : Default_Character
         float v = Input.GetAxisRaw("Vertical");
 
         Vector3 dir = new Vector3(h, 0f, v);
-        dir = this.transform.rotation * new Vector3(dir.x, 0f, dir.z);
+        dir = playerObj.transform.rotation * new Vector3(-dir.x, dir.z, 0f);
         moveForce = new Vector3(dir.x, moveForce.y, dir.z);
-        this.transform.position += moveForce * 0.1f;
+        this.transform.position += moveForce * 0.1f * speed;
     }
 
     protected override void Jump()
     {
-        rb.AddForce(Vector3.up * speed, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
+
+    public GameObject bulPos;
 
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
-        go.transform.position = this.transform.position + Vector3.right;
-        go.GetComponent<Rigidbody>().AddForce(Vector3.forward * shootPower, ForceMode.Impulse);
+        
+        go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
     }
 
     public override IEnumerator Skill(GameObject go)
