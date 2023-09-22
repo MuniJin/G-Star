@@ -56,7 +56,7 @@ public class Rook : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
-            Vector3 forwardDirection = go.transform.forward;
+            Vector3 forwardDirection = Camera.main.transform.forward;
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
@@ -92,6 +92,7 @@ public class Knight : Decorator_Character
     public override IEnumerator Skill(GameObject go)
     {
         Vector3 b1, b2;
+        Player_Character g = go.GetComponent<Player_Character>();
 
         if (!useSkill)
         {
@@ -99,11 +100,11 @@ public class Knight : Decorator_Character
 
             for (int i = 0; i < 3; i++)
             {
-                b1 = go.transform.position + Vector3.right;
-                b2 = go.transform.position + (Vector3.right * 2f);
+                b1 = g.bulPos.transform.position + Vector3.left * 0.5f;
+                b2 = g.bulPos.transform.position + Vector3.right * 0.5f;
 
-                go.GetComponent<Player_Character>().Attack(b1, 60f);
-                go.GetComponent<Player_Character>().Attack(b2, 60f);
+                g.Attack(b1, 60f);
+                g.Attack(b2, 60f);
 
                 yield return new WaitForSeconds(0.2f);
             }
@@ -205,12 +206,14 @@ public class King : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
+        Player_Character g = go.GetComponent<Player_Character>();
+
         if (!useSkill)
         {
             useSkill = true;
 
-            Vector3 ksPos = go.transform.position + go.GetComponent<PlayerMovement>().orientation.forward * 5f;
-            GameObject ks = Instantiate(go.GetComponent<PlayerMovement1>().kingSkill, ksPos, go.GetComponent<PlayerMovement>().orientation.rotation);
+            Vector3 ksPos = go.transform.position + (Camera.main.transform.forward * 5f);
+            GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;

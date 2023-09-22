@@ -13,6 +13,7 @@ public class Player_Character : Default_Character
 
     private GameObject bullet;
     public GameObject playerObj;
+    public GameObject kingSkill;
 
     public float speed = 1f;
     private float jumpForce = 5f;
@@ -20,14 +21,17 @@ public class Player_Character : Default_Character
     private void Start()
     {
         ShowCursor();
+
         rb = this.GetComponent<Rigidbody>();
-        bullet = Resources.Load<GameObject>("TESTBUL 1");
-        bullet.AddComponent<Bullet>();
+
+        bullet = Resources.Load<GameObject>("TESTBUL 0");
+        if (bullet.GetComponent<Bullet>() == false)
+            bullet.AddComponent<Bullet>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
 
         if (Input.GetMouseButtonDown(0))
@@ -60,9 +64,7 @@ public class Player_Character : Default_Character
         }
     }
 
-    [SerializeField]
     private float rotCamX = 5f;
-    [SerializeField]
     private float rotCamY = 3f;
 
     private float limitMinX = -40f;
@@ -70,13 +72,15 @@ public class Player_Character : Default_Character
     private float eulerAngleX;
     private float eulerAngleY;
 
+    public float sensitivity = 2f;
+
     private void RotateCam()
     {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * rotCamX;
-        eulerAngleY += mouseX * rotCamY;
+        eulerAngleX -= mouseY * rotCamX * sensitivity;
+        eulerAngleY += mouseX * rotCamY * sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
@@ -105,10 +109,7 @@ public class Player_Character : Default_Character
         this.transform.position += moveForce * 0.1f * speed;
     }
 
-    protected override void Jump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
+    protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     public GameObject bulPos;
 
@@ -145,24 +146,31 @@ public class Player_Character : Default_Character
             {
                 case "Pawn":
                     _d = this.gameObject.AddComponent<Pawn>();
+                    bullet = Resources.Load<GameObject>("TESTBUL 1");
                     break;
                 case "Rook":
                     _d = this.gameObject.AddComponent<Rook>();
+                    bullet = Resources.Load<GameObject>("TESTBUL 2");
                     break;
                 case "Knight":
                     _d = this.gameObject.AddComponent<Knight>();
+                    //
                     break;
                 case "Elephant":
                     _d = this.gameObject.AddComponent<Elephant>();
+                    //
                     break;
                 case "Cannon":
                     _d = this.gameObject.AddComponent<Cannon>();
+                    //
                     break;
                 case "Guards":
                     _d = this.gameObject.AddComponent<Guards>();
+                    //
                     break;
                 case "King":
                     _d = this.gameObject.AddComponent<King>();
+                    //
                     break;
                 default:
                     Debug.Log("it does not exist");
@@ -172,6 +180,7 @@ public class Player_Character : Default_Character
         else
         {
             Debug.Log("Deselect " + str);
+            bullet = Resources.Load<GameObject>("TESTBUL 0");
             Destroy(_d);
         }
     }
