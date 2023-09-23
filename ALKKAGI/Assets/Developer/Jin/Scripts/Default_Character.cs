@@ -4,8 +4,12 @@ using UnityEngine;
 
 public abstract class Default_Character : MonoBehaviour
 {
-    public abstract void Move();
-    public abstract void Jump();
+    public int _hp { get; set; }
+    public float _coolDown { get; set; }
+    public float _damage { get; set; }
+
+    protected abstract void Move();
+    protected abstract void Jump();
     public abstract void Attack(Vector3 bulpos, float shootPower);
 
     public abstract IEnumerator Skill(GameObject go);
@@ -13,24 +17,11 @@ public abstract class Default_Character : MonoBehaviour
 
 public class Decorator_Character : Default_Character
 {
+    protected override void Move() => throw new System.NotImplementedException();
+    protected override void Jump() => throw new System.NotImplementedException();
+    public override void Attack(Vector3 bulpos, float shootPower) => throw new System.NotImplementedException();
 
-    public override void Move()
-    {
-        throw new System.NotImplementedException();
-    }
-    public override void Jump()
-    {
-        throw new System.NotImplementedException();
-    }
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override IEnumerator Skill(GameObject go)
-    {
-        throw new System.NotImplementedException();
-    }
+    public override IEnumerator Skill(GameObject go) => throw new System.NotImplementedException();
 }
 
 // 쫄 : 이동속도 버프
@@ -44,11 +35,11 @@ public class Pawn : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
-            go.GetComponent<PlayerMovement1>().moveSpeed *= 2f;
+            go.GetComponent<Player_Character>().speed *= 2f;
          
             yield return new WaitForSeconds(cooldown);
             
-            go.GetComponent<PlayerMovement1>().moveSpeed /= 2f;
+            go.GetComponent<Player_Character>().speed /= 2f;
             useSkill = false;
         }
     }
@@ -65,7 +56,7 @@ public class Rook : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
-            Vector3 forwardDirection = go.GetComponent<PlayerMovement1>().orientation.forward;
+            Vector3 forwardDirection = Camera.main.transform.forward;
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
@@ -101,6 +92,7 @@ public class Knight : Decorator_Character
     public override IEnumerator Skill(GameObject go)
     {
         Vector3 b1, b2;
+        Player_Character g = go.GetComponent<Player_Character>();
 
         if (!useSkill)
         {
@@ -108,13 +100,11 @@ public class Knight : Decorator_Character
 
             for (int i = 0; i < 3; i++)
             {
-                // 공격 아직 미구현이므로 주석처리해둠
+                b1 = g.bulPos.transform.position + Vector3.left * 0.5f;
+                b2 = g.bulPos.transform.position + Vector3.right * 0.5f;
 
-                b1 = go.GetComponent<PlayerMovement1>().bulParent2.position;
-                b2 = go.GetComponent<PlayerMovement1>().bulParent3.position;
-
-                go.GetComponent<PlayerMovement1>().Attack(b1, 60f);
-                go.GetComponent<PlayerMovement1>().Attack(b2, 60f);
+                g.Attack(b1, 60f);
+                g.Attack(b2, 60f);
 
                 yield return new WaitForSeconds(0.2f);
             }
@@ -131,7 +121,7 @@ public class Cannon : Decorator_Character
     private float cooldown = 5f;
     private bool useSkill = false;
 
-    public LayerMask groundLayer;
+    private LayerMask groundLayer;
 
     private void Start()
     {
@@ -151,6 +141,7 @@ public class Cannon : Decorator_Character
              
                 if (Input.GetMouseButtonDown(1))
                 {
+                    Debug.Log("dd");
                     // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
@@ -215,12 +206,14 @@ public class King : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
+        Player_Character g = go.GetComponent<Player_Character>();
+
         if (!useSkill)
         {
             useSkill = true;
 
-            Vector3 ksPos = go.transform.position + go.GetComponent<PlayerMovement>().orientation.forward * 5f;
-            GameObject ks = Instantiate(go.GetComponent<PlayerMovement1>().kingSkill, ksPos, go.GetComponent<PlayerMovement>().orientation.rotation);
+            Vector3 ksPos = go.transform.position + (Camera.main.transform.forward * 5f);
+            GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;

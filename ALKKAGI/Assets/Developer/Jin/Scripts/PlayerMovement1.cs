@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PlayerMovement1 : Default_Character {
-
+public class PlayerMovement1 : Default_Character
+{
     private Decorator_Character _d;
 
     private string str;
@@ -37,7 +37,7 @@ public class PlayerMovement1 : Default_Character {
     public float maxSpeed = 20;
     public bool grounded;
     public LayerMask whatIsGround;
-    
+
     public float maxSlopeAngle = 35f;
 
     public float crouchSpeedMultiplier = 0.5f;
@@ -46,35 +46,37 @@ public class PlayerMovement1 : Default_Character {
     //Crouch & Slide
     private Vector3 crouchScale = new Vector3(1, 0.7f, 1);
     private Vector3 playerScale;
-    public float slideForce = 100;
-    public float slideCounterMovement = 0.1f;
+    //public float slideForce = 100;
+    //public float slideCounterMovement = 0.1f;
 
     //Jumping
     private bool readyToJump = true;
     private float jumpCooldown = 0.25f;
     public float jumpForce = 550f;
-    
+
     //Input
     float x, y;
     bool jumping, crouching;
-    
-    //Sliding
-    private Vector3 normalVector = Vector3.up;
 
-    void Awake() {
+    //Sliding
+    //private Vector3 normalVector = Vector3.up;
+    void Awake() 
+    {
         rb = GetComponent<Rigidbody>();
+        _hp = 100;
     }
-    
-    void Start() {
-        playerScale =  transform.localScale;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
+    void Start() 
+    {
+        playerScale = transform.localScale;
         whatIsGround = LayerMask.GetMask("Ground");
+
+        ShowCursor();
     }
 
     private void ShowCursor()
     {
-        if(Cursor.lockState == CursorLockMode.Locked)
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -85,7 +87,7 @@ public class PlayerMovement1 : Default_Character {
             Cursor.visible = false;
         }
     }
-    
+
     private void FixedUpdate() {
         Movement();
     }
@@ -112,7 +114,7 @@ public class PlayerMovement1 : Default_Character {
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetButton("Jump");
         crouching = Input.GetKey(KeyCode.LeftControl);
-      
+
         //Crouching
         if (Input.GetKeyDown(KeyCode.LeftControl))
             StartCrouch();
@@ -123,11 +125,11 @@ public class PlayerMovement1 : Default_Character {
     private void StartCrouch() {
         transform.localScale = crouchScale;
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
-        if (rb.velocity.magnitude > 0.5f) {
-            if (grounded) {
-                rb.AddForce(orientation.transform.forward * slideForce);
-            }
-        }
+        //if (rb.velocity.magnitude > 0.5f) {
+        //    if (grounded) {
+        //        rb.AddForce(orientation.transform.forward * slideForce);
+        //    }
+        //}
     }
 
     private void StopCrouch() {
@@ -159,7 +161,7 @@ public class PlayerMovement1 : Default_Character {
         // 움직이는 플레이어에게 힘을 가합니다.
         rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime);
         rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime);
-
+        
         // 플레이어의 속도를 최대 속도로 제한합니다.
         Vector2 horizontalVelocity = new Vector2(rb.velocity.x, rb.velocity.z);
         if (horizontalVelocity.magnitude > maxSpeed)
@@ -177,7 +179,7 @@ public class PlayerMovement1 : Default_Character {
 
             // 점프 힘을 추가합니다.
             rb.AddForce(Vector2.up * jumpForce * 0.5f);
-            rb.AddForce(normalVector * jumpForce * 0.5f);
+            //rb.AddForce(normalVector * jumpForce * 0.5f);
 
             // 점프 중에 떨어질 때, y 속도를 재설정합니다.
             Vector3 vel = rb.velocity;
@@ -190,10 +192,8 @@ public class PlayerMovement1 : Default_Character {
         }
     }
 
-    private void ResetJump() {
-        readyToJump = true;
-    }
-    
+    private void ResetJump() => readyToJump = true;
+
     private float desiredX;
     private void Look()
     {
@@ -238,7 +238,7 @@ public class PlayerMovement1 : Default_Character {
             {
                 grounded = true;
                 cancellingGrounded = false;
-                normalVector = normal;
+                //normalVector = normal;
                 CancelInvoke(nameof(StopGrounded));
             }
         }
@@ -253,20 +253,10 @@ public class PlayerMovement1 : Default_Character {
     }
 
     // 바닥 감지 상태를 해제합니다.
-    private void StopGrounded()
-    {
-        grounded = false;
-    }
-
-    public override void Move()
-    {
-        Movement();
-    }
-
-    public override void Jump()
-    {
-        Jump1();
-    }
+    private void StopGrounded() => grounded = false;
+    protected override void Move() => Movement();
+    protected override void Jump() => Jump1();
+    public override IEnumerator Skill(GameObject go) => throw new System.NotImplementedException();
 
     public override void Attack(Vector3 bulpos, float shootPower)
     {
@@ -283,11 +273,6 @@ public class PlayerMovement1 : Default_Character {
             Debug.Log("Not Decorator");
     }
 
-    public override IEnumerator Skill(GameObject go)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void ChooseCharacter()
     {
         GameObject clickedBtn = EventSystem.current.currentSelectedGameObject;
@@ -296,13 +281,18 @@ public class PlayerMovement1 : Default_Character {
         if (_d == null)
         {
             Debug.Log("Select " + str);
+
             switch (str)
             {
                 case "Pawn":
                     _d = this.gameObject.AddComponent<Pawn>();
+                    bullet = Resources.Load<GameObject>("TESTBUL 1");
+                    bullet.AddComponent<Bullet>();
                     break;
                 case "Rook":
                     _d = this.gameObject.AddComponent<Rook>();
+                    bullet = Resources.Load<GameObject>("TESTBUL 2");
+                    bullet.AddComponent<Bullet>();
                     break;
                 case "Knight":
                     _d = this.gameObject.AddComponent<Knight>();
@@ -331,5 +321,4 @@ public class PlayerMovement1 : Default_Character {
             Destroy(_d);
         }
     }
-
 }
