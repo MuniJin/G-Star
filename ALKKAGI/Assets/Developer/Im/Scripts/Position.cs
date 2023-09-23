@@ -72,21 +72,21 @@ public class Position : MonoBehaviour
     private void BlueSettingSelect()
     {
         //Blue Elephant[11] && Horse[12]
-        if (BST == 1)
+        if (BST == 1)  //상마상마
         {
             LocalPos[0, 1] = 11;
             LocalPos[0, 2] = 12;
             LocalPos[0, 6] = 11;
             LocalPos[0, 7] = 12;
         }
-        if (BST == 2)
+        if (BST == 2) //마상마상
         {
             LocalPos[0, 1] = 12;
             LocalPos[0, 2] = 11;
             LocalPos[0, 6] = 12;
             LocalPos[0, 7] = 11;
         }
-        if (BST == 3)
+        if (BST == 3) //상마마상
         {
             LocalPos[0, 1] = 12;
             LocalPos[0, 2] = 11;
@@ -94,7 +94,7 @@ public class Position : MonoBehaviour
             LocalPos[0, 7] = 12;
 
         }
-        if (BST == 4)
+        if (BST == 4) //마상상마
         {
             LocalPos[0, 1] = 11;
             LocalPos[0, 2] = 12;

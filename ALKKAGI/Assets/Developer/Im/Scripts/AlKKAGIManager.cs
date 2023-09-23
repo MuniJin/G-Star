@@ -5,86 +5,91 @@ using UnityEngine.SceneManagement;
 
 public class AlKKAGIManager : MonoBehaviour
 {
-    private int leftBlue = 0;
-    private int BluePattern = 0;
-    public GameObject randomChildObject;
-    public GameObject BluePieces;
-    public GameObject RedPieces;
-    public GameObject[] LeftPieces;
-    private GameObject[] LeftBluePiece;
-    public GameObject[] LeftRedPiece;
+    private int leftBlue = 0; //파랑의 남은 기물 수
+    private int BluePattern = 0; //AI 패턴
+    private GameObject[] LeftBluePiece; //파랑의 남은 기물
+    private AudioSource myAudioSource;
 
     public AudioClip ShootSound;
     public AudioClip CrashSound;
     public AudioClip DeathSound;
 
-    private AudioSource myAudioSource;
+    public GameObject randomChildObject; //선택된 파랑의 기물
+    public GameObject BluePieces; //파랑 기물
+    public GameObject RedPieces;  //빨강 기물
+    public GameObject[] LeftPieces; //모든 남은 기물
+    public GameObject[] LeftRedPiece; //플레이어의 남은 기물
 
-    private bool IsWin;
+    public bool IsWin; //FPS 승패 체크
+    public bool blueT; //파랑 턴 체크
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
-    public bool IsMove;
+    public bool IsMove; //이동 체크
+    public int CheatMode; //테스트용 치트모드
 
-    public GameObject CrashObjR;
-    public GameObject CrashObjB;
+    public GameObject CrashObjR; //빨강 충돌한 기물
+    public GameObject CrashObjB; //파랑 충돌한 기물
 
     private void Start()
     {
-        IsMyTurn = true; 
+        IsMyTurn = true;
         IsMove = true;
         myAudioSource = GetComponent<AudioSource>();
     }
 
-    public void Crash()
+    public void Crash() //충돌
     {
-        //충돌음 재생
-        myAudioSource.PlayOneShot(CrashSound);
-        //fps 씬 변환
-        //SceneManager.LoadScene("FPS씬 / 임시변수임");
+        myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
+
+        //SceneManager.LoadScene("FPS씬 / 임시변수임");  //fps 씬 변환
 
 
-        FPSResult(); // test
+        FPSResult(); // test용, fps씬에서 승패 갈렸을때 호출해야함
     }
 
-    private void FPSResult()
+    private void FPSResult() //FPS종료
     {
-        if (Random.Range(1, 4) > 2) //test
-            IsWin = false;               //test
-        else                                //test
-            IsWin = true;                //test
+        if (CheatMode == 0) //테스트 용도
+        {
 
-        if (IsWin) //승리
-        {
-            Debug.Log("FPS 승리");
-            CrashObjR.GetComponent<PieceMove>().Win();
+            if (Random.Range(1, 4) > 2)
+                IsWin = false;              
+            else                               
+                IsWin = true;               
         }
-        else //패배
+        else if(CheatMode == 1) //항상 승리
         {
-            Debug.Log("FPS 패배");
-            CrashObjR.GetComponent<PieceMove>().lose();
+            IsWin = true;
         }
-        if (IsMyTurn == false)
+        else //항상 패배
         {
-            BlueTurn();
-
-        }
-        else
-        {
-            IsMyTurn = true;
-            
-        }
-    } 
-    public void GameOver(int who)
-    {
-        if (who == 0)
-        {
-            //Blue Is Win
-
+            IsWin = false;
         }
 
-        if (who == 1)
+        if (IsMyTurn)
         {
-            //Red Is Win
-
+            if (IsWin) //승리했을시
+            {
+                Debug.Log("FPS 승리");
+                CrashObjR.GetComponent<PieceMove>().Win();
+            }
+            else //패배했을시
+            {
+                Debug.Log("FPS 패배");
+                CrashObjR.GetComponent<PieceMove>().lose();
+            }
+        }
+        if (!IsMyTurn)
+        {
+            if (IsWin) //승리했을시
+            {
+                Debug.Log("FPS 승리");
+                CrashObjB.GetComponent<BlueMovement>().RedWin();
+            }
+            else //패배했을신
+            {
+                Debug.Log("FPS 패배");
+                CrashObjB.GetComponent<BlueMovement>().Redlose();
+            }
         }
     }
 
@@ -92,7 +97,7 @@ public class AlKKAGIManager : MonoBehaviour
     {
         BluePattern = Random.Range(1, 5);
 
-        if (BluePattern == 1) //패턴1 뒷열
+        if (BluePattern == 1) //패턴1 뒷열 오브젝트들
         {
             randomChildObject = LeftBluePiece[Random.Range(0, 8)]; //0~7
             repick();
@@ -123,6 +128,27 @@ public class AlKKAGIManager : MonoBehaviour
             }
         }
     }
+
+    public void BlueTurn()
+    {
+        blueT = true;
+        Invoke("BlueStart", 1f);
+    }
+    private void BlueStart()
+    {
+        IsMyTurn = false;
+        Debug.Log("파랑턴 시작");
+        BlueSelect();
+        Invoke("RedTurn", 3f);
+    }
+    private void RedTurn()
+    {
+        blueT = false;
+        CrashObjB = null;
+        CrashObjR = null;
+        IsMyTurn = true;
+        IsMove = true;
+    }
     private void repick()
     {
         if (randomChildObject == null)//선택된 대상이 null값일때
@@ -130,15 +156,12 @@ public class AlKKAGIManager : MonoBehaviour
             Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
+        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f | randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
+        {
+            Debug.Log("repick");
+            BlueSelect();//다시 고른다
+        }
     }
-    public void BlueTurn()
-    {
-        BlueSelect();
-        CrashObjB = null;
-        CrashObjR = null;
-        IsMyTurn = true;
-    }
-
     public void PieceSet()
     {
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
@@ -148,7 +171,7 @@ public class AlKKAGIManager : MonoBehaviour
         {
             LeftBluePiece[i] = BluePieces.transform.GetChild(i).gameObject;
         }
-        
+
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
         LeftRedPiece = new GameObject[RedPieces.transform.childCount];
 
@@ -165,7 +188,7 @@ public class AlKKAGIManager : MonoBehaviour
         myAudioSource.PlayOneShot(DeathSound);
 
         //죽은 유닛 setactive false;
-        if (deathPiece == 1) 
+        if (deathPiece == 1)
         {
             LeftPieces[a].SetActive(false);
             a++;
@@ -228,6 +251,20 @@ public class AlKKAGIManager : MonoBehaviour
                 LeftPieces[28 + l].SetActive(false);
                 l++;
             }
+        }
+    }
+    public void GameOver(int who)
+    {
+        if (who == 0)
+        {
+            //Blue Is Win
+
+        }
+
+        if (who == 1)
+        {
+            //Red Is Win
+
         }
     }
 }

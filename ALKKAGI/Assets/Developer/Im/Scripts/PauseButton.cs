@@ -8,7 +8,7 @@ public class PauseButton : MonoBehaviour
     private bool IsTrue;
     public bool IsPause;
 
-    private void PushPauseButton()
+    private void PushPauseButton() //퍼즈버튼
     {
         if (IsTrue == false)
         {
@@ -16,7 +16,7 @@ public class PauseButton : MonoBehaviour
             IsPause = true;
             Time.timeScale = 0;
             IsTrue = true;
-
+            //옵션 활성화,게임 일시정지
 
         }
         else
@@ -25,7 +25,7 @@ public class PauseButton : MonoBehaviour
             IsPause = false;
             Time.timeScale = 1;
             IsTrue = false;
-
+            //옵션 비활성화,게임 일시정지 해제
 
         }
     }
