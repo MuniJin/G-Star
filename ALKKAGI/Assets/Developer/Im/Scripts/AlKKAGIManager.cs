@@ -5,32 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class AlKKAGIManager : MonoBehaviour
 {
-    private int leftBlue = 0;
-    private int BluePattern = 0;
-    public GameObject randomChildObject;
-    public GameObject BluePieces;
-    public GameObject RedPieces;
-    public GameObject[] LeftPieces;
-    private GameObject[] LeftBluePiece;
-    public GameObject[] LeftRedPiece;
+    private int leftBlue = 0; //파랑의 남은 기물 수
+    private int BluePattern = 0; //AI 패턴
+    private GameObject[] LeftBluePiece; //파랑의 남은 기물
+    private AudioSource myAudioSource;
 
     public AudioClip ShootSound;
     public AudioClip CrashSound;
     public AudioClip DeathSound;
 
-    private AudioSource myAudioSource;
+    public GameObject randomChildObject; //선택된 파랑의 기물
+    public GameObject BluePieces; //파랑 기물
+    public GameObject RedPieces;  //빨강 기물
+    public GameObject[] LeftPieces; //모든 남은 기물
+    public GameObject[] LeftRedPiece; //플레이어의 남은 기물
 
-    public bool IsWin;
-    public bool blueT;
+    public bool IsWin; //FPS 승패 체크
+    public bool blueT; //파랑 턴 체크
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
-    public bool IsMove;
-    public int CheatMode;
+    public bool IsMove; //이동 체크
+    public int CheatMode; //테스트용 치트모드
 
-    public GameObject CrashObjR;
-    public GameObject CrashObjB;
-
-    public Vector3 CrashObjRLocal;
-    public Vector3 CrashObjBLocal;
+    public GameObject CrashObjR; //빨강 충돌한 기물
+    public GameObject CrashObjB; //파랑 충돌한 기물
 
     private void Start()
     {
@@ -39,25 +36,25 @@ public class AlKKAGIManager : MonoBehaviour
         myAudioSource = GetComponent<AudioSource>();
     }
 
-    public void Crash()
+    public void Crash() //충돌
     {
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
         //SceneManager.LoadScene("FPS씬 / 임시변수임");  //fps 씬 변환
 
 
-        FPSResult(); // test용, 나중에 지워야함
+        FPSResult(); // test용, fps씬에서 승패 갈렸을때 호출해야함
     }
 
-    private void FPSResult()
+    private void FPSResult() //FPS종료
     {
-        if (CheatMode == 0)
+        if (CheatMode == 0) //테스트 용도
         {
 
-            if (Random.Range(1, 4) > 2) //test
-                IsWin = false;               //test
-            else                                //test
-                IsWin = true;                //test
+            if (Random.Range(1, 4) > 2)
+                IsWin = false;              
+            else                               
+                IsWin = true;               
         }
         else if(CheatMode == 1) //항상 승리
         {
@@ -70,12 +67,12 @@ public class AlKKAGIManager : MonoBehaviour
 
         if (IsMyTurn)
         {
-            if (IsWin) //승리
+            if (IsWin) //승리했을시
             {
                 Debug.Log("FPS 승리");
                 CrashObjR.GetComponent<PieceMove>().Win();
             }
-            else //패배
+            else //패배했을시
             {
                 Debug.Log("FPS 패배");
                 CrashObjR.GetComponent<PieceMove>().lose();
@@ -83,12 +80,12 @@ public class AlKKAGIManager : MonoBehaviour
         }
         if (!IsMyTurn)
         {
-            if (IsWin) //승리
+            if (IsWin) //승리했을시
             {
                 Debug.Log("FPS 승리");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
             }
-            else //패배
+            else //패배했을신
             {
                 Debug.Log("FPS 패배");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
@@ -100,7 +97,7 @@ public class AlKKAGIManager : MonoBehaviour
     {
         BluePattern = Random.Range(1, 5);
 
-        if (BluePattern == 1) //패턴1 뒷열
+        if (BluePattern == 1) //패턴1 뒷열 오브젝트들
         {
             randomChildObject = LeftBluePiece[Random.Range(0, 8)]; //0~7
             repick();

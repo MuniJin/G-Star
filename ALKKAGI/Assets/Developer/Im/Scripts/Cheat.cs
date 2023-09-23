@@ -5,20 +5,21 @@ using UnityEngine;
 public class Cheat : MonoBehaviour
 {
     private GameObject GM;
-    // Start is called before the first frame update
+
     void Start()
     {
         GM = GameObject.Find("AlKKAGIManager");
     }
-    public void Random()
+
+    public void Random() //·£´ý
     {
         GM.GetComponent<AlKKAGIManager>().CheatMode = 0;
     }
-    public void AllWin()
+    public void AllWin() //Ç×»ó ½Â¸®
     {
         GM.GetComponent<AlKKAGIManager>().CheatMode = 1;
     }
-    public void AllDefeat()
+    public void AllDefeat() //Ç×»ó ÆÐ¹è
     {
         GM.GetComponent<AlKKAGIManager>().CheatMode = 2;
     }

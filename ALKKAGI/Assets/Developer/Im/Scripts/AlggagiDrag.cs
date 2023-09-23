@@ -12,12 +12,14 @@ public class AlggagiDrag : MonoBehaviour
     private Vector3 MoveDis;
     private float DisX;
     private float DisZ;
-    public float ShootPower = 0f;
     private float Pita = 0f;
-    public GameObject MainObj;
-    public GameObject Arrow;
     private GameObject GM;
     private GameObject PauseButton;
+
+
+    public GameObject MainObj;
+    public GameObject Arrow;
+    public float ShootPower = 0f;
 
     private void Start()
     {

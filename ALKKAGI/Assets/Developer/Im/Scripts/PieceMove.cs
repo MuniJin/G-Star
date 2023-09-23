@@ -7,14 +7,14 @@ public class PieceMove : MonoBehaviour
     //기물을 실제로 이동시키는 스크립트
 
     public GameObject DragObj; //드래그되는 오브젝트(Trigger 오브젝트)
-    private GameObject GM;
+    private GameObject GM; //알까기 매니저
     private Rigidbody rb; // 해당 오브젝트의 리지드바디
     public Vector3 Arrow; //이동방향
     private float MoveSpeed; //이동속도
     private Vector3 SaveSpeed; //저장된 속도
-    private bool IsCrash;
-    private Vector3 dir;
-    float totalSpeed;
+    private bool IsCrash; //충돌체크
+    private Vector3 dir; //충돌방향
+    float totalSpeed; //충돌속도
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class PieceMove : MonoBehaviour
         rb.AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
         Invoke("NotCrash", 1f); //매니저로 뺴야함
     }
-    private void NotCrash()
+    private void NotCrash() //헛스윙 체크
     {
         if (!IsCrash)
         {
@@ -71,7 +71,7 @@ public class PieceMove : MonoBehaviour
         }
     }
 
-    public void Win() //FPS승리시
+    public void Win() //FPS 승리시
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
@@ -83,7 +83,7 @@ public class PieceMove : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().BlueTurn();
     }
 
-    public void lose()
+    public void lose() //FPS 패배시
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.4f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.7f, ForceMode.Impulse);

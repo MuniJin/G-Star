@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class BlueMovement : MonoBehaviour
 {
-    public GameObject GM;
+    private GameObject GM;
     private float MoveSpeed; //이동속도
-    public float Pita = 0f;
-    public float DisX;
-    public float DisZ;
+    private float Pita = 0f;
+    private float DisX;
+    private float DisZ;
     private Vector3 targetlocal;
     private Vector3 Arrow;
     public Vector3 SaveSpeed;
     private Vector3 dir;
-    float totalSpeed;
+    private float totalSpeed;
 
-    public List<GameObject> redObjects = new List<GameObject>();
-    public string targetTag = "RedPiece"; // 검색할 태그
-    public float rotationDuration = 1.0f; // 회전을 완료할 시간 (초)
-    private float rotationSpeed = 30f;
+    private List<GameObject> redObjects = new List<GameObject>();
+    private string targetTag = "RedPiece"; // 검색할 태그
+    private float rotationDuration; // 회전을 완료할 시간 (초)
+    private float rotationSpeed;
 
 
     private void Start()
@@ -46,7 +46,7 @@ public class BlueMovement : MonoBehaviour
         Debug.Log("파랑 움직임");
     }
 
-    private void RocateRed()
+    private void RocateRed() //적 탐색
     {
         StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
         Invoke("attack", 1f);
@@ -67,7 +67,7 @@ public class BlueMovement : MonoBehaviour
     private void attack()
     {
 
-        if (redObjects.Count == 0) 
+        if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
         {
             GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
             if (Target == null)
@@ -117,18 +117,18 @@ public class BlueMovement : MonoBehaviour
 
 
 
-    public void RedWin()
+    public void RedWin() //FPS 승리시
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.7f, ForceMode.Impulse);
     }
-    public void Redlose() //FPS승리시
+    public void Redlose() //FPS 패배시
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
     }
 
-    private IEnumerator GetRedPiecesCoroutine()
+    private IEnumerator GetRedPiecesCoroutine() //적 탐색
     {
         float elapsedTime = 0f;
 
