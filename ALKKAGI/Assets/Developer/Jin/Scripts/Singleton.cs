@@ -17,6 +17,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 if (_instance == null)
                     Debug.Log("해당하는 " + typeof(T) + "타입의 클래스가 해당 씬에 존재하지 않음");
             }
+
             return _instance;
         }
     }

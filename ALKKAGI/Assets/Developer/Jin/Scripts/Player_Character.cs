@@ -15,6 +15,7 @@ public class Player_Character : Default_Character
     public GameObject playerObj;
     public GameObject kingSkill;
 
+    [HideInInspector]
     public float speed = 1f;
     private float jumpForce = 5f;
 
@@ -22,7 +23,12 @@ public class Player_Character : Default_Character
     {
         ShowCursor();
 
-        rb = this.GetComponent<Rigidbody>();
+        this._hp = 100;
+
+        playerObj = this.transform.GetChild(0).gameObject;
+        rb = playerObj.GetComponent<Rigidbody>();
+
+        playerObj.tag = "Player";
 
         bullet = Resources.Load<GameObject>("TESTBUL 0");
         if (bullet.GetComponent<Bullet>() == false)
@@ -42,6 +48,7 @@ public class Player_Character : Default_Character
 
         if (Input.GetKeyDown(KeyCode.R))
             ShowCursor();
+
     }
 
     private void FixedUpdate()
@@ -76,6 +83,8 @@ public class Player_Character : Default_Character
 
     private void RotateCam()
     {
+        Camera.main.transform.position = playerObj.transform.position;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 

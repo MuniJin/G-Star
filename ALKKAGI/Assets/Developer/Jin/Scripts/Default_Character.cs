@@ -56,8 +56,9 @@ public class Rook : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
+            GameObject p = go.transform.GetChild(0).gameObject;
             Vector3 forwardDirection = Camera.main.transform.forward;
-            go.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
+            p.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;
@@ -141,7 +142,6 @@ public class Cannon : Decorator_Character
              
                 if (Input.GetMouseButtonDown(1))
                 {
-                    Debug.Log("dd");
                     // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
@@ -188,7 +188,7 @@ public class Guards : Decorator_Character
         {
             useSkill = true;
             
-            GameObject b = Instantiate(bang, go.GetComponent<PlayerMovement1>().bulParent.position, Quaternion.identity);
+            GameObject b = Instantiate(bang, go.GetComponent<Player_Character>().bulPos.transform.position, Quaternion.identity);
             b.AddComponent<Rigidbody>();
             //b.AddComponent<Rigidbody>().AddForce(go.GetComponent<PlayerMovement1>().playerCam.transform.forward * 20f, ForceMode.Impulse);
 
@@ -212,7 +212,10 @@ public class King : Decorator_Character
         {
             useSkill = true;
 
-            Vector3 ksPos = go.transform.position + (Camera.main.transform.forward * 5f);
+            GameObject p = go.transform.GetChild(0).gameObject;
+            Vector3 forwardDirection = Camera.main.transform.forward;
+
+            Vector3 ksPos = p.transform.position + (Camera.main.transform.forward * 2f);
             GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
 
             yield return new WaitForSeconds(cooldown);
