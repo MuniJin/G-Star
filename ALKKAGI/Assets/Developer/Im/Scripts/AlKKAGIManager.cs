@@ -24,6 +24,7 @@ public class AlKKAGIManager : MonoBehaviour
     public bool blueT;
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove;
+    public int CheatMode;
 
     public GameObject CrashObjR;
     public GameObject CrashObjB;
@@ -50,10 +51,22 @@ public class AlKKAGIManager : MonoBehaviour
 
     private void FPSResult()
     {
-        if (Random.Range(1, 4) > 2) //test
-            IsWin = false;               //test
-        else                                //test
-            IsWin = true;                //test
+        if (CheatMode == 0)
+        {
+
+            if (Random.Range(1, 4) > 2) //test
+                IsWin = false;               //test
+            else                                //test
+                IsWin = true;                //test
+        }
+        else if(CheatMode == 1) //항상 승리
+        {
+            IsWin = true;
+        }
+        else //항상 패배
+        {
+            IsWin = false;
+        }
 
         if (IsMyTurn)
         {

@@ -70,10 +70,17 @@ public class BlueMovement : MonoBehaviour
         if (redObjects.Count == 0) 
         {
             GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
-            targetlocal = Target.transform.localPosition;
-            DisX = targetlocal.x / 100;
-            DisZ = targetlocal.z / 100;
-            MoveMath();
+            if (Target == null)
+            {
+                 Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
+            }
+            else
+            {
+                targetlocal = Target.transform.localPosition;
+                DisX = targetlocal.x / 100;
+                DisZ = targetlocal.z / 100;
+                MoveMath();
+            }     
         }
         else
         {
