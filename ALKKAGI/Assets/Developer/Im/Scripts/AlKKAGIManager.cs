@@ -74,12 +74,12 @@ public class AlKKAGIManager : MonoBehaviour
         {
             if (IsWin) //승리했을시
             {
-                Debug.Log("FPS 승리");
+                Debug.Log("FPS 승리 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
             }
             else //패배했을신
             {
-                Debug.Log("FPS 패배");
+                Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
             }
         }
@@ -136,7 +136,6 @@ public class AlKKAGIManager : MonoBehaviour
     {
         Debug.Log("rt");
         blueT = false;
-        IsMyTurn = true;
         IsMove = true;
     }
     private void repick()

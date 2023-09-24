@@ -123,6 +123,7 @@ public class BlueMovement : MonoBehaviour
         Debug.Log("RW");
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.7f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().IsMyTurn = true; 
         Invoke("IFC", 1F);
     }
     public void Redlose() //FPS ÆÐ¹è½Ã
@@ -130,6 +131,7 @@ public class BlueMovement : MonoBehaviour
         Debug.Log("RW");
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         Invoke("IFC", 1F);
     }
     private void IFC()
