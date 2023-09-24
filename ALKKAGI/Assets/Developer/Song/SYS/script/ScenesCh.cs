@@ -13,7 +13,7 @@ public class ScenesCh : MonoBehaviour
     IEnumerator loadScene()
     {
         yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene("test1");
+        SceneManager.LoadScene("SampleScene");
     }
 
 }

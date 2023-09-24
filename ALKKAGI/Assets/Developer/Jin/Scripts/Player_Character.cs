@@ -4,9 +4,11 @@ using UnityEngine;
 
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Player_Character : Default_Character
 {
+    public GameObject ALM;
     private Default_Character _d;
 
     private Rigidbody rb;
@@ -21,6 +23,7 @@ public class Player_Character : Default_Character
 
     private void Start()
     {
+        ALM = GameObject.Find("AlKKAGIManager");
         ShowCursor();
 
         this._hp = 100;
@@ -49,8 +52,36 @@ public class Player_Character : Default_Character
         if (Input.GetKeyDown(KeyCode.R))
             ShowCursor();
 
+        if (Input.GetKeyDown(KeyCode.O))
+            Win();
+        if (Input.GetKeyDown(KeyCode.P))
+            Lose();
+    }
+    private void Win()
+    {
+        ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
+        ALM.GetComponent<AlKKAGIManager>().IsWin = true;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        SceneManager.LoadScene("Board"); 
+        ALM.GetComponent<AlKKAGIManager>().FPSResult();
+
     }
 
+    private void Lose()
+    {
+        ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
+        Cursor.visible = false;
+        ALM.GetComponent<AlKKAGIManager>().IsWin = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        SceneManager.LoadScene("Board");  
+        ALM.GetComponent<AlKKAGIManager>().FPSResult();
+    }
     private void FixedUpdate()
     {
         Move();

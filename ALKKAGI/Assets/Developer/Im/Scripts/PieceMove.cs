@@ -43,6 +43,7 @@ public class PieceMove : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
             if (!GM.GetComponent<AlKKAGIManager>().blueT)
                 GM.GetComponent<AlKKAGIManager>().BlueTurn();
+            GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
         }
         else
         {
@@ -51,8 +52,10 @@ public class PieceMove : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
+        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject 
+               && GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
+            GM.GetComponent<AlKKAGIManager>().IsFirstCrash = false;
             Debug.Log("내턴충돌");
             IsCrash = true;
             GameObject collidedObject = collision.gameObject;
@@ -76,11 +79,13 @@ public class PieceMove : MonoBehaviour
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
 
-        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
 
         if (!GM.GetComponent<AlKKAGIManager>().blueT)
+        {
             GM.GetComponent<AlKKAGIManager>().BlueTurn();
+            GM.GetComponent<AlKKAGIManager>().blueT = true;
+        }
+        Invoke("IFC", 1f);
     }
 
     public void lose() //FPS 패배시
@@ -88,10 +93,19 @@ public class PieceMove : MonoBehaviour
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.4f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.7f, ForceMode.Impulse);
 
+        if (!GM.GetComponent<AlKKAGIManager>().blueT)
+        {
+            GM.GetComponent<AlKKAGIManager>().BlueTurn();
+            GM.GetComponent<AlKKAGIManager>().blueT = true;
+        }
+
+        Invoke("IFC", 1f);
+    }
+    private void IFC()
+    {
+
         GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
         GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
-
-        if (!GM.GetComponent<AlKKAGIManager>().blueT)
-            GM.GetComponent<AlKKAGIManager>().BlueTurn();
+        GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }
 }
