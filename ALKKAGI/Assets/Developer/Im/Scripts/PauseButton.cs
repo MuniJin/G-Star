@@ -5,9 +5,17 @@ using UnityEngine;
 public class PauseButton : MonoBehaviour
 {
     public GameObject PauseOption;
+    public GameObject PauseOption2;
     private bool IsTrue;
     public bool IsPause;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PushPauseButton();
+        }
+    }
     private void PushPauseButton() //퍼즈버튼
     {
         if (IsTrue == false)
@@ -22,6 +30,7 @@ public class PauseButton : MonoBehaviour
         else
         {
             PauseOption.SetActive(false);
+            PauseOption2.SetActive(false);
             IsPause = false;
             Time.timeScale = 1;
             IsTrue = false;
