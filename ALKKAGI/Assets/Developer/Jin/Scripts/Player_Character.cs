@@ -8,15 +8,18 @@ using UnityEngine.SceneManagement;
 
 public class Player_Character : Default_Character
 {
+    // 알까기 매니저는 추후 싱글톤으로 변경할 예정
     public GameObject ALM;
+    // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Default_Character _d;
-
+    // 물리 계산을 위해 선언
     private Rigidbody rb;
-
+    // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
     private GameObject bullet;
     public GameObject playerObj;
     public GameObject kingSkill;
 
+    // 속도, 점프 힘
     [HideInInspector]
     public float speed = 1f;
     private float jumpForce = 5f;
@@ -24,15 +27,16 @@ public class Player_Character : Default_Character
     private void Start()
     {
         ALM = GameObject.Find("AlKKAGIManager");
+        // 마우스 숨기기
         ShowCursor();
-
+        // 플레이어 초기 체력 세팅
         this._hp = 100;
-
+        // 플레이어 오브젝트와 rigidbody 받아오기
         playerObj = this.transform.GetChild(0).gameObject;
         rb = playerObj.GetComponent<Rigidbody>();
-
+        // 플레이어 태그 변경
         playerObj.tag = "Player";
-
+        // 총알 Resources폴더에서 불러와서 사용(추후 변경 예정, 성능 문제, 대안 : AssetBundle)
         bullet = Resources.Load<GameObject>("TESTBUL 0");
         if (bullet.GetComponent<Bullet>() == false)
             bullet.AddComponent<Bullet>();
@@ -40,23 +44,26 @@ public class Player_Character : Default_Character
 
     private void Update()
     {
+        // 점프, velocity가 없을때 점프 가능하게
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
-
+        // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
             Attack(bulPos.transform.position, 40f);
-
+        // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
-
+        // 각종 테스트때 마우스가 안보이기에 임의로 만들어 둔 조건문
         if (Input.GetKeyDown(KeyCode.R))
             ShowCursor();
-
+        // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
         if (Input.GetKeyDown(KeyCode.O))
             Win();
         if (Input.GetKeyDown(KeyCode.P))
             Lose();
     }
+
+    // 게임 승패내기용 임의의 함수
     private void Win()
     {
         ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
@@ -70,6 +77,7 @@ public class Player_Character : Default_Character
 
     }
 
+    // 게임 승패내기용 임의의 함수
     private void Lose()
     {
         ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
@@ -82,12 +90,16 @@ public class Player_Character : Default_Character
         SceneManager.LoadScene("Board");  
         ALM.GetComponent<AlKKAGIManager>().FPSResult();
     }
+
     private void FixedUpdate()
     {
+        // 플레이어 움직임
         Move();
+        // 마우스 움직임에 따른 카메라 회전값 변경
         RotateCam();
     }
 
+    // 테스트용, 마우스 보이기와 숨기기 기능 함수
     private void ShowCursor()
     {
         if (Cursor.lockState == CursorLockMode.Locked)
@@ -102,6 +114,7 @@ public class Player_Character : Default_Character
         }
     }
 
+    // 카메라 회전을 위한 변수목록
     private float rotCamX = 5f;
     private float rotCamY = 3f;
 
@@ -109,9 +122,10 @@ public class Player_Character : Default_Character
     private float limitMaxX = 40f;
     private float eulerAngleX;
     private float eulerAngleY;
-
+    // 마우스 감도
     public float sensitivity = 2f;
 
+    // 카메라 회전 함수
     private void RotateCam()
     {
         Camera.main.transform.position = playerObj.transform.position;
@@ -128,6 +142,7 @@ public class Player_Character : Default_Character
         Camera.main.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
     }
 
+    // 카메라 최소, 최대 회전각도 제한하는 함수
     private float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360f) angle += 360f;
@@ -136,8 +151,9 @@ public class Player_Character : Default_Character
         return Mathf.Clamp(angle, min, max);
     }
 
+    // 플레이어 움직임의 방향을 정해주는 함수
     private Vector3 moveForce;
-
+    // 플레이어 움직임 함수
     protected override void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -149,10 +165,13 @@ public class Player_Character : Default_Character
         this.transform.position += moveForce * 0.1f * speed;
     }
 
+    // 점프
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
+    // 총구 위치
     public GameObject bulPos;
-
+    
+    // 공격
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
@@ -160,11 +179,13 @@ public class Player_Character : Default_Character
         go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
     }
 
+    // 스킬(Default_Character를 상속받아서 존재하나 필요없어서 예외처리로 해둠)
     public override IEnumerator Skill(GameObject go)
     {
         throw new System.NotImplementedException();
     }
 
+    // 스킬 사용
     private void UseSkill()
     {
         if (_d != null)
@@ -173,6 +194,7 @@ public class Player_Character : Default_Character
             Debug.Log("Not Decorator");
     }
 
+    // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
     public void ChooseCharacter()
     {
         GameObject clickedBtn = EventSystem.current.currentSelectedGameObject;

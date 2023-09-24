@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 디자인 패턴 -> 데코레이터 패턴을 사용하기 위해 만들어둔 추상 클래스
 public abstract class Default_Character : MonoBehaviour
 {
+    // 체력
     public int _hp { get; set; }
+    // 스킬 쿨타임
     public float _coolDown { get; set; }
+    // 공격 데미지
     public float _damage { get; set; }
 
+    // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
     protected abstract void Jump();
     public abstract void Attack(Vector3 bulpos, float shootPower);
@@ -24,7 +29,7 @@ public class Decorator_Character : Default_Character
     public override IEnumerator Skill(GameObject go) => throw new System.NotImplementedException();
 }
 
-// 쫄 : 이동속도 버프
+// 쫄 : 이동속도 버프, 일정시간 속도 2배
 public class Pawn : Decorator_Character
 {
     private float cooldown = 5f;

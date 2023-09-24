@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class FPSManager : Singleton<FPSManager>
 {
-
+    // 플레이어, AI의 스폰 위치
     public GameObject mySpawnPoint;
     public GameObject enemySpawnPoint;
-
+    
+    // 기본 초기화 작업
     public void Init(GameObject myPiece, GameObject enemyPiece)
     {
         GameObject myP = Instantiate(myPiece, mySpawnPoint.transform.position, Quaternion.identity);
