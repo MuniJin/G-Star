@@ -27,8 +27,7 @@ public class Player_Character : Default_Character
     private void Start()
     {
         ALM = GameObject.Find("AlKKAGIManager");
-        // 마우스 숨기기
-        ShowCursor();
+        
         // 플레이어 초기 체력 세팅
         this._hp = 100;
         // 플레이어 오브젝트와 rigidbody 받아오기
@@ -53,9 +52,7 @@ public class Player_Character : Default_Character
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
-        // 각종 테스트때 마우스가 안보이기에 임의로 만들어 둔 조건문
-        if (Input.GetKeyDown(KeyCode.R))
-            ShowCursor();
+        
         // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
         if (Input.GetKeyDown(KeyCode.O))
             Win();
@@ -64,7 +61,7 @@ public class Player_Character : Default_Character
     }
 
     // 게임 승패내기용 임의의 함수
-    private void Win()
+    public void Win()
     {
         ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
         ALM.GetComponent<AlKKAGIManager>().IsWin = true;
@@ -78,7 +75,7 @@ public class Player_Character : Default_Character
     }
 
     // 게임 승패내기용 임의의 함수
-    private void Lose()
+    public void Lose()
     {
         ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
         Cursor.visible = false;
@@ -97,21 +94,6 @@ public class Player_Character : Default_Character
         Move();
         // 마우스 움직임에 따른 카메라 회전값 변경
         RotateCam();
-    }
-
-    // 테스트용, 마우스 보이기와 숨기기 기능 함수
-    private void ShowCursor()
-    {
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
     }
 
     // 카메라 회전을 위한 변수목록
@@ -138,7 +120,8 @@ public class Player_Character : Default_Character
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
-        playerObj.transform.rotation = Quaternion.Euler(270f, 180f + eulerAngleY, 0f);
+        //playerObj.transform.rotation = Quaternion.Euler(270f, 180f + eulerAngleY, 0f);
+        playerObj.transform.rotation = Quaternion.Euler(0f, eulerAngleY, 0f);
         Camera.main.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
     }
 
@@ -161,7 +144,7 @@ public class Player_Character : Default_Character
 
         Vector3 dir = new Vector3(h, 0f, v);
         dir = playerObj.transform.rotation * new Vector3(-dir.x, dir.z, 0f);
-        moveForce = new Vector3(dir.x, moveForce.y, dir.z);
+        moveForce = new Vector3(-dir.z, 0f, dir.y);
         this.transform.position += moveForce * 0.1f * speed;
     }
 

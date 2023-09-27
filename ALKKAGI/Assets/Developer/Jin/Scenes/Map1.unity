@@ -4594,8 +4594,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.3, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 5820624435541135741}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5585,7 +5584,7 @@ GameObject:
   - component: {fileID: 1825601808}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5600,8 +5599,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.3, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2315049927009039147}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6972,7 +6970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &2045376754934947955
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7022,12 +7020,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8283323616881902549}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.3, z: 20}
   m_LocalScale: {x: 1, y: 1.35, z: 1}
   m_Children:
   - {fileID: 8563768361818952054}
-  m_Father: {fileID: 1825601808}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2446768193895831166
 MeshFilter:
@@ -7110,19 +7108,6 @@ Transform:
   m_Father: {fileID: 4906288744595449742}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 62.741, y: -90, z: -90}
---- !u!114 &3962688411236087284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8283323616881902549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78498f59e3735b74ebad8592babace70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SaveSpeed: {x: 0, y: 0, z: 0}
 --- !u!4 &4906288744595449742
 Transform:
   m_ObjectHideFlags: 0
@@ -7209,15 +7194,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041721205060350363}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.3, z: -20}
   m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_Children:
   - {fileID: 4906288744595449742}
   - {fileID: 39009869360411933}
   - {fileID: 6292138519974159451}
   - {fileID: 1019752931}
-  m_Father: {fileID: 1475820514}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6292138519974159451
 Transform:
@@ -7389,14 +7374,26 @@ GameObject:
   - component: {fileID: 2315049927009039147}
   - component: {fileID: 6460341171929043630}
   - component: {fileID: 8062032270216752092}
-  - component: {fileID: 3962688411236087284}
+  - component: {fileID: 8283323616881902550}
   m_Layer: 0
   m_Name: Horse_Blue
-  m_TagString: BluePiece
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!114 &8283323616881902550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8283323616881902549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f208a233be0624dafa1a0e597081e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &8520837763608212512
 MeshFilter:
   m_ObjectHideFlags: 0

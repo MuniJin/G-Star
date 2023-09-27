@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // 총알 생성 3초후 삭제
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        Invoke("DelBul", 3f);
-    }
+        if(other != null)
+        {
+            Destroy(this.gameObject);
 
-    private void DelBul()
-    {
-        Destroy(this.gameObject);
+            if (other.gameObject.tag == "Enemy")
+            {
+                other.gameObject.GetComponent<TestEnemyHp>()._hp -= 10;
+
+                if (other.gameObject.GetComponent<TestEnemyHp>()._hp == 0)
+                    Debug.Log("Player Win");
+            }
+        }
     }
 }
