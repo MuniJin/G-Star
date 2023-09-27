@@ -11,7 +11,7 @@ public class HealthUI : MonoBehaviour
         // Player 프리팹을 찾아옵니다. 이 때 "Player"는 프리팹의 이름이어야 합니다.
         GameObject playerPrefab = GameObject.Find("Player");
         // Player 프리팹에서 Health 스크립트를 찾아옵니다.
-        playerHealth = playerPrefab.GetComponent<Health>();
+        //playerHealth = playerPrefab.GetComponent<Health>();
 
         if (playerHealth == null)
         {
