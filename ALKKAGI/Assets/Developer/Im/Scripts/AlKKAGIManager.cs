@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AlKKAGIManager : MonoBehaviour
+public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 {
     private int leftBlue = 0; //파랑의 남은 기물 수
     private int BluePattern = 0; //AI 패턴
@@ -24,13 +24,16 @@ public class AlKKAGIManager : MonoBehaviour
     public bool blueT; //파랑 턴 체크
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove; //이동 체크
+    public bool IsFirstCrash;
     public int CheatMode; //테스트용 치트모드
 
+    public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
 
     private void Start()
     {
+        IsFirstCrash = true;
         IsMyTurn = true;
         IsMove = true;
         myAudioSource = GetComponent<AudioSource>();
@@ -40,30 +43,19 @@ public class AlKKAGIManager : MonoBehaviour
     {
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
-        //SceneManager.LoadScene("FPS씬 / 임시변수임");  //fps 씬 변환
+        SceneManager.LoadScene("Map1");  //fps 씬 변환
 
 
-        FPSResult(); // test용, fps씬에서 승패 갈렸을때 호출해야함
+        BoardObj.SetActive(false);
     }
 
-    private void FPSResult() //FPS종료
+    public void FPSResults()
     {
-        if (CheatMode == 0) //테스트 용도
-        {
+        Invoke("FPSResult", 1f);
+    }
 
-            if (Random.Range(1, 4) > 2)
-                IsWin = false;              
-            else                               
-                IsWin = true;               
-        }
-        else if(CheatMode == 1) //항상 승리
-        {
-            IsWin = true;
-        }
-        else //항상 패배
-        {
-            IsWin = false;
-        }
+    public void FPSResult() //FPS종료
+    {
 
         if (IsMyTurn)
         {
@@ -82,12 +74,12 @@ public class AlKKAGIManager : MonoBehaviour
         {
             if (IsWin) //승리했을시
             {
-                Debug.Log("FPS 승리");
+                Debug.Log("FPS 승리 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
             }
             else //패배했을신
             {
-                Debug.Log("FPS 패배");
+                Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
             }
         }
@@ -131,7 +123,6 @@ public class AlKKAGIManager : MonoBehaviour
 
     public void BlueTurn()
     {
-        blueT = true;
         Invoke("BlueStart", 1f);
     }
     private void BlueStart()
@@ -143,10 +134,8 @@ public class AlKKAGIManager : MonoBehaviour
     }
     private void RedTurn()
     {
+        Debug.Log("rt");
         blueT = false;
-        CrashObjB = null;
-        CrashObjR = null;
-        IsMyTurn = true;
         IsMove = true;
     }
     private void repick()
@@ -184,6 +173,8 @@ public class AlKKAGIManager : MonoBehaviour
     private int a, b, c, d, e, f, g, h, i, j, k, l;
     public void Death(int deathPiece)
     {
+        CrashObjB = null;
+        CrashObjR = null;
         //데스 사운드 재생
         myAudioSource.PlayOneShot(DeathSound);
 
