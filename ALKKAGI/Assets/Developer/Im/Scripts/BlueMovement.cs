@@ -40,8 +40,6 @@ public class BlueMovement : MonoBehaviour
         {
             Debug.Log("파랑 헛스윙");
             GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
-            GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-            GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
             GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
         }
         else
@@ -52,6 +50,9 @@ public class BlueMovement : MonoBehaviour
 
     private void MoveMath()
     {
+        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
+        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //이 기물과 상대 기물의 거리값
         MoveSpeed = ((float)Math.Floor(Pita)); //속도값
         Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
@@ -65,7 +66,6 @@ public class BlueMovement : MonoBehaviour
         this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
-        Debug.Log("파랑 움직임");
     }
 
     private void RocateRed() //적 탐색
@@ -76,7 +76,7 @@ public class BlueMovement : MonoBehaviour
 
     private void attack()
     {
-        Invoke("NotCrash", 1f); 
+        Invoke("NotCrash", 1f);
         if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
         {
             GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
@@ -108,7 +108,6 @@ public class BlueMovement : MonoBehaviour
                 && !GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
             IsCrash = true;
-            Debug.Log("상대턴충돌!!");
 
             GameObject collidedObject = collision.gameObject;
 
@@ -132,23 +131,19 @@ public class BlueMovement : MonoBehaviour
 
     public void RedWin() //FPS 승리시
     {
-        Debug.Log("RW");
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.7f, ForceMode.Impulse);
-        Invoke("IFC", 1F);
+        IFC();
     }
     public void Redlose() //FPS 패배시
     {
-        Debug.Log("RW");
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f *2f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
-        Invoke("IFC", 1F);
+        IFC();
     }
     private void IFC()
     {
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
-        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }
 

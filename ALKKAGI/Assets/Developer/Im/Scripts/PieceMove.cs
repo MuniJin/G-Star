@@ -38,7 +38,6 @@ public class PieceMove : MonoBehaviour
     {
         if (!IsCrash)
         {
-            Debug.Log("Çê½ºÀ®");
             GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
             if (!GM.GetComponent<AlKKAGIManager>().blueT)
@@ -51,9 +50,9 @@ public class PieceMove : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
+        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject 
+            && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
-            Debug.Log("³»ÅÏÃæµ¹");
             IsCrash = true;
             GameObject collidedObject = collision.gameObject;
 
@@ -73,11 +72,11 @@ public class PieceMove : MonoBehaviour
 
     public void Win() //FPS ½Â¸®½Ã
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
-        rb.AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
+        Debug.Log(dir);
+        Debug.Log(totalSpeed) ;
 
-        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
+        rb.AddForce(dir * totalSpeed * 0.4f , ForceMode.Impulse);
 
         if (!GM.GetComponent<AlKKAGIManager>().blueT)
             GM.GetComponent<AlKKAGIManager>().BlueTurn();
@@ -86,10 +85,7 @@ public class PieceMove : MonoBehaviour
     public void lose() //FPS ÆÐ¹è½Ã
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.4f, ForceMode.Impulse);
-        rb.AddForce(dir * totalSpeed * 0.7f, ForceMode.Impulse);
-
-        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+        rb.AddForce(dir * totalSpeed * 0.7f , ForceMode.Impulse);
 
         if (!GM.GetComponent<AlKKAGIManager>().blueT)
             GM.GetComponent<AlKKAGIManager>().BlueTurn();

@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Developer/Im/Scenes/AlkkagiScene.unity
+    guid: e13448ceb2126704d8adec5e6b7492f6
+  - enabled: 1
+    path: Assets/Developer/Im/Scenes/Board.unity
+    guid: 4bdbae7025ad9d347b0cce91cf3c29c6
+  - enabled: 1
+    path: Assets/Developer/Im/Scenes/Map1.unity
+    guid: 70cf31940d995004faf929d822c47e93
   m_configObjects: {}

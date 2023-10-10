@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
@@ -30,6 +31,12 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
+    public GameObject VSImage;
+
+    public RawImage CrashRedImage;
+    public RawImage CrashBlueImage;
+
+    public Texture[] CrashImg;
 
     private void Start()
     {
@@ -41,12 +48,73 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
     public void Crash() //충돌
     {
+        CrashEffect();
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
+        Invoke("CrashSceneChange",1.5f);
+    }
+
+    void CrashEffect()
+    {
+        VSImage.SetActive(true);
+
+        switch (CrashObjR.name)  //병포차상마사왕 // R->B
+        {
+            case "Solider_Red(Clone)":
+                CrashRedImage.texture = CrashImg[0];
+                break;
+            case "Cannon_Red(Clone)":
+                CrashRedImage.texture = CrashImg[1];
+                break;
+            case "Chariot_Red(Clone)":
+                CrashRedImage.texture = CrashImg[2];
+                break;
+            case "Elephant_Red(Colne)":
+                CrashRedImage.texture = CrashImg[3];
+                break;
+            case "Horse_Red(Colne)":
+                CrashRedImage.texture = CrashImg[4];
+                break;
+            case "Guard_Red(Colne)":
+                CrashRedImage.texture = CrashImg[5];
+                break;
+            case "King_Red(Colne)":
+                CrashRedImage.texture = CrashImg[6];
+                break;
+        }
+        switch (CrashObjB.name)
+        {
+            case "Solider_Blue(Clone)":
+                CrashBlueImage.texture = CrashImg[7];
+                break;
+            case "Cannon_Blue(Clone)":
+                CrashBlueImage.texture = CrashImg[8];
+                break;
+            case "Chariot_Blue(Clone)":
+                CrashBlueImage.texture = CrashImg[9];
+                break;
+            case "Elephant_Blue(Colne)":
+                CrashBlueImage.texture = CrashImg[10];
+                break;
+            case "Horse_Blue(Colne)":
+                CrashBlueImage.texture = CrashImg[11];
+                break;
+            case "Guard_Blue(Colne)":
+                CrashBlueImage.texture = CrashImg[12];
+                break;
+            case "King_Blue(Colne)":
+                CrashBlueImage.texture = CrashImg[13];
+                break;
+        }
+    }
+
+    void CrashSceneChange()
+    {
+        VSImage.SetActive(false);
         SceneManager.LoadScene("Map1");  //fps 씬 변환
 
-
         BoardObj.SetActive(false);
+
     }
 
     public void FPSResults()
@@ -56,7 +124,6 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
     public void FPSResult() //FPS종료
     {
-
         if (IsMyTurn)
         {
             if (IsWin) //승리했을시
@@ -128,7 +195,6 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     private void BlueStart()
     {
         IsMyTurn = false;
-        Debug.Log("파랑턴 시작");
         BlueSelect();
         Invoke("RedTurn", 3f);
     }
@@ -145,7 +211,8 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
-        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f | randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
+        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f ||
+            randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
         {
             Debug.Log("repick");
             BlueSelect();//다시 고른다
@@ -254,7 +321,7 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
         if (who == 1)
         {
-            //Red Is Win
+            //Red Is Win player win
 
         }
     }

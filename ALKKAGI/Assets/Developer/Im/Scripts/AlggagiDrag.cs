@@ -66,6 +66,9 @@ public class AlggagiDrag : MonoBehaviour
     {
         if (IsPieceSelected)
         {
+            GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
+            GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+
             MoveDis = this.gameObject.transform.localPosition;
             this.gameObject.transform.localPosition = new Vector3(0, 0.15f, 0);
             Arrow.transform.localPosition = new Vector3(0, 0.2f, 0);
@@ -81,14 +84,15 @@ public class AlggagiDrag : MonoBehaviour
     private void MoveMath()
     {
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //드래그 한 거리값
-        Debug.Log(Pita + "this is pita");
+        //Debug.Log(Pita + "this is pita");
         ShootPower = ((float)Math.Floor(Pita * 100) / 100) * 2; //속도값
        
-        Debug.Log(ShootPower + " SHOPS");
+        //Debug.Log(ShootPower + " SHOPS");
 
-        Debug.Log(ShootPower + " SHOPSs");
-        Debug.Log(DisX + "  this is x ");
-        Debug.Log(DisZ+ "  this is z ");
+        //Debug.Log(ShootPower + " SHOPSs");
+        //Debug.Log(DisX + "  this is x ");
+        //Debug.Log(DisZ+ "  this is z ");
+
         Vector3 direction = new Vector3(DisX, 0, DisZ);
         MainObj.GetComponent<PieceMove>().Arrow = -direction;
     }
