@@ -106,8 +106,8 @@ public class Knight : Decorator_Character
 
             for (int i = 0; i < 3; i++)
             {
-                b1 = g.bulPos.transform.position + Vector3.left * 0.5f;
-                b2 = g.bulPos.transform.position + Vector3.right * 0.5f;
+                b1 = g.bulPos.transform.position + go.transform.right * -0.5f;
+                b2 = g.bulPos.transform.position + go.transform.right * 0.5f;
 
                 g.Attack(b1, 60f);
                 g.Attack(b2, 60f);

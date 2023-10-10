@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AlKKAGIManager : MonoBehaviour
+public class AlKKAGIManager : Singleton<AlKKAGIManager>
 {
     private int leftBlue = 0; //파랑의 남은 기물 수
     private int BluePattern = 0; //AI 패턴
