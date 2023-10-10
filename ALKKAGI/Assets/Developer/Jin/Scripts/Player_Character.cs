@@ -16,25 +16,30 @@ public class Player_Character : Default_Character
     private Rigidbody rb;
     // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
     private GameObject bullet;
-    public GameObject playerObj;
-    public GameObject kingSkill;
+    //public GameObject playerObj;
+    //public GameObject kingSkill;
 
     // 속도, 점프 힘
-    [HideInInspector]
-    public float speed = 1f;
-    private float jumpForce = 5f;
+    public float speed = 5f;
+    public float jumpForce = 5f;
+
+    // 총구 위치
+    public GameObject bulPos;
 
     private void Start()
     {
         ALM = GameObject.Find("AlKKAGIManager");
-        
+        cam = Camera.main;
+        bulPos = this.gameObject.transform.GetChild(0).gameObject;
         // 플레이어 초기 체력 세팅
         this._hp = 100;
+
         // 플레이어 오브젝트와 rigidbody 받아오기
-        playerObj = this.transform.GetChild(0).gameObject;
-        rb = playerObj.GetComponent<Rigidbody>();
+        rb = this.gameObject.GetComponent<Rigidbody>();
+        
         // 플레이어 태그 변경
-        playerObj.tag = "Player";
+        this.gameObject.tag = "Player";
+        
         // 총알 Resources폴더에서 불러와서 사용(추후 변경 예정, 성능 문제, 대안 : AssetBundle)
         bullet = Resources.Load<GameObject>("TESTBUL 0");
         if (bullet.GetComponent<Bullet>() == false)
@@ -93,39 +98,51 @@ public class Player_Character : Default_Character
         // 플레이어 움직임
         Move();
         // 마우스 움직임에 따른 카메라 회전값 변경
-        RotateCam();
+        CamMove();
     }
 
-    // 카메라 회전을 위한 변수목록
+    float h, v;
+
+    protected override void Move()
+    {
+        CamMove();
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+
+        Vector3 dir = transform.forward * v + transform.right * h;
+
+        this.transform.position += dir * speed * Time.deltaTime;
+    }
+
+    private float mouseX, mouseY;
+    private float eulerAngleX, eulerAngleY;
+
     private float rotCamX = 5f;
     private float rotCamY = 3f;
 
     private float limitMinX = -40f;
     private float limitMaxX = 40f;
-    private float eulerAngleX;
-    private float eulerAngleY;
-    // 마우스 감도
-    public float sensitivity = 2f;
 
-    // 카메라 회전 함수
-    private void RotateCam()
+    private Camera cam;
+
+    public float sen = 2f;
+
+    private void CamMove()
     {
-        Camera.main.transform.position = playerObj.transform.position;
+        cam.transform.position = this.gameObject.transform.position;
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * rotCamX * sensitivity;
-        eulerAngleY += mouseX * rotCamY * sensitivity;
+        eulerAngleX -= mouseY * sen;
+        eulerAngleY += mouseX * sen;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
-        //playerObj.transform.rotation = Quaternion.Euler(270f, 180f + eulerAngleY, 0f);
-        playerObj.transform.rotation = Quaternion.Euler(0f, eulerAngleY, 0f);
-        Camera.main.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
+        this.transform.rotation = Quaternion.Euler(0f, eulerAngleY, 0f);
+        cam.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0f);
     }
 
-    // 카메라 최소, 최대 회전각도 제한하는 함수
     private float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360f) angle += 360f;
@@ -134,25 +151,9 @@ public class Player_Character : Default_Character
         return Mathf.Clamp(angle, min, max);
     }
 
-    // 플레이어 움직임의 방향을 정해주는 함수
-    private Vector3 moveForce;
-    // 플레이어 움직임 함수
-    protected override void Move()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Vector3 dir = new Vector3(h, 0f, v);
-        dir = playerObj.transform.rotation * new Vector3(-dir.x, dir.z, 0f);
-        moveForce = new Vector3(-dir.z, 0f, dir.y);
-        this.transform.position += moveForce * 0.1f * speed;
-    }
-
     // 점프
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-    // 총구 위치
-    public GameObject bulPos;
     
     // 공격
     public override void Attack(Vector3 bulpos, float shootPower)

@@ -61,9 +61,9 @@ public class Rook : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
-            GameObject p = go.transform.GetChild(0).gameObject;
+            
             Vector3 forwardDirection = Camera.main.transform.forward;
-            p.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
+            go.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;
@@ -221,7 +221,7 @@ public class King : Decorator_Character
             Vector3 forwardDirection = Camera.main.transform.forward;
 
             Vector3 ksPos = p.transform.position + (Camera.main.transform.forward * 2f);
-            GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
+            //GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;

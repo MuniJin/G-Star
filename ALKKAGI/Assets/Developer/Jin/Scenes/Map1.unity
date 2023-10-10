@@ -4578,7 +4578,7 @@ GameObject:
   - component: {fileID: 1475820514}
   - component: {fileID: 1475820515}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerSpawnPoint
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4605,7 +4605,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475820513}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2f29895ba214ef49bfad7e4aaec367a, type: 3}
   m_Name: 
@@ -4614,7 +4614,7 @@ MonoBehaviour:
   playerObj: {fileID: 0}
   kingSkill: {fileID: 7472882371603028542, guid: 7085986e1b5506d49be6b03fb87c8608, type: 3}
   speed: 1
-  sensitivity: 2
+  sen: 2
   bulPos: {fileID: 1019752930}
 --- !u!1001 &1487762465
 PrefabInstance:
@@ -5583,7 +5583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1825601808}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemySpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

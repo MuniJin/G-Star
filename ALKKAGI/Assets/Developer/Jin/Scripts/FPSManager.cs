@@ -25,21 +25,25 @@ public class FPSManager : Singleton<FPSManager>
     // 기본 초기화 작업
     public void Init(GameObject myPiece, GameObject enemyPiece)
     {
-        GameObject myP = Instantiate(myPiece, mySpawnPoint.transform.position, Quaternion.identity);
+        string str = "TestPrefabs/Red/Cannon_Red";
+        
+        GameObject myP = Instantiate(Resources.Load<GameObject>(str), mySpawnPoint.transform.position, Quaternion.identity);
         GameObject enemyP = Instantiate(enemyPiece, enemySpawnPoint.transform.position, Quaternion.identity);
+
+        myP.transform.localScale = new Vector3(9f, 9f, 9f);
 
         myP.AddComponent<Player_Character>();
         // FPS 적 AI 추가
         enemyP.AddComponent<TestEnemyHp>();
 
-        myP.transform.SetParent(mySpawnPoint.transform);
-        enemyP.transform.SetParent(enemySpawnPoint.transform);
-
-        myP.tag = "Player";
-        enemyP.tag = "Enemy";
+        GameObject myPbulPoint = new GameObject();
+        myPbulPoint.transform.position = myP.transform.position + Vector3.forward;
+        myPbulPoint.name = "bulpos";
+        myPbulPoint.transform.SetParent(myP.transform);
+        myPbulPoint.transform.SetAsFirstSibling();
 
         // 플레이어 오브젝트 카메라에 안보이게 설정
-        foreach(Transform t in myP.transform)
+        foreach (Transform t in myP.transform)
             t.gameObject.layer = 3;
     }
 
