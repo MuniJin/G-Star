@@ -57,7 +57,10 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     void CrashEffect()
     {
         VSImage.SetActive(true);
-
+        textureChange();
+    }
+    void textureChange()
+    {
         switch (CrashObjR.name)  //병포차상마사왕 // R->B
         {
             case "Solider_Red(Clone)":
@@ -69,16 +72,16 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             case "Chariot_Red(Clone)":
                 CrashRedImage.texture = CrashImg[2];
                 break;
-            case "Elephant_Red(Colne)":
+            case "Elephant_Red(Clone)":
                 CrashRedImage.texture = CrashImg[3];
                 break;
-            case "Horse_Red(Colne)":
+            case "Horse_Red(Clone)":
                 CrashRedImage.texture = CrashImg[4];
                 break;
-            case "Guard_Red(Colne)":
+            case "Guard_Red(Clone)":
                 CrashRedImage.texture = CrashImg[5];
                 break;
-            case "King_Red(Colne)":
+            case "King_Red(Clone)":
                 CrashRedImage.texture = CrashImg[6];
                 break;
         }
@@ -93,21 +96,20 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             case "Chariot_Blue(Clone)":
                 CrashBlueImage.texture = CrashImg[9];
                 break;
-            case "Elephant_Blue(Colne)":
+            case "Elephant_Blue(Clone)":
                 CrashBlueImage.texture = CrashImg[10];
                 break;
-            case "Horse_Blue(Colne)":
+            case "Horse_Blue(Clone)":
                 CrashBlueImage.texture = CrashImg[11];
                 break;
-            case "Guard_Blue(Colne)":
+            case "Guard_Blue(Clone)":
                 CrashBlueImage.texture = CrashImg[12];
                 break;
-            case "King_Blue(Colne)":
+            case "King_Blue(Clone)":
                 CrashBlueImage.texture = CrashImg[13];
                 break;
         }
     }
-
     void CrashSceneChange()
     {
         VSImage.SetActive(false);
@@ -128,12 +130,12 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
         {
             if (IsWin) //승리했을시
             {
-                Debug.Log("FPS 승리");
+                //Debug.Log("FPS 승리");
                 CrashObjR.GetComponent<PieceMove>().Win();
             }
             else //패배했을시
             {
-                Debug.Log("FPS 패배");
+                //Debug.Log("FPS 패배");
                 CrashObjR.GetComponent<PieceMove>().lose();
             }
         }
@@ -141,12 +143,12 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
         {
             if (IsWin) //승리했을시
             {
-                Debug.Log("FPS 승리 - 적턴");
+                //Debug.Log("FPS 승리 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
             }
             else //패배했을신
             {
-                Debug.Log("FPS 패배 - 적턴");
+                //Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
             }
         }
@@ -200,7 +202,7 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     }
     private void RedTurn()
     {
-        Debug.Log("rt");
+        //Debug.Log("rt");
         blueT = false;
         IsMove = true;
     }

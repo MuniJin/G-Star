@@ -61,9 +61,9 @@ public class PieceMove : MonoBehaviour
 
             SaveSpeed = rb.velocity;
             totalSpeed = SaveSpeed.magnitude;
-            rb.velocity = Vector3.zero;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
+            rb.velocity = Vector3.zero;
             GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
             
             GM.GetComponent<AlKKAGIManager>().Crash();
@@ -72,9 +72,6 @@ public class PieceMove : MonoBehaviour
 
     public void Win() //FPS ½Â¸®½Ã
     {
-        Debug.Log(dir);
-        Debug.Log(totalSpeed) ;
-
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.4f , ForceMode.Impulse);
 
