@@ -8,6 +8,7 @@ TagManager:
   - RedPiece
   - DeathZone
   - Enemy
+  - ts
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Enemy
   - 
   - 
   - 

@@ -6,17 +6,20 @@ public class Bullet : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null)
+        Debug.Log("Hit!");
+
+        if(other.tag == "Enemy")
         {
-            Destroy(this.gameObject);
+            Debug.Log(other.name);
 
-            if (other.gameObject.tag == "Enemy")
-            {
-                other.gameObject.GetComponent<TestEnemyHp>()._hp -= 10;
+            TestEnemyHp go = other.gameObject.transform.parent.gameObject.GetComponent<TestEnemyHp>();
 
-                if (other.gameObject.GetComponent<TestEnemyHp>()._hp == 0)
-                    Debug.Log("Player Win");
-            }
+            go.SetHp(10);
+            Debug.Log(go.GetHp());
+            if (go.GetHp() <= 0)
+                FPSManager.Instance.Win();
         }
+
+        Destroy(this.gameObject);
     }
 }

@@ -9,7 +9,6 @@ public class TestEnemyHp : Default_Character
         this._hp = 100;
     }
 
-
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         throw new System.NotImplementedException();

@@ -6,7 +6,19 @@ using UnityEngine;
 public abstract class Default_Character : MonoBehaviour
 {
     // 체력
-    public int _hp { get; set; }
+    protected int _hp { get; set; }
+
+    public int GetHp()
+    {
+        return _hp;
+    }
+    public int SetHp(int damage)
+    {
+        _hp = _hp - damage;
+        
+        return _hp;
+    }
+
     // 스킬 쿨타임
     public float _coolDown { get; set; }
     // 공격 데미지

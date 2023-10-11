@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1718276472536783390}
   m_LocalRotation: {x: 0, y: 0, z: 0.19509031, w: 0.98078537}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children:
   - {fileID: 7331612149768012110}
   m_Father: {fileID: 647935361992027962}
@@ -107,10 +107,9 @@ GameObject:
   m_Component:
   - component: {fileID: 647935361992027962}
   - component: {fileID: 1094071032142858660}
-  - component: {fileID: 2593383489813291274}
   m_Layer: 0
   m_Name: Solider_Blue
-  m_TagString: BluePiece
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,19 +145,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &2593383489813291274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6476057145187964995}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78498f59e3735b74ebad8592babace70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SaveSpeed: {x: 0, y: 0, z: 0}
 --- !u!1 &7807402952389771469
 GameObject:
   m_ObjectHideFlags: 0
