@@ -20,6 +20,7 @@ public class Position : MonoBehaviour
     public GameObject GM;
     public GameObject ClassicButton;
     public GameObject[] SetButtons;
+    public GameObject CustomSet;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public class Position : MonoBehaviour
 
     public  void Custom()
     {
-
+        CustomSet.SetActive(true);
         SetButtons[0].SetActive(false);
         SetButtons[1].SetActive(false);
     }
