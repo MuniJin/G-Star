@@ -28,6 +28,7 @@ public class EnemyAI2 : MonoBehaviour
     public float fireRate = 2f;
 
     private Transform player;
+    private Transform aimTransform; // 에임을 조절할 Transform
     private float lastFireTime;
 
     // 순찰 관련 변수
@@ -39,7 +40,9 @@ public class EnemyAI2 : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        aimTransform = transform; // 에임을 조절할 대상을 자기 자신으로 설정
     }
+
 
     // Update is called once per frame
     void Update()
@@ -49,7 +52,6 @@ public class EnemyAI2 : MonoBehaviour
         if(GetComponent<Health>())
             //if (currentHealth <= 0f)
                 if (dead) { return; }
-
         //목표물에서 적까지의 거리를 할당합니다
         distanceToTarget = Vector3.Distance(Target.position, transform.position);
         if (isProvoked)
@@ -64,30 +66,29 @@ public class EnemyAI2 : MonoBehaviour
             isProvoked = true;
         }
 
-        if (player == null)
-            return;
-
         // 플레이어와 적의 거리 계산
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         // 플레이어가 감지 범위 안에 있을 때
+
         if (distanceToPlayer <= detectionRange)
-        {
-            // 플레이어 방향으로 회전
-            Vector3 targetDirection = player.position - transform.position;
-            Quaternion rotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-
-            // 플레이어를 향해 이동
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-
-            // 플레이어와 적의 거리가 공격 범위 안에 있고 공격 쿨다운이 지났을 때
-            if (distanceToPlayer <= attackRange && Time.time - lastFireTime >= 1 / fireRate)
             {
-                Attack();
-                lastFireTime = Time.time;
+                // 플레이어 방향으로 회전
+                Vector3 targetDirection = player.position - transform.position;
+                Quaternion rotation = Quaternion.LookRotation(targetDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+                // 플레이어를 향해 이동
+                transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+
+                // 플레이어와 적의 거리가 공격 범위 안에 있고 공격 쿨다운이 지났을 때
+                if (distanceToPlayer <= attackRange && Time.time - lastFireTime >= 1 / fireRate)
+                {
+                    Attack();
+                    lastFireTime = Time.time;
+                }
             }
-        }
+
     }
 
     private void EngageTarget()
