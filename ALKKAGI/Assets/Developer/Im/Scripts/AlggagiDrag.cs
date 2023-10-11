@@ -66,6 +66,7 @@ public class AlggagiDrag : MonoBehaviour
     {
         if (IsPieceSelected)
         {
+            MainObj.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
 

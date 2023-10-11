@@ -37,6 +37,8 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     public RawImage CrashBlueImage;
 
     public Texture[] CrashImg;
+    public float timer = 0f;
+    private bool forBlueTurn;
 
     private void Start()
     {
@@ -48,6 +50,7 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
     public void Crash() //충돌
     {
+        timer = 0;
         CrashEffect();
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
@@ -132,11 +135,19 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             {
                 //Debug.Log("FPS 승리");
                 CrashObjR.GetComponent<PieceMove>().Win();
+                if (!blueT && !forBlueTurn) //얘가 문제임-
+                {
+                    StartCoroutine(BlueTurn());
+                }
             }
             else //패배했을시
             {
                 //Debug.Log("FPS 패배");
                 CrashObjR.GetComponent<PieceMove>().lose();
+                if (!blueT && !forBlueTurn) //얘가 문제임-
+                {
+                    StartCoroutine(BlueTurn());
+                }
             }
         }
         if (!IsMyTurn)
@@ -152,12 +163,12 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
             }
         }
+
     }
 
     public void BlueSelect()
     {
         BluePattern = Random.Range(1, 5);
-
         if (BluePattern == 1) //패턴1 뒷열 오브젝트들
         {
             randomChildObject = LeftBluePiece[Random.Range(0, 8)]; //0~7
@@ -189,14 +200,28 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             }
         }
     }
-
-    public void BlueTurn()
+    public IEnumerator BlueTurn()
     {
-        Invoke("BlueStart", 1f);
+        forBlueTurn = true;
+
+        timer = 0f; // 타이머 초기화
+
+        while (timer < 2f) // 2초를 기다림
+        {
+            if (SceneManager.GetActiveScene().name == "Board")
+            {
+                timer += Time.deltaTime; // 타이머 증가
+            }
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        Debug.Log("파랑턴으로 넘어감...");
+        BlueStart();
     }
     private void BlueStart()
     {
         IsMyTurn = false;
+        forBlueTurn = false;
         BlueSelect();
         Invoke("RedTurn", 3f);
     }
@@ -220,6 +245,7 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             BlueSelect();//다시 고른다
         }
     }
+
     public void PieceSet()
     {
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.

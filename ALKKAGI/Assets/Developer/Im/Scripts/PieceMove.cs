@@ -21,7 +21,7 @@ public class PieceMove : MonoBehaviour
         GM = GameObject.Find("AlKKAGIManager");
         rb = this.gameObject.GetComponent<Rigidbody>(); //오브젝트의 리지드바디를 자동으로 넣어주기
     }
-
+    
     public void RotationReset() //기울기 초기화
     {
         this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -63,7 +63,13 @@ public class PieceMove : MonoBehaviour
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-            rb.velocity = Vector3.zero;
+            Debug.Log("totals - red : " + totalSpeed);
+            if (totalSpeed < 1f)
+            {
+                Debug.Log("제발 R");
+                totalSpeed = 20f;
+            }
+            rb.isKinematic = true;
             GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
             
             GM.GetComponent<AlKKAGIManager>().Crash();
@@ -72,19 +78,15 @@ public class PieceMove : MonoBehaviour
 
     public void Win() //FPS 승리시
     {
+        rb.isKinematic = false;
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.4f , ForceMode.Impulse);
-
-        if (!GM.GetComponent<AlKKAGIManager>().blueT)
-            GM.GetComponent<AlKKAGIManager>().BlueTurn();
     }
 
     public void lose() //FPS 패배시
     {
+        rb.isKinematic = false;
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.4f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.7f , ForceMode.Impulse);
-
-        if (!GM.GetComponent<AlKKAGIManager>().blueT)
-            GM.GetComponent<AlKKAGIManager>().BlueTurn();
     }
 }

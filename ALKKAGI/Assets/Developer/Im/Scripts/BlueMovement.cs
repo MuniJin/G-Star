@@ -70,13 +70,13 @@ public class BlueMovement : MonoBehaviour
 
     private void RocateRed() //적 탐색
     {
-        StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
+        //StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
         Invoke("attack", 1f);
     }
 
     private void attack()
     {
-        Invoke("NotCrash", 1f);
+        Invoke("NotCrash", 2.5f);
         if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
         {
             GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
@@ -119,8 +119,15 @@ public class BlueMovement : MonoBehaviour
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            Debug.Log("totals - blue : " + totalSpeed);
+            if(totalSpeed < 1f)
+            {
+                Debug.Log("제발");
+                totalSpeed = 20f;
+            }
+
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = true;
 
             GM.GetComponent<AlKKAGIManager>().IsFirstCrash = false;
             GM.GetComponent<AlKKAGIManager>().Crash();
@@ -131,15 +138,19 @@ public class BlueMovement : MonoBehaviour
 
     public void RedWin() //FPS 승리시
     {
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
+        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.7f, ForceMode.Impulse);
-        IFC();
+        Invoke("IFC", 1f);
     }
     public void Redlose() //FPS 패배시
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f *2f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
+        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f , ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
-        IFC();
+        Invoke("IFC", 1f);
     }
     private void IFC()
     {

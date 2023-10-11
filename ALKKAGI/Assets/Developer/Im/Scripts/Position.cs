@@ -18,12 +18,26 @@ public class Position : MonoBehaviour
     public GameObject ParentObjR;
     public GameObject ParentObjB;
     public GameObject GM;
+    public GameObject ClassicButton;
+    public GameObject[] SetButtons;
 
     private void Start()
     {
         GameStart();
     }
+    public void Classic()
+    {
+        ClassicButton.SetActive(true);
+        SetButtons[0].SetActive(false);
+        SetButtons[1].SetActive(false);
+    }
 
+    public  void Custom()
+    {
+
+        SetButtons[0].SetActive(false);
+        SetButtons[1].SetActive(false);
+    }
     private void GameStart()
     {
         BST = Random.Range(1, 5);
