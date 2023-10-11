@@ -28,6 +28,8 @@ public class Player_Character : Default_Character
 
     private void Start()
     {
+        ChooseCharacter();
+
         ALM = GameObject.Find("AlKKAGIManager");
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
@@ -181,8 +183,7 @@ public class Player_Character : Default_Character
     // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
     public void ChooseCharacter()
     {
-        GameObject clickedBtn = EventSystem.current.currentSelectedGameObject;
-        string str = clickedBtn.name;
+        string str = this.gameObject.name.Split('_')[0];
 
         if (_d == null)
         {
@@ -190,15 +191,15 @@ public class Player_Character : Default_Character
 
             switch (str)
             {
-                case "Pawn":
+                case "Solider":
                     _d = this.gameObject.AddComponent<Pawn>();
                     bullet = Resources.Load<GameObject>("TESTBUL 1");
                     break;
-                case "Rook":
+                case "Chariot":
                     _d = this.gameObject.AddComponent<Rook>();
                     bullet = Resources.Load<GameObject>("TESTBUL 2");
                     break;
-                case "Knight":
+                case "Horse":
                     _d = this.gameObject.AddComponent<Knight>();
                     //
                     break;
@@ -210,7 +211,7 @@ public class Player_Character : Default_Character
                     _d = this.gameObject.AddComponent<Cannon>();
                     //
                     break;
-                case "Guards":
+                case "Guard":
                     _d = this.gameObject.AddComponent<Guards>();
                     //
                     break;
