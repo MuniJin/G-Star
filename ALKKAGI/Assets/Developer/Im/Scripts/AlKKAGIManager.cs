@@ -43,7 +43,7 @@ public class AlKKAGIManager : MonoBehaviour
     {
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
-        SceneManager.LoadScene("Map1");  //fps 씬 변환
+        SceneManager.LoadScene("cinemachintest");  //fps 씬 변환
 
 
         BoardObj.SetActive(false);
