@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class animationctr : MonoBehaviour
 {
@@ -47,43 +48,92 @@ public class animationctr : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void ActiveObj(GameObject CrashObjB, GameObject CrashObjR)
     {
         Debug.Log("CrashObjB active: " + CrashObjB.activeSelf);
         Debug.Log("CrashObjR active: " + CrashObjR.activeSelf);
 
         if (CrashObjB != null && CrashObjR != null)
-        {
+        { 
             // 모든 요소를 비활성화
             for (int i = 0; i < blues.Length; i++)
             {
                 blues[i].SetActive(false);
                 reds[i].SetActive(false);
-
-
             }
+
             // 전달받은 오브젝트를 활성화
-            CrashObjB.SetActive(true);
-            CrashObjR.SetActive(true);
+            //Red
+            if (CrashObjR.name == "Cannon_Red(Clone)")
+            {
+                reds[0].SetActive(true);
+            }
+            if (CrashObjR.name == "Chariot_Red(Clone)")
+            {
+                reds[1].SetActive(true);
+            }
+            if (CrashObjR.name == "Elephant_Red(Clone)")
+            {
+                reds[2].SetActive(true);
+            }
+            if (CrashObjR.name == "Guard_Red(Clone)")
+            {
+                reds[3].SetActive(true);
+            }
+            if (CrashObjR.name == "Horse_Red(Clone)")
+            {
+                reds[4].SetActive(true);
+            }
+            if (CrashObjR.name == "King_Red(Clone)")
+            {
+                reds[5].SetActive(true);
+            }
+            if (CrashObjR.name == "Solider_Red(Clone)")
+            {
+                reds[6].SetActive(true);
+            }
 
+            //Blue
+            if (CrashObjB.name == "Cannon_Blue(Clone)")
+            {
+                blues[0].SetActive(true);
+            }
+            if (CrashObjB.name == "Chariot_Blue(Clone)")
+            {
+                blues[1].SetActive(true);
+            }
+            if (CrashObjB.name == "Elephant_Blue(Clone)")
+            {
+                blues[2].SetActive(true);
+            }
+            if (CrashObjB.name == "Guard_Blue(Clone)")
+            {
+                blues[3].SetActive(true);
+            }
+            if (CrashObjB.name == "Horse_Blue(Clone)")
+            {
+                blues[4].SetActive(true);
+            }
+            if (CrashObjB.name == "King_Blue(Clone)")
+            {
+                blues[5].SetActive(true);
+            }
+            if (CrashObjB.name == "Solider_Blue(Clone)")
+            {
+                blues[6].SetActive(true);
+            }
 
+            Invoke("LoadScene", 2f);
         }
         else
         {
             Debug.LogError("CrashObjB or CrashObjR is null.");
         }
+    }
+
+    void LoadScene()
+    {
+        SceneManager.LoadScene("Map1");
     }
 }
 
