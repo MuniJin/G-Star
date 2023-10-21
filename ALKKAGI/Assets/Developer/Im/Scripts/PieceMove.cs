@@ -1,3 +1,5 @@
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +23,7 @@ public class PieceMove : MonoBehaviour
         GM = GameObject.Find("AlKKAGIManager");
         rb = this.gameObject.GetComponent<Rigidbody>(); //오브젝트의 리지드바디를 자동으로 넣어주기
     }
-    
+
     public void RotationReset() //기울기 초기화
     {
         this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -50,7 +52,7 @@ public class PieceMove : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject 
+        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject
             && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
             IsCrash = true;
@@ -71,7 +73,7 @@ public class PieceMove : MonoBehaviour
             }
             rb.isKinematic = true;
             GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            
+
             GM.GetComponent<AlKKAGIManager>().Crash();
         }
     }
@@ -79,14 +81,15 @@ public class PieceMove : MonoBehaviour
     public void Win() //FPS 승리시
     {
         rb.isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce( -dir*totalSpeed* 0.7f, ForceMode.Impulse);
-        rb.AddForce(dir * totalSpeed * 0.4f , ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.7f, ForceMode.Impulse);
+        rb.AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
     }
 
     public void lose() //FPS 패배시
     {
         rb.isKinematic = false;
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.4f, ForceMode.Impulse);
-        rb.AddForce(dir * totalSpeed * 0.7f , ForceMode.Impulse);
+        rb.AddForce(dir * totalSpeed * 0.7f, ForceMode.Impulse);
     }
 }
+

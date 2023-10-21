@@ -25,9 +25,9 @@ public class BlueMovement : MonoBehaviour
 
     private void Start()
     {
-           rotationSpeed = 360f;
-           rotationDuration = 1f;
-           GM = GameObject.Find("AlKKAGIManager");
+        rotationSpeed = 360f;
+        rotationDuration = 1f;
+        GM = GameObject.Find("AlKKAGIManager");
     }
 
     public void MoveStart() //기물 이동
@@ -82,7 +82,7 @@ public class BlueMovement : MonoBehaviour
             GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
             if (Target == null)
             {
-                 Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
+                Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
             }
             else
             {
@@ -90,7 +90,7 @@ public class BlueMovement : MonoBehaviour
                 DisX = targetlocal.x / 100;
                 DisZ = targetlocal.z / 100;
                 MoveMath();
-            }     
+            }
         }
         else
         {
@@ -104,7 +104,7 @@ public class BlueMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject 
+        if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject
                 && !GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
             IsCrash = true;
@@ -120,7 +120,7 @@ public class BlueMovement : MonoBehaviour
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
             Debug.Log("totals - blue : " + totalSpeed);
-            if(totalSpeed < 1f)
+            if (totalSpeed < 1f)
             {
                 Debug.Log("제발");
                 totalSpeed = 20f;
@@ -148,7 +148,7 @@ public class BlueMovement : MonoBehaviour
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f , ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
         this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
         Invoke("IFC", 1f);
     }

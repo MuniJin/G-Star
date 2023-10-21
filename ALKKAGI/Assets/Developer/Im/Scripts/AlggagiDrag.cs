@@ -47,7 +47,7 @@ public class AlggagiDrag : MonoBehaviour
             IsPieceSelected = true;
             if (Input.GetMouseButtonDown(1)) //우클릭시 드래그 해제
             {
-                Debug.Log("선택 취소"); 
+                Debug.Log("선택 취소");
                 GM.GetComponent<AlKKAGIManager>().IsMove = false;
                 IsPieceSelected = false;
                 this.gameObject.transform.localPosition = new Vector3(0, 0.15f, 0);
@@ -87,7 +87,7 @@ public class AlggagiDrag : MonoBehaviour
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //드래그 한 거리값
         //Debug.Log(Pita + "this is pita");
         ShootPower = ((float)Math.Floor(Pita * 100) / 100) * 2; //속도값
-       
+
         //Debug.Log(ShootPower + " SHOPS");
 
         //Debug.Log(ShootPower + " SHOPSs");
