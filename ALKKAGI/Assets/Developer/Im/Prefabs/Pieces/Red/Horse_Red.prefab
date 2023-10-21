@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3880adf8ab63724a9ed6112b1609f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootPower: 0
   MainObj: {fileID: 8568185996068189990}
   Arrow: {fileID: 2143523387097451186}
+  ShootPower: 0
 --- !u!1 &1868778668512807863
 GameObject:
   m_ObjectHideFlags: 0
