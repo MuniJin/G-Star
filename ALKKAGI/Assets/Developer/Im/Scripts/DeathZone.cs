@@ -5,88 +5,107 @@ using UnityEngine;
 public class DeathZone : MonoBehaviour
 {
     public GameObject GM;
+    GameObject collisionObj;
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject collisionObj = collision.gameObject;
-        
-        if (collisionObj.tag == "RedPiece")
+        if (collisionObj != collision.gameObject)
         {
-            if (collisionObj.name == "Solider_Red(Clone)")
+            collisionObj = collision.gameObject;
+            if (collisionObj.tag == "RedPiece")
             {
-                GM.GetComponent<AlKKAGIManager>().Death(1);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Cannon_Red(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(2);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Chariot_Red(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(3);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Elephant_Red(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(4);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Horse_Red(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(5);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Guard_Red(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(6);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "King_Red(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().GameOver(0);
-                Destroy(collisionObj);
-            }
-        }
+                if (collisionObj.name == "Solider_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(1);
+                    Invoke("die", 2f);
 
-        if (collisionObj.tag == "BluePiece")
-        {
-            if (collisionObj.name == "Solider_Blue(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(7);
-                Destroy(collisionObj);
+                }
+                if (collisionObj.name == "Cannon_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(2);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Chariot_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(3);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Elephant_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(4);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Horse_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(5);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Guard_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(6);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "King_Red(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().GameOver(0);
+                    Invoke("die", 2f);
+
+                }
             }
-            if (collisionObj.name == "Cannon_Blue(Clone)")
+
+            if (collisionObj.tag == "BluePiece")
             {
-                GM.GetComponent<AlKKAGIManager>().Death(8);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Chariot_Blue(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(9);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Elephant_Blue(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(10);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Horse_Blue(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(11);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "Guard_Blue(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().Death(12);
-                Destroy(collisionObj);
-            }
-            if (collisionObj.name == "King_Blue(Clone)")
-            {
-                GM.GetComponent<AlKKAGIManager>().GameOver(1);
-                Destroy(collisionObj);
+                if (collisionObj.name == "Solider_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(7);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Cannon_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(8);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Chariot_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(9);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Elephant_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(10);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Horse_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(11);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "Guard_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().Death(12);
+                    Invoke("die", 2f);
+
+                }
+                if (collisionObj.name == "King_Blue(Clone)")
+                {
+                    GM.GetComponent<AlKKAGIManager>().GameOver(1);
+                    Invoke("die", 2f);
+                }
             }
         }
     }
-
+    private void die()
+    {
+        Destroy(collisionObj);
+    }
 }
