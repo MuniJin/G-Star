@@ -75,6 +75,8 @@ public class FPSManager : Singleton<FPSManager>
         myPbulPoint.transform.SetParent(myP.transform);
         myPbulPoint.transform.SetAsFirstSibling();
 
+        enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
+
         // 플레이어 오브젝트 카메라에 안보이게 설정
         foreach (Transform t in myP.transform)
             t.gameObject.layer = 3;
