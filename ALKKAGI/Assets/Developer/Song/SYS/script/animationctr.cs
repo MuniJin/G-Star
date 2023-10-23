@@ -133,7 +133,7 @@ public class animationctr : MonoBehaviour
 
     void LoadScene()
     {
-        SceneManager.LoadScene("Map1");
+        SceneManager.LoadScene("Develop Fps");
     }
 }
 

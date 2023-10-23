@@ -64,8 +64,40 @@ public class FPSManager : Singleton<FPSManager>
         string str = $"TestPrefabs/Red/{piece}_Red";
         string str2 = $"TestPrefabs/Blue/{piece}_Blue";
 
-        PlayerInit(str);
-        EnemyInit(str2);
+        GameObject myP = Instantiate(Resources.Load<GameObject>(str), mySpawnPoint.transform.position, Quaternion.identity);
+        myP.AddComponent<Player_Character>();
+
+        GameObject myPbulPoint = new GameObject();
+        myPbulPoint.transform.position = myP.transform.position + Vector3.forward;
+        myPbulPoint.name = "bulpos";
+        myPbulPoint.transform.SetParent(myP.transform);
+        myPbulPoint.transform.SetAsFirstSibling();
+
+        // 플레이어 오브젝트 카메라에 안보이게 설정
+        foreach (Transform t in myP.transform)
+            t.gameObject.layer = 3;
+
+        GameObject enemyP = Instantiate(Resources.Load<GameObject>(str2), enemySpawnPoint.transform.position, Quaternion.identity);
+        enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
+        enemyP.AddComponent<TestEnemyHp>();
+        // FPS 적 AI 추가
+        EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
+        ea.Target = myP.transform;
+
+        enemyP.AddComponent<NavMeshAgent>();
+        enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
+
+        GameObject EPbulPoint = new GameObject();
+        EPbulPoint.transform.position = enemyP.transform.position + Vector3.forward;
+        EPbulPoint.name = "bulpos";
+        EPbulPoint.transform.SetParent(enemyP.transform);
+        EPbulPoint.transform.SetAsFirstSibling();
+        ea.firePoint = EPbulPoint.transform;
+
+        GameObject bullet = Resources.Load<GameObject>("TESTBUL 0");
+        ea.projectilePrefab = bullet;
+
+        enemyP.transform.GetChild(0).tag = "Enemy";
     }
 
     private void PlayerInit(string p)
@@ -90,19 +122,21 @@ public class FPSManager : Singleton<FPSManager>
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
         enemyP.AddComponent<TestEnemyHp>();
         // FPS 적 AI 추가
-        //EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
-        //enemyP.AddComponent<NavMeshAgent>();
-        //ea.Target = myP.transform;
+        EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
+        //ea.Target = Pt.transform;
 
-        //GameObject EPbulPoint = new GameObject();
-        //EPbulPoint.transform.position = enemyP.transform.position + Vector3.forward;
-        //EPbulPoint.name = "bulpos";
-        //EPbulPoint.transform.SetParent(enemyP.transform);
-        //EPbulPoint.transform.SetAsFirstSibling();
-        //ea.firePoint = EPbulPoint.transform;
+        enemyP.AddComponent<NavMeshAgent>();
+        enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
 
-        //GameObject bullet = Resources.Load<GameObject>("TESTBUL 0");
-        //ea.projectilePrefab = bullet;
+        GameObject EPbulPoint = new GameObject();
+        EPbulPoint.transform.position = enemyP.transform.position + Vector3.forward;
+        EPbulPoint.name = "bulpos";
+        EPbulPoint.transform.SetParent(enemyP.transform);
+        EPbulPoint.transform.SetAsFirstSibling();
+        ea.firePoint = EPbulPoint.transform;
+
+        GameObject bullet = Resources.Load<GameObject>("TESTBUL 0");
+        ea.projectilePrefab = bullet;
 
         enemyP.transform.GetChild(0).tag = "Enemy";
     }

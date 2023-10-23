@@ -7,7 +7,7 @@ public class EnemyAI2 : Default_Character
 {
     private NavMeshAgent navMeshAgent;
 
-    [SerializeField] Transform Target;
+    public Transform Target;
 
     // 적을 활성화시키기 위한 표적과 적 사이의 거리
     [SerializeField] float Range = 20f;
@@ -47,11 +47,13 @@ public class EnemyAI2 : Default_Character
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(player);
+
         //적이 아직 살아있는지 확인하기
         //그렇지 않으면 즉시 반환
-        if(GetComponent<Health>())
-            //if (currentHealth <= 0f)
-                if (dead) { return; }
+        //if(GetComponent<Health>())
+        //    //if (currentHealth <= 0f)
+        //        if (dead) { return; }
         //목표물에서 적까지의 거리를 할당합니다
         distanceToTarget = Vector3.Distance(Target.position, transform.position);
         if (isProvoked)
