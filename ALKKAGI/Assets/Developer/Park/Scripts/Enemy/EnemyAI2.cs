@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI2 : MonoBehaviour
+public class EnemyAI2 : Default_Character
 {
     private NavMeshAgent navMeshAgent;
 
     [SerializeField] Transform Target;
 
     // 적을 활성화시키기 위한 표적과 적 사이의 거리
-    [SerializeField] float Range = 10f;
+    [SerializeField] float Range = 20f;
     float distanceToTarget = Mathf.Infinity;
 
     [SerializeField] float turningSpeed = 5f;
@@ -126,6 +126,26 @@ public class EnemyAI2 : MonoBehaviour
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.velocity = (player.position - firePoint.position).normalized * 10f;
 
+    }
+
+    protected override void Move()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void Jump()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Attack(Vector3 bulpos, float shootPower)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override IEnumerator Skill(GameObject go)
+    {
+        throw new System.NotImplementedException();
     }
 
     // 점프
