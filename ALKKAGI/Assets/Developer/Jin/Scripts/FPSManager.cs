@@ -69,14 +69,9 @@ public class FPSManager : Singleton<FPSManager>
         string piece = myPiece.Split('_')[0];
         string piece2 = enemyPiece.Split('_')[0];
 
-        string str = $"TestPrefabs/Red/{piece}_Red";
-        string str2 = $"TestPrefabs/Blue/{piece}_Blue";
+        string p = $"TestPrefabs/Red/{piece}_Red";
+        string e = $"TestPrefabs/Blue/{piece2}_Blue";
 
-        PlayerInit(str, str2);
-    }
-
-    private void PlayerInit(string p, string e)
-    {
         GameObject myP = Instantiate(Resources.Load<GameObject>(p), mySpawnPoint.transform.position, Quaternion.identity);
         myP.AddComponent<Player_Character>();
 
@@ -90,17 +85,12 @@ public class FPSManager : Singleton<FPSManager>
         foreach (Transform t in myP.transform)
             t.gameObject.layer = 3;
 
-        EnemyInit(e, myP);
-    }
-
-    private void EnemyInit(string e, GameObject Pt)
-    {
         GameObject enemyP = Instantiate(Resources.Load<GameObject>(e), enemySpawnPoint.transform.position, Quaternion.identity);
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
         enemyP.AddComponent<TestEnemyHp>();
         // FPS Àû AI Ãß°¡
         EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
-        ea.Target = Pt.transform;
+        ea.Target = myP.transform;
 
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
