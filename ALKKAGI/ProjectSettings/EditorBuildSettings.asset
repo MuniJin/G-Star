@@ -12,15 +12,12 @@ EditorBuildSettings:
     path: Assets/Developer/Im/Scenes/AlkkagiScene.unity
     guid: e13448ceb2126704d8adec5e6b7492f6
   - enabled: 1
-    path: Assets/Developer/Jin/Scenes/Map1.unity
-    guid: 877c787fd43a5e045aad3a02309353a0
-  - enabled: 1
     path: Assets/Developer/Im/Scenes/Board.unity
     guid: 4bdbae7025ad9d347b0cce91cf3c29c6
   - enabled: 1
     path: Assets/Developer/Song/SYS/Scenes/cinemachintest.unity
     guid: 0a47721bccf3c2c4ba4472ad6e08813b
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Developer/Park/Develop Fps.unity
+    guid: 5058653d31d2ce749a14f9ae190b92ea
   m_configObjects: {}
