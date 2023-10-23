@@ -71,11 +71,11 @@ public class BlueMovement : MonoBehaviour
     private void RocateRed() //적 탐색
     {
         StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
+        Invoke("attack", 1f);
     }
 
     private void attack()
     {
-        Debug.Log("attack");
         Invoke("NotCrash", 2.5f);
         if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
         {
@@ -188,7 +188,6 @@ public class BlueMovement : MonoBehaviour
             }
 
             elapsedTime += Time.deltaTime;
-           Invoke("attack", 1f);
             yield return null;
         }
     }
