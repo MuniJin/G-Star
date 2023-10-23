@@ -1501,7 +1501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &594784792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4518,7 +4518,7 @@ MonoBehaviour:
   speed: 1
   jumpForce: 5
   bulPos: {fileID: 0}
-  sen: 2
+  sensitivity: 2
 --- !u!1001 &1487762465
 PrefabInstance:
   m_ObjectHideFlags: 0

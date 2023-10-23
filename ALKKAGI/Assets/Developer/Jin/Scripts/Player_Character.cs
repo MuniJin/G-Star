@@ -161,7 +161,7 @@ public class Player_Character : Default_Character
     // АјАн
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
+        GameObject go = Instantiate(bullet, bulpos, new Quaternion(-90f, 0f, 0f, 0f));
         
         go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
     }

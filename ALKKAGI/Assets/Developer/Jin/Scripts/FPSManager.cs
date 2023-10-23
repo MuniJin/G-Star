@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.AI;
+
 public class FPSManager : Singleton<FPSManager>
 {
     private AlKKAGIManager ALM;
@@ -67,7 +69,20 @@ public class FPSManager : Singleton<FPSManager>
 
         myP.AddComponent<Player_Character>();
         // FPS Àû AI Ãß°¡
-        enemyP.AddComponent<TestEnemyHp>();
+        //EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
+        //enemyP.AddComponent<NavMeshAgent>();
+        //ea.Target = myP.transform;
+        
+        //GameObject EPbulPoint = new GameObject();
+        //EPbulPoint.transform.position = enemyP.transform.position + Vector3.forward;
+        //EPbulPoint.name = "bulpos";
+        //EPbulPoint.transform.SetParent(enemyP.transform);
+        //EPbulPoint.transform.SetAsFirstSibling();
+        //ea.firePoint = EPbulPoint.transform;
+
+        //GameObject bullet = Resources.Load<GameObject>("TESTBUL 0");
+        //ea.projectilePrefab = bullet;
+
 
         GameObject myPbulPoint = new GameObject();
         myPbulPoint.transform.position = myP.transform.position + Vector3.forward;
