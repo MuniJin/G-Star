@@ -5685,6 +5685,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BtnPieces
       objectReference: {fileID: 0}
+    - target: {fileID: 6834291791198506810, guid: 596e40a5f2312fe46bec227c402a1bd2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6834291791599951302, guid: 596e40a5f2312fe46bec227c402a1bd2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

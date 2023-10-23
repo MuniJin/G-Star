@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,12 +19,27 @@ public class Position : MonoBehaviour
     public GameObject ParentObjR;
     public GameObject ParentObjB;
     public GameObject GM;
+    public GameObject ClassicButton;
+    public GameObject[] SetButtons;
+    public GameObject CustomSet;
 
     private void Start()
     {
         GameStart();
     }
+    public void Classic()
+    {
+        ClassicButton.SetActive(true);
+        SetButtons[0].SetActive(false);
+        SetButtons[1].SetActive(false);
+    }
 
+    public void Custom()
+    {
+        CustomSet.SetActive(true);
+        SetButtons[0].SetActive(false);
+        SetButtons[1].SetActive(false);
+    }
     private void GameStart()
     {
         BST = Random.Range(1, 5);
@@ -55,7 +71,7 @@ public class Position : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 14) 
+                if (LocalPos[i, j] > 0 && LocalPos[i, j] <= 14)
                 {
                     GameObject newPiece = Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2, 0f, i * -2), Quaternion.identity);
 
@@ -142,7 +158,7 @@ public class Position : MonoBehaviour
     private void AutoPos()
     {
         AutoPosBlue();
-        
+
         //red Solider
         LocalPos[6, 0] = 1;
         LocalPos[6, 2] = 1;
@@ -161,7 +177,7 @@ public class Position : MonoBehaviour
         LocalPos[9, 0] = 3;
         LocalPos[9, 8] = 3;
     }
-    
+
     private void AutoPosBlue()
     {
         //blue Chariot

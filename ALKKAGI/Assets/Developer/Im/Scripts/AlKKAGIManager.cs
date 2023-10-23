@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class AlKKAGIManager : Singleton<AlKKAGIManager>
@@ -31,6 +32,13 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
 
+    public RawImage CrashRedImage;
+    public RawImage CrashBlueImage;
+
+    public Texture[] CrashImg;
+    public float timer = 0f;
+    private bool forBlueTurn;
+
     private void Start()
     {
         IsFirstCrash = true;
@@ -41,12 +49,19 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
     public void Crash() //충돌
     {
+        timer = 0;
+
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
-        SceneManager.LoadScene("Map1");  //fps 씬 변환
+        Invoke("CrashSceneChange", 1.5f);
+    }
 
+    void CrashSceneChange()
+    {
+        SceneManager.LoadScene("cinemachintest");  //fps 씬 변환
 
         BoardObj.SetActive(false);
+
     }
 
     public void FPSResults()
@@ -56,39 +71,46 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
     public void FPSResult() //FPS종료
     {
-
         if (IsMyTurn)
         {
             if (IsWin) //승리했을시
             {
-                Debug.Log("FPS 승리");
+                //Debug.Log("FPS 승리");
                 CrashObjR.GetComponent<PieceMove>().Win();
+                if (!blueT && !forBlueTurn) //얘가 문제임-
+                {
+                    StartCoroutine(BlueTurn());
+                }
             }
             else //패배했을시
             {
-                Debug.Log("FPS 패배");
+                //Debug.Log("FPS 패배");
                 CrashObjR.GetComponent<PieceMove>().lose();
+                if (!blueT && !forBlueTurn) //얘가 문제임-
+                {
+                    StartCoroutine(BlueTurn());
+                }
             }
         }
         if (!IsMyTurn)
         {
             if (IsWin) //승리했을시
             {
-                Debug.Log("FPS 승리 - 적턴");
+                //Debug.Log("FPS 승리 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
             }
             else //패배했을신
             {
-                Debug.Log("FPS 패배 - 적턴");
+                //Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
             }
         }
+
     }
 
     public void BlueSelect()
     {
         BluePattern = Random.Range(1, 5);
-
         if (BluePattern == 1) //패턴1 뒷열 오브젝트들
         {
             randomChildObject = LeftBluePiece[Random.Range(0, 8)]; //0~7
@@ -120,21 +142,34 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             }
         }
     }
-
-    public void BlueTurn()
+    public IEnumerator BlueTurn()
     {
-        Invoke("BlueStart", 1f);
+        forBlueTurn = true;
+
+        timer = 0f; // 타이머 초기화
+
+        while (timer < 2f) // 2초를 기다림
+        {
+            if (SceneManager.GetActiveScene().name == "Board")
+            {
+                timer += Time.deltaTime; // 타이머 증가
+            }
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        Debug.Log("파랑턴으로 넘어감...");
+        BlueStart();
     }
     private void BlueStart()
     {
         IsMyTurn = false;
-        Debug.Log("파랑턴 시작");
+        forBlueTurn = false;
         BlueSelect();
         Invoke("RedTurn", 3f);
     }
     private void RedTurn()
     {
-        Debug.Log("rt");
+        //Debug.Log("rt");
         blueT = false;
         IsMove = true;
     }
@@ -145,12 +180,14 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
-        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f | randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
+        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f ||
+            randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
         {
             Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
     }
+
     public void PieceSet()
     {
         // "bluePieces" 아래의 모든 자식 GameObjects를 배열에 저장합니다.
@@ -173,6 +210,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int a, b, c, d, e, f, g, h, i, j, k, l;
     public void Death(int deathPiece)
     {
+        CrashObjB = null;
+        CrashObjR = null;
         //데스 사운드 재생
         myAudioSource.PlayOneShot(DeathSound);
 
@@ -252,8 +291,9 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
         if (who == 1)
         {
-            //Red Is Win
+            //Red Is Win player win
 
         }
     }
 }
+

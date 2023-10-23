@@ -28,11 +28,11 @@ public class Player_Character : Default_Character
 
     private void Start()
     {
-        ChooseCharacter();
-
         ALM = GameObject.Find("AlKKAGIManager");
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
+        ChooseCharacter();
+
         // 플레이어 초기 체력 세팅
         this._hp = 100;
 
@@ -50,6 +50,7 @@ public class Player_Character : Default_Character
 
     private void Update()
     {
+        Debug.Log(_d.name);
         // 점프, velocity가 없을때 점프 가능하게
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
@@ -127,7 +128,7 @@ public class Player_Character : Default_Character
 
     private Camera cam;
 
-    public float sen = 2f;
+    public float sensitivity = 2f;
 
     private void CamMove()
     {
@@ -136,8 +137,8 @@ public class Player_Character : Default_Character
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * sen;
-        eulerAngleY += mouseX * sen;
+        eulerAngleX -= mouseY * sensitivity;
+        eulerAngleY += mouseX * sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
@@ -183,6 +184,9 @@ public class Player_Character : Default_Character
     // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
     public void ChooseCharacter()
     {
+        //GameObject clickedBtn = EventSystem.current.currentSelectedGameObject;
+        //string str = clickedBtn.name;
+
         string str = this.gameObject.name.Split('_')[0];
 
         if (_d == null)
