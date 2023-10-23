@@ -21,7 +21,7 @@ public class EnemyAI2 : Default_Character
 
     public float moveSpeed = 10f;
     public float rotationSpeed = 3f;
-    public float detectionRange = 20f;
+    public float detectionRange = 40f;
     public float attackRange = 20f;
     public GameObject projectilePrefab;
     public Transform firePoint;
@@ -39,6 +39,7 @@ public class EnemyAI2 : Default_Character
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.updateRotation = false;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         aimTransform = transform; // 에임을 조절할 대상을 자기 자신으로 설정
     }
