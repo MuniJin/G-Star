@@ -85,7 +85,6 @@ public class Position : MonoBehaviour
         }
         GM.GetComponent<AlKKAGIManager>().PieceSet();
     }
-
     public void BlueSetting()
     {
         for (int i = 0; i < 10; i++)
@@ -95,6 +94,8 @@ public class Position : MonoBehaviour
                 if (LocalPos[i, j] > 7 && LocalPos[i, j] <= 14)
                 {
                     GameObject newPiece = Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2, 0f, i * -2), Quaternion.identity);
+                    if (LocalPos[i, j] > 7 && LocalPos[i, j] <= 14)
+                        newPiece.transform.SetParent(ParentObjB.transform);
                 }
             }
         }
