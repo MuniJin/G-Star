@@ -9,6 +9,14 @@ public abstract class Default_Character : MonoBehaviour
     protected int _hp { get; set; }
 
     public int GetHp() { return _hp; }
+
+    public int InitHp(int hp)
+    {
+        _hp = hp;
+
+        return _hp;
+    }
+
     public int SetHp(int damage)
     {
         _hp = _hp - damage;

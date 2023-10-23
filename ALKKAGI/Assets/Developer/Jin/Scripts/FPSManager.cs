@@ -15,8 +15,16 @@ public class FPSManager : Singleton<FPSManager>
     private void Awake()
     {
         ShowCursor();
-        ALM = AlKKAGIManager.Instance;
-        Init(ALM.CrashObjR.name, ALM.CrashObjB.name);
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
+        {
+            Init("Cannon", "Cannon");
+        }
+        else
+        {
+            ALM = AlKKAGIManager.Instance;
+            Init(ALM.CrashObjR.name, ALM.CrashObjB.name);
+        }
     }
 
     private void Update()
@@ -64,43 +72,10 @@ public class FPSManager : Singleton<FPSManager>
         string str = $"TestPrefabs/Red/{piece}_Red";
         string str2 = $"TestPrefabs/Blue/{piece}_Blue";
 
-        GameObject myP = Instantiate(Resources.Load<GameObject>(str), mySpawnPoint.transform.position, Quaternion.identity);
-        myP.AddComponent<Player_Character>();
-
-        GameObject myPbulPoint = new GameObject();
-        myPbulPoint.transform.position = myP.transform.position + Vector3.forward;
-        myPbulPoint.name = "bulpos";
-        myPbulPoint.transform.SetParent(myP.transform);
-        myPbulPoint.transform.SetAsFirstSibling();
-
-        // 플레이어 오브젝트 카메라에 안보이게 설정
-        foreach (Transform t in myP.transform)
-            t.gameObject.layer = 3;
-
-        GameObject enemyP = Instantiate(Resources.Load<GameObject>(str2), enemySpawnPoint.transform.position, Quaternion.identity);
-        enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
-        enemyP.AddComponent<TestEnemyHp>();
-        // FPS 적 AI 추가
-        EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
-        ea.Target = myP.transform;
-
-        enemyP.AddComponent<NavMeshAgent>();
-        enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
-
-        GameObject EPbulPoint = new GameObject();
-        EPbulPoint.transform.position = enemyP.transform.position + Vector3.forward;
-        EPbulPoint.name = "bulpos";
-        EPbulPoint.transform.SetParent(enemyP.transform);
-        EPbulPoint.transform.SetAsFirstSibling();
-        ea.firePoint = EPbulPoint.transform;
-
-        GameObject bullet = Resources.Load<GameObject>("TESTBUL 0");
-        ea.projectilePrefab = bullet;
-
-        enemyP.transform.GetChild(0).tag = "Enemy";
+        PlayerInit(str, str2);
     }
 
-    private void PlayerInit(string p)
+    private void PlayerInit(string p, string e)
     {
         GameObject myP = Instantiate(Resources.Load<GameObject>(p), mySpawnPoint.transform.position, Quaternion.identity);
         myP.AddComponent<Player_Character>();
@@ -114,16 +89,18 @@ public class FPSManager : Singleton<FPSManager>
         // 플레이어 오브젝트 카메라에 안보이게 설정
         foreach (Transform t in myP.transform)
             t.gameObject.layer = 3;
+
+        EnemyInit(e, myP);
     }
 
-    private void EnemyInit(string e)
+    private void EnemyInit(string e, GameObject Pt)
     {
         GameObject enemyP = Instantiate(Resources.Load<GameObject>(e), enemySpawnPoint.transform.position, Quaternion.identity);
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
         enemyP.AddComponent<TestEnemyHp>();
         // FPS 적 AI 추가
         EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
-        //ea.Target = Pt.transform;
+        ea.Target = Pt.transform;
 
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
@@ -135,16 +112,16 @@ public class FPSManager : Singleton<FPSManager>
         EPbulPoint.transform.SetAsFirstSibling();
         ea.firePoint = EPbulPoint.transform;
 
-        GameObject bullet = Resources.Load<GameObject>("TESTBUL 0");
+        GameObject bullet = Resources.Load<GameObject>("Bullets\\Stone");
         ea.projectilePrefab = bullet;
 
-        enemyP.transform.GetChild(0).tag = "Enemy";
+        enemyP.transform.GetChild(1).tag = "Enemy";
     }
 
     // 게임 결과 판정
     public void CheckGameResult(GameObject p, GameObject e)
     {
-        
+
     }
 
 
@@ -162,5 +139,4 @@ public class FPSManager : Singleton<FPSManager>
             Cursor.visible = false;
         }
     }
-
 }

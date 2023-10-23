@@ -15,7 +15,7 @@ public class Player_Character : Default_Character
     // 물리 계산을 위해 선언
     private Rigidbody rb;
     // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
-    private GameObject bullet;
+    public GameObject bullet;
     //public GameObject playerObj;
     //public GameObject kingSkill;
 
@@ -28,26 +28,27 @@ public class Player_Character : Default_Character
 
     private void Start()
     {
-        ALM = GameObject.Find("AlKKAGIManager");
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
+            ALM = GameObject.Find("AlKKAGIManager");
+
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
-        ChooseCharacter();
 
-        // 플레이어 초기 체력 세팅
+        //// 플레이어 초기 체력 세팅
         this._hp = 100;
 
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
-        
+
         // 플레이어 태그 변경
         this.gameObject.tag = "Player";
-        
-        
+
+        ChooseCharacter();
+        bullet = Resources.Load<GameObject>("Bullets\\Stone");
     }
 
     private void Update()
     {
-        Debug.Log(_d.name);
         // 점프, velocity가 없을때 점프 가능하게
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
@@ -57,7 +58,7 @@ public class Player_Character : Default_Character
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
-        
+
         // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
         if (Input.GetKeyDown(KeyCode.O))
             Win();
@@ -74,7 +75,7 @@ public class Player_Character : Default_Character
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        SceneManager.LoadScene("Board"); 
+        SceneManager.LoadScene("Board");
         ALM.GetComponent<AlKKAGIManager>().FPSResult();
 
     }
@@ -89,7 +90,7 @@ public class Player_Character : Default_Character
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        SceneManager.LoadScene("Board");  
+        SceneManager.LoadScene("Board");
         ALM.GetComponent<AlKKAGIManager>().FPSResult();
     }
 
@@ -158,7 +159,7 @@ public class Player_Character : Default_Character
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
-        
+
         go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
     }
 
@@ -184,17 +185,13 @@ public class Player_Character : Default_Character
 
         if (_d == null)
         {
-            Debug.Log("Select " + str);
-
             switch (str)
             {
                 case "Solider":
                     _d = this.gameObject.AddComponent<Pawn>();
-                    bullet = Resources.Load<GameObject>("Bullets\\Stone");
                     break;
                 case "Chariot":
                     _d = this.gameObject.AddComponent<Rook>();
-                    bullet = Resources.Load<GameObject>("TESTBUL 2");
                     break;
                 case "Horse":
                     _d = this.gameObject.AddComponent<Knight>();
@@ -206,11 +203,9 @@ public class Player_Character : Default_Character
                     break;
                 case "Cannon":
                     _d = this.gameObject.AddComponent<Cannon>();
-                    //
                     break;
                 case "Guard":
                     _d = this.gameObject.AddComponent<Guards>();
-                    bullet = Resources.Load<GameObject>("Bullets\\Book");
                     break;
                 case "King":
                     _d = this.gameObject.AddComponent<King>();
@@ -220,13 +215,6 @@ public class Player_Character : Default_Character
                     Debug.Log("it does not exist");
                     break;
             }
-        }
-
-        if(bullet == null)
-        {
-            bullet = Resources.Load<GameObject>("Bullets\\Stone");
-            if (bullet.GetComponent<Bullet>() == null)
-                bullet.AddComponent<Bullet>();
         }
     }
 }
