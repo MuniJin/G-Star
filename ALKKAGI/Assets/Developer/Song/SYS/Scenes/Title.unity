@@ -2907,6 +2907,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 873633854885972773, guid: 9bb7dac2c31f18a4e8e55d635e132062, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859768020169963463, guid: 9bb7dac2c31f18a4e8e55d635e132062, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -293
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339042173016599240, guid: 9bb7dac2c31f18a4e8e55d635e132062, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -342
+      objectReference: {fileID: 0}
     - target: {fileID: 7522858288881371834, guid: 9bb7dac2c31f18a4e8e55d635e132062, type: 3}
       propertyPath: m_Type
       value: 0
@@ -3165,6 +3177,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7522858290901695639, guid: 9bb7dac2c31f18a4e8e55d635e132062, type: 3}
       propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996435943587724508, guid: 9bb7dac2c31f18a4e8e55d635e132062, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
