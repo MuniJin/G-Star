@@ -43,7 +43,7 @@ public class PieceMove : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
             if (!GM.GetComponent<AlKKAGIManager>().blueT)
-                GM.GetComponent<AlKKAGIManager>().BlueTurn();
+                GM.GetComponent<AlKKAGIManager>().BlueStart();
         }
         else
         {

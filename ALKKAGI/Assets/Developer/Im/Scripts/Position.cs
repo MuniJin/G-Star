@@ -85,7 +85,22 @@ public class Position : MonoBehaviour
         }
         GM.GetComponent<AlKKAGIManager>().PieceSet();
     }
-    private void BlueSettingSelect()
+
+    public void BlueSetting()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                if (LocalPos[i, j] > 7 && LocalPos[i, j] <= 14)
+                {
+                    GameObject newPiece = Instantiate(pieces[LocalPos[i, j]], new Vector3(j * 2, 0f, i * -2), Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    public void BlueSettingSelect()
     {
         //Blue Elephant[11] && Horse[12]
         if (BST == 1)  //상마상마
@@ -178,7 +193,7 @@ public class Position : MonoBehaviour
         LocalPos[9, 8] = 3;
     }
 
-    private void AutoPosBlue()
+    public void AutoPosBlue()
     {
         //blue Chariot
         LocalPos[0, 0] = 10;

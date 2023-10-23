@@ -160,7 +160,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         Debug.Log("파랑턴으로 넘어감...");
         BlueStart();
     }
-    private void BlueStart()
+    public void BlueStart()
     {
         IsMyTurn = false;
         forBlueTurn = false;
@@ -204,6 +204,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         for (int i = 0; i < RedPieces.transform.childCount; i++)
         {
             LeftRedPiece[i] = RedPieces.transform.GetChild(i).gameObject;
+            LeftRedPiece[i].GetComponent<PieceMove>().DragObj.SetActive(true);
         }
     }
 
