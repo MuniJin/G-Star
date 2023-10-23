@@ -9,6 +9,7 @@ public class gotitle : MonoBehaviour
     public void onClickReplayButton()
     {
         Destroy(BaseObj);
+        Time.timeScale = 1;
         SceneManager.LoadScene("Title");
     }
   

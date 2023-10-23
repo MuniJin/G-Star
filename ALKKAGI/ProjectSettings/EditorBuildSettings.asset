@@ -15,9 +15,12 @@ EditorBuildSettings:
     path: Assets/Developer/Jin/Scenes/Map1.unity
     guid: 877c787fd43a5e045aad3a02309353a0
   - enabled: 1
+    path: Assets/Developer/Im/Scenes/Board.unity
+    guid: 4bdbae7025ad9d347b0cce91cf3c29c6
+  - enabled: 1
     path: Assets/Developer/Song/SYS/Scenes/cinemachintest.unity
     guid: 0a47721bccf3c2c4ba4472ad6e08813b
-  - enabled: 1
-    path: Assets/Developer/Im/Scenes/Board.unity
-    guid: 3498a654342934c4c93fcbe6c8ac68b1
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
