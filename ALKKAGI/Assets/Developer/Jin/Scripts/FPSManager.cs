@@ -96,7 +96,7 @@ public class FPSManager : Singleton<FPSManager>
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
 
         GameObject EPbulPoint = new GameObject();
-        EPbulPoint.transform.position = enemyP.transform.position + Vector3.forward;
+        EPbulPoint.transform.position = enemyP.transform.position - Vector3.forward;
         EPbulPoint.name = "bulpos";
         EPbulPoint.transform.SetParent(enemyP.transform);
         EPbulPoint.transform.SetAsFirstSibling();

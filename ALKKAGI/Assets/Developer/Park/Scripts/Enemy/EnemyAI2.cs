@@ -19,9 +19,9 @@ public class EnemyAI2 : Default_Character
     public bool isProvoked = false;
     bool dead;
 
-    public float moveSpeed = 10f;
+    public float moveSpeed = 5f;
     public float rotationSpeed = 3f;
-    public float detectionRange = 40f;
+    public float detectionRange = 20f;
     public float attackRange = 20f;
     public GameObject projectilePrefab;
     public Transform firePoint;
@@ -39,28 +39,20 @@ public class EnemyAI2 : Default_Character
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updateRotation = false;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        //player = GameObject.FindGameObjectWithTag("Player").transform;
         aimTransform = transform; // 에임을 조절할 대상을 자기 자신으로 설정
+        navMeshAgent.stoppingDistance = 10f;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player);
-
-        //적이 아직 살아있는지 확인하기
-        //그렇지 않으면 즉시 반환
-        //if(GetComponent<Health>())
-        //    //if (currentHealth <= 0f)
-        //        if (dead) { return; }
         //목표물에서 적까지의 거리를 할당합니다
         distanceToTarget = Vector3.Distance(Target.position, transform.position);
         if (isProvoked)
-        {
             EngageTarget();
-        }
+        
         //if not yet activated, compare their distance,
         //whether the target have reached the range.
         else if (distanceToTarget <= Range)
@@ -70,27 +62,28 @@ public class EnemyAI2 : Default_Character
         }
 
         // 플레이어와 적의 거리 계산
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, Target.position);
 
         // 플레이어가 감지 범위 안에 있을 때
 
         if (distanceToPlayer <= detectionRange)
+        {
+            // 플레이어 방향으로 회전
+            Vector3 targetDirection = Target.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(targetDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+            // 플레이어를 향해 이동
+            this.transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
+
+            // 플레이어와 적의 거리가 공격 범위 안에 있고 공격 쿨다운이 지났을 때
+            if (distanceToPlayer <= attackRange && Time.time - lastFireTime >= 1 / fireRate)
             {
-                // 플레이어 방향으로 회전
-                Vector3 targetDirection = player.position - transform.position;
-                Quaternion rotation = Quaternion.LookRotation(targetDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-
-                // 플레이어를 향해 이동
-                transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-
-                // 플레이어와 적의 거리가 공격 범위 안에 있고 공격 쿨다운이 지났을 때
-                if (distanceToPlayer <= attackRange && Time.time - lastFireTime >= 1 / fireRate)
-                {
-                    Attack();
-                    lastFireTime = Time.time;
-                }
+                Debug.Log("Fire~");
+                Attack(firePoint.position, 40f);
+                lastFireTime = Time.time;
             }
+        }
 
     }
 
@@ -121,15 +114,6 @@ public class EnemyAI2 : Default_Character
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turningSpeed);
     }
 
-    private void Attack()
-    {
-        // 발사할 프로젝타일 생성
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        // 프로젝타일 발사
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.velocity = (player.position - firePoint.position).normalized * 10f;
-
-    }
 
     protected override void Move()
     {
@@ -141,9 +125,14 @@ public class EnemyAI2 : Default_Character
         throw new System.NotImplementedException();
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
+    public override void Attack(Vector3 fp, float shootPower)
     {
-        throw new System.NotImplementedException();
+        // 발사할 프로젝타일 생성
+        GameObject projectile = Instantiate(projectilePrefab, fp, Quaternion.identity);
+        // 프로젝타일 발사
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        Vector3 dir = -(fp - Target.transform.position).normalized;
+        rb.AddForce(dir * shootPower, ForceMode.Impulse);
     }
 
     public override IEnumerator Skill(GameObject go)
