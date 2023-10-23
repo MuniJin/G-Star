@@ -42,10 +42,7 @@ public class Player_Character : Default_Character
         // 플레이어 태그 변경
         this.gameObject.tag = "Player";
         
-        // 총알 Resources폴더에서 불러와서 사용(추후 변경 예정, 성능 문제, 대안 : AssetBundle)
-        bullet = Resources.Load<GameObject>("TESTBUL 0");
-        if (bullet.GetComponent<Bullet>() == false)
-            bullet.AddComponent<Bullet>();
+        
     }
 
     private void Update()
@@ -120,8 +117,8 @@ public class Player_Character : Default_Character
     private float mouseX, mouseY;
     private float eulerAngleX, eulerAngleY;
 
-    private float rotCamX = 5f;
-    private float rotCamY = 3f;
+    //private float rotCamX = 5f;
+    //private float rotCamY = 3f;
 
     private float limitMinX = -40f;
     private float limitMaxX = 40f;
@@ -157,11 +154,10 @@ public class Player_Character : Default_Character
     // 점프
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-    
     // 공격
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject go = Instantiate(bullet, bulpos, new Quaternion(-90f, 0f, 0f, 0f));
+        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
         
         go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
     }
@@ -184,9 +180,6 @@ public class Player_Character : Default_Character
     // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
     public void ChooseCharacter()
     {
-        //GameObject clickedBtn = EventSystem.current.currentSelectedGameObject;
-        //string str = clickedBtn.name;
-
         string str = this.gameObject.name.Split('_')[0];
 
         if (_d == null)
@@ -197,7 +190,7 @@ public class Player_Character : Default_Character
             {
                 case "Solider":
                     _d = this.gameObject.AddComponent<Pawn>();
-                    bullet = Resources.Load<GameObject>("TESTBUL 1");
+                    bullet = Resources.Load<GameObject>("Bullets\\Stone");
                     break;
                 case "Chariot":
                     _d = this.gameObject.AddComponent<Rook>();
@@ -217,7 +210,7 @@ public class Player_Character : Default_Character
                     break;
                 case "Guard":
                     _d = this.gameObject.AddComponent<Guards>();
-                    //
+                    bullet = Resources.Load<GameObject>("Bullets\\Book");
                     break;
                 case "King":
                     _d = this.gameObject.AddComponent<King>();
@@ -228,11 +221,12 @@ public class Player_Character : Default_Character
                     break;
             }
         }
-        else
+
+        if(bullet == null)
         {
-            Debug.Log("Deselect " + str);
-            bullet = Resources.Load<GameObject>("TESTBUL 0");
-            Destroy(_d);
+            bullet = Resources.Load<GameObject>("Bullets\\Stone");
+            if (bullet.GetComponent<Bullet>() == null)
+                bullet.AddComponent<Bullet>();
         }
     }
 }

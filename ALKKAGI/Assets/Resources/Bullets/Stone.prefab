@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7426771217651404299}
   - component: {fileID: -1092064071988131443}
   m_Layer: 0
-  m_Name: TESTBUL 0
+  m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
