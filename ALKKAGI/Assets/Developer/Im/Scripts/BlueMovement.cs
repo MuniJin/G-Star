@@ -15,7 +15,6 @@ public class BlueMovement : MonoBehaviour
     public Vector3 SaveSpeed;
     private Vector3 dir;
     private float totalSpeed;
-    private bool IsCrash;
 
     private List<GameObject> redObjects = new List<GameObject>();
     private string targetTag = "RedPiece"; // 검색할 태그
@@ -32,19 +31,20 @@ public class BlueMovement : MonoBehaviour
 
     public void MoveStart() //기물 이동
     {
+        GM.GetComponent<AlKKAGIManager>().BlueCrash = false;
         Invoke("RocateRed", 1f);
     }
     private void NotCrash() //헛스윙 체크
     {
-        if (!IsCrash)
+        if (!GM.GetComponent<AlKKAGIManager>().BlueCrash) 
         {
-            Debug.Log("파랑 헛스윙");
+            //Debug.Log("파랑 헛스윙");
             GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
             GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
         }
         else
         {
-            Debug.Log("충돌!");
+            //Debug.Log("충돌!");
         }
     }
 
@@ -62,15 +62,17 @@ public class BlueMovement : MonoBehaviour
             Debug.Log("2이하");
             MoveSpeed = 5f;
         }
-
-        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
+        float mass = this.gameObject.GetComponent<Rigidbody>().mass;
+        if (mass > 2f)
+            mass = 1.5f;
+        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed*mass, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
     }
 
     private void RocateRed() //적 탐색
     {
-        StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
+        //StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
         Invoke("attack", 1f);
     }
 
@@ -107,7 +109,7 @@ public class BlueMovement : MonoBehaviour
         if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject
                 && !GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
-            IsCrash = true;
+            GM.GetComponent<AlKKAGIManager>().BlueCrash = true;
 
             GameObject collidedObject = collision.gameObject;
 
@@ -119,7 +121,7 @@ public class BlueMovement : MonoBehaviour
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-            Debug.Log("totals - blue : " + totalSpeed);
+            // Debug.Log("totals - blue : " + totalSpeed);
             if (totalSpeed < 1f)
             {
                 Debug.Log("제발");

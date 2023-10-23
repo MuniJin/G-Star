@@ -10,6 +10,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int BluePattern = 0; //AI 패턴
     private GameObject[] LeftBluePiece; //파랑의 남은 기물
     private AudioSource myAudioSource;
+    private bool GOver;
 
     public AudioClip ShootSound;
     public AudioClip CrashSound;
@@ -26,6 +27,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove; //이동 체크
     public bool IsFirstCrash;
+    public bool RedCrash; //충돌체크
+    public bool BlueCrash;
 
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
@@ -34,7 +37,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public RawImage CrashRedImage;
     public RawImage CrashBlueImage;
 
-    public Texture[] CrashImg;
+    public GameObject[] GameOverImg;
     public float timer = 0f;
     private bool forBlueTurn;
 
@@ -156,15 +159,18 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             yield return null; // 다음 프레임까지 대기
         }
 
-        Debug.Log("파랑턴으로 넘어감...");
+        //Debug.Log("파랑턴으로 넘어감...");
         BlueStart();
     }
     public void BlueStart()
     {
-        IsMyTurn = false;
-        forBlueTurn = false;
-        BlueSelect();
-        Invoke("RedTurn", 3f);
+        if (!GOver) 
+        {
+            IsMyTurn = false;
+            forBlueTurn = false;
+            BlueSelect();
+            Invoke("RedTurn", 3f);
+        } 
     }
     private void RedTurn()
     {
@@ -174,15 +180,10 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     }
     private void repick()
     {
-        if (randomChildObject == null)//선택된 대상이 null값일때
+        if (randomChildObject == null || randomChildObject.transform.position.z >= 1.5f || randomChildObject.transform.position.z <= -19f||
+            randomChildObject.transform.position.x > 17.5f || randomChildObject.transform.position.x < -1f)
         {
-            Debug.Log("repick");
-            BlueSelect();//다시 고른다
-        }
-        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f ||
-            randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
-        {
-            Debug.Log("repick");
+            Debug.Log("blue repick");
             BlueSelect();//다시 고른다
         }
     }
@@ -281,16 +282,23 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     }
     public void GameOver(int who)
     {
+        GOver = true;
+        Time.timeScale = 0;
+        for (int i = 0; i < LeftRedPiece.Length; i++)
+            LeftRedPiece[i].GetComponent<PieceMove>().DragObj.SetActive(false);
+        for (int i = 0; i < LeftBluePiece.Length; i++)
+            LeftBluePiece[i].GetComponent<Rigidbody>().isKinematic = false;
+
         if (who == 0)
         {
             //Blue Is Win -패배-
-
+            GameOverImg[0].SetActive(true);
         }
 
         if (who == 1)
         {
             //Red Is Win -승리-
-
+            GameOverImg[1].SetActive(true);
         }
     }
 }
