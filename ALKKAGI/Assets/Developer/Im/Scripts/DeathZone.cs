@@ -107,6 +107,8 @@ public class DeathZone : MonoBehaviour
     }
     private void die()
     {
+        GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
+        GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
         Destroy(collisionObj);
     }
 }

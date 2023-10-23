@@ -26,7 +26,6 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove; //이동 체크
     public bool IsFirstCrash;
-    public int CheatMode; //테스트용 치트모드
 
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
@@ -211,8 +210,6 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int a, b, c, d, e, f, g, h, i, j, k, l;
     public void Death(int deathPiece)
     {
-        CrashObjB = null;
-        CrashObjR = null;
         //데스 사운드 재생
         myAudioSource.PlayOneShot(DeathSound);
 
@@ -286,13 +283,13 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     {
         if (who == 0)
         {
-            //Blue Is Win
+            //Blue Is Win -패배-
 
         }
 
         if (who == 1)
         {
-            //Red Is Win player win
+            //Red Is Win -승리-
 
         }
     }

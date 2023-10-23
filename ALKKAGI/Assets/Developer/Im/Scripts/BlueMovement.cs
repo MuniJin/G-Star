@@ -70,7 +70,7 @@ public class BlueMovement : MonoBehaviour
 
     private void RocateRed() //적 탐색
     {
-        //StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
+        StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
         Invoke("attack", 1f);
     }
 
