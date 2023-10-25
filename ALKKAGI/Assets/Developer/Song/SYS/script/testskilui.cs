@@ -1,71 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class testskilui : MonoBehaviour
+
+public class Testskilui : MonoBehaviour
 {
-    public Image fill;
+    public Image image;
+    public float duration = 6.0f;
 
-    // Use this for initialization
-    void Start()
+
+    private void Awake()
     {
-
+        image.enabled = false;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        
+
         if (Input.GetKeyDown(KeyCode.T))
         {
-            StartCoroutine(CoolTime(6f));
+            StartCoroutine(ChangeFillAmountOverTime());
         }
     }
 
-    IEnumerator CoolTime(float cool)
+    private IEnumerator ChangeFillAmountOverTime()
     {
-        print("쿨타임 코루틴 실행");
+        image.enabled = true;
 
-        while (cool > 1.0f)
+        float currentTime = 0.0f;
+        float startFillAmount = 1.0f;
+        float endFillAmount = 0.0f;
+
+        while (currentTime < duration)
         {
-            cool -= Time.deltaTime;
-            fill.fillAmount = (1.0f/cool );
-            yield return new WaitForFixedUpdate();
+            float fillAmount = Mathf.Lerp(startFillAmount, endFillAmount, currentTime / duration);
+            fillAmount = Mathf.Clamp01(fillAmount);
+
+            image.fillAmount = fillAmount;
+            currentTime += Time.deltaTime;
+
+            yield return null;
         }
 
-        print("쿨타임 코루틴 완료");
+        image.fillAmount = endFillAmount;
     }
 }
-//public UnityEngine.UI.Image fill;
-//private float maxCooldown = 6f;
-//private float currentCooldown = 6f;
-
-//public void SetMaxCooldown(in float value)
-//{
-//    maxCooldown = value;
-//    UpdateFiilAmount();
-//}
-
-//public void SetCurrentCooldown(in float value)
-//{
-//    currentCooldown = value;
-//    UpdateFiilAmount();
-//}
-
-//private void UpdateFiilAmount()
-//{
-//    fill.fillAmount = currentCooldown / maxCooldown;
-//}
-
-//// Test
-//private void Update()
-//{
-
-//    SetCurrentCooldown(currentCooldown - Time.deltaTime);
-
-//    // Loop
-//    if (currentCooldown < 0f)
-//        currentCooldown = maxCooldown;
-
-
-//}
