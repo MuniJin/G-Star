@@ -84,7 +84,7 @@ public class Position : MonoBehaviour
         }
         GM.GetComponent<AlKKAGIManager>().PieceSet();
     }
-    private void BlueSettingSelect()
+    public void BlueSettingSelect()
     {
         //Blue Elephant[11] && Horse[12]
         if (BST == 1)  //상마상마
@@ -177,7 +177,7 @@ public class Position : MonoBehaviour
         LocalPos[9, 8] = 3;
     }
     
-    private void AutoPosBlue()
+    public void AutoPosBlue()
     {
         //blue Chariot
         LocalPos[0, 0] = 10;

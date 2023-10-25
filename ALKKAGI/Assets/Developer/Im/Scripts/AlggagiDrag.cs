@@ -16,11 +16,12 @@ public class AlggagiDrag : MonoBehaviour
     private GameObject GM;
     private GameObject PauseButton;
 
-
     public GameObject MainObj;
     public GameObject Arrow;
+    public GameObject ConCircle;
     public float ShootPower = 0f;
-
+    private float cosA;
+    double angleA;
     private void Start()
     {
         PauseButton = GameObject.Find("PauseButton");
@@ -39,13 +40,43 @@ public class AlggagiDrag : MonoBehaviour
             objPos.y = 0.5f;
             transform.position = objPos;
 
+            //Arrow의 방향을 정해주는 라인
             Arrow.transform.position = new Vector3(-objPos.x, 0.5f, -objPos.z) + MainObj.transform.position * 2;
-
             Vector3 direction = Arrow.transform.position - MainObj.transform.position;
             Arrow.transform.rotation = Quaternion.LookRotation(direction);
 
+            //동심원의 방향, 크기를 정해주는 라인(~76라인)
+            Vector3 dir = direction * -1;
+            float hypotenuse = (float)Math.Sqrt(direction.x * direction.x + direction.z * direction.z); //Trigger를 꼭직점으로 가지는 삼각형의 빗변
+            if (Math.Abs(dir.x) > Math.Abs(dir.z))
+                cosA = dir.z / hypotenuse;
+            else
+                cosA = dir.x / hypotenuse;
+            //트리거의 방향을 따라서 Sin을 사용할지 Cos를 사용할지 가려주는 조건문
+            if (dir.x > 0 && dir.z > 0)             //1시방향
+            {
+                if(dir.z<dir.x)
+                    angleA = Math.Acos(cosA);
+                else
+                    angleA = Math.Asin(cosA);
+            }
+            else if(dir.x < 0 && dir.z < 0)        //7시 방향
+            {
+                if (Math.Abs(dir.x) < Math.Abs(dir.z))
+                    angleA = Math.Acos(cosA);
+                else
+                    angleA = Math.Asin(cosA);
+            }
+            else if (dir.x < 0 && dir.z > 0)       //11시 방향
+                angleA = Math.Asin(cosA);
+            else                                         //5시 방향
+                angleA = Math.Acos(cosA);
+            double degreesA = angleA * 180 / Math.PI; //cos값을 이용하여 각도(원의 기울기)를 구해준다
+            ConCircle.transform.localRotation = Quaternion.Euler(0, (float)degreesA, 0); //기울기 최신화
+            ConCircle.transform.localScale = new Vector3(0.125f * hypotenuse*1.67f, 0.125f, 0.125f * Pita); //크기 최신화
+
             IsPieceSelected = true;
-            if (Input.GetMouseButtonDown(1)) //우클릭시 드래그 해제
+            if (Input.GetMouseButtonDown(1)) //우클릭시 드래그 상태 해제
             {
                 Debug.Log("선택 취소"); 
                 GM.GetComponent<AlKKAGIManager>().IsMove = false;
@@ -53,6 +84,7 @@ public class AlggagiDrag : MonoBehaviour
                 this.gameObject.transform.localPosition = new Vector3(0, 0.15f, 0);
                 Arrow.transform.localPosition = new Vector3(0, 0.2f, 0);
                 Arrow.transform.rotation = Quaternion.Euler(0, 0, 0);
+                ConCircle.transform.localScale = new Vector3(0.125f, 0.125f, 0.125f);
                 Invoke("DragReset", 1f);
             }
         }
@@ -66,6 +98,7 @@ public class AlggagiDrag : MonoBehaviour
     {
         if (IsPieceSelected)
         {
+            ConCircle.transform.localScale = new Vector3(0.125f, 0.125f, 0.125f);
             MainObj.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;

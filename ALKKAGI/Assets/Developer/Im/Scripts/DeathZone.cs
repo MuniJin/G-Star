@@ -104,6 +104,8 @@ public class DeathZone : MonoBehaviour
             }
         }
     }
+
+
     private void die()
     {
         Destroy(collisionObj);

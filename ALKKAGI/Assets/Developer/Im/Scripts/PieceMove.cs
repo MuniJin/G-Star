@@ -15,13 +15,25 @@ public class PieceMove : MonoBehaviour
     private bool IsCrash; //충돌체크
     private Vector3 dir; //충돌방향
     float totalSpeed; //충돌속도
+    float dieTime;
 
     private void Start()
     {
         GM = GameObject.Find("AlKKAGIManager");
         rb = this.gameObject.GetComponent<Rigidbody>(); //오브젝트의 리지드바디를 자동으로 넣어주기
     }
-    
+
+    private void Update()
+    {
+        if(this.gameObject.transform.position.y < -5)
+        {
+            dieTime += Time.deltaTime;
+            if(dieTime > 3f)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
     public void RotationReset() //기울기 초기화
     {
         this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -41,7 +53,7 @@ public class PieceMove : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
             if (!GM.GetComponent<AlKKAGIManager>().blueT)
-                GM.GetComponent<AlKKAGIManager>().BlueTurn();
+                StartCoroutine(GM.GetComponent<AlKKAGIManager>().BlueTurn());
         }
         else
         {
