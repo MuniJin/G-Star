@@ -9,17 +9,31 @@ public class FPSManager : Singleton<FPSManager>
     private AlKKAGIManager ALM;
 
     // 플레이어, AI의 스폰 위치
-    public GameObject mySpawnPoint;
-    public GameObject enemySpawnPoint;
+    private GameObject mySpawnPoint;
+    private GameObject enemySpawnPoint;
+
+    [SerializeField]
+    private List<GameObject> Maps;
 
     private void Awake()
     {
         ShowCursor();
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
+        int rand = Random.Range(0, Maps.Count);
+
+        for (int i = 0; i < Maps.Count; ++i)
         {
-            Init("Cannon", "Cannon");
+            if (i != rand)
+                Maps[i].gameObject.SetActive(false);
+            if (i == rand)
+            {
+                mySpawnPoint = Maps[i].transform.GetChild(0).gameObject;
+                enemySpawnPoint = Maps[i].transform.GetChild(1).gameObject;
+            }
         }
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
+            Init("Cannon", "Cannon");
         else
         {
             ALM = AlKKAGIManager.Instance;
@@ -84,6 +98,8 @@ public class FPSManager : Singleton<FPSManager>
         // 플레이어 오브젝트 카메라에 안보이게 설정
         foreach (Transform t in myP.transform)
             t.gameObject.layer = 3;
+
+
 
         GameObject enemyP = Instantiate(Resources.Load<GameObject>(e), enemySpawnPoint.transform.position, Quaternion.identity);
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
