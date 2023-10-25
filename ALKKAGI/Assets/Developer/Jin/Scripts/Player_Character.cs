@@ -9,15 +9,14 @@ using UnityEngine.SceneManagement;
 public class Player_Character : Default_Character
 {
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
-    public GameObject ALM;
+    private AlKKAGIManager ALM;
+    private FPSManager fm;
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Default_Character _d;
     // 물리 계산을 위해 선언
     private Rigidbody rb;
     // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
     public GameObject bullet;
-    //public GameObject playerObj;
-    //public GameObject kingSkill;
 
     // 속도, 점프 힘
     public float speed = 5f;
@@ -29,7 +28,8 @@ public class Player_Character : Default_Character
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            ALM = GameObject.Find("AlKKAGIManager");
+            ALM = AlKKAGIManager.Instance;
+        fm = FPSManager.Instance;
 
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
@@ -43,8 +43,10 @@ public class Player_Character : Default_Character
         // 플레이어 태그 변경
         this.gameObject.tag = "Player";
 
-        ChooseCharacter();
-        bullet = Resources.Load<GameObject>("Bullets\\Stone");
+        fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
+
+        if (bullet.GetComponent<Bullet>() == false)
+            bullet.AddComponent<Bullet>();
     }
 
     private void Update()
@@ -54,7 +56,7 @@ public class Player_Character : Default_Character
             Jump();
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-            Attack(bulPos.transform.position, 40f);
+            _d.Attack(bulPos.transform.position, 40f);
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
@@ -118,8 +120,8 @@ public class Player_Character : Default_Character
     private float mouseX, mouseY;
     private float eulerAngleX, eulerAngleY;
 
-    //private float rotCamX = 5f;
-    //private float rotCamY = 3f;
+    private float rotCamX = 5f;
+    private float rotCamY = 3f;
 
     private float limitMinX = -40f;
     private float limitMaxX = 40f;
@@ -135,8 +137,8 @@ public class Player_Character : Default_Character
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * sensitivity;
-        eulerAngleY += mouseX * sensitivity;
+        eulerAngleX -= mouseY * rotCamX * sensitivity;
+        eulerAngleY += mouseX * rotCamY * sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
@@ -158,7 +160,7 @@ public class Player_Character : Default_Character
     // 공격
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
+        GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
 
         go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
     }
@@ -178,43 +180,5 @@ public class Player_Character : Default_Character
             Debug.Log("Not Decorator");
     }
 
-    // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
-    public void ChooseCharacter()
-    {
-        string str = this.gameObject.name.Split('_')[0];
-
-        if (_d == null)
-        {
-            switch (str)
-            {
-                case "Solider":
-                    _d = this.gameObject.AddComponent<Pawn>();
-                    break;
-                case "Chariot":
-                    _d = this.gameObject.AddComponent<Rook>();
-                    break;
-                case "Horse":
-                    _d = this.gameObject.AddComponent<Knight>();
-                    //
-                    break;
-                case "Elephant":
-                    _d = this.gameObject.AddComponent<Elephant>();
-                    //
-                    break;
-                case "Cannon":
-                    _d = this.gameObject.AddComponent<Cannon>();
-                    break;
-                case "Guard":
-                    _d = this.gameObject.AddComponent<Guards>();
-                    break;
-                case "King":
-                    _d = this.gameObject.AddComponent<King>();
-                    //
-                    break;
-                default:
-                    Debug.Log("it does not exist");
-                    break;
-            }
-        }
-    }
+    
 }
