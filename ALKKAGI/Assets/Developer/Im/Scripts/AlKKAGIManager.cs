@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -32,8 +31,8 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
-    public GameObject TurnObj;
-    public TMP_Text TurnText;
+    public GameObject VSImage;
+
     public RawImage CrashRedImage;
     public RawImage CrashBlueImage;
 
@@ -60,6 +59,7 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
     void CrashEffect()
     {
+        VSImage.SetActive(true);
         textureChange();
     }
     void textureChange()
@@ -115,10 +115,16 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
     }
     void CrashSceneChange()
     {
+        VSImage.SetActive(false);
         SceneManager.LoadScene("Map1");  //fps 씬 변환
 
         BoardObj.SetActive(false);
 
+    }
+
+    public void FPSResults()
+    {
+        Invoke("FPSResult", 1f);
     }
 
     public void FPSResult() //FPS종료
@@ -127,16 +133,18 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
         {
             if (IsWin) //승리했을시
             {
+                //Debug.Log("FPS 승리");
                 CrashObjR.GetComponent<PieceMove>().Win();
-                if (!blueT && !forBlueTurn) 
+                if (!blueT && !forBlueTurn) //얘가 문제임-
                 {
                     StartCoroutine(BlueTurn());
                 }
             }
             else //패배했을시
             {
+                //Debug.Log("FPS 패배");
                 CrashObjR.GetComponent<PieceMove>().lose();
-                if (!blueT && !forBlueTurn) 
+                if (!blueT && !forBlueTurn) //얘가 문제임-
                 {
                     StartCoroutine(BlueTurn());
                 }
@@ -158,7 +166,7 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
     }
 
-    private void BlueSelect()
+    public void BlueSelect()
     {
         BluePattern = Random.Range(1, 5);
         if (BluePattern == 1) //패턴1 뒷열 오브젝트들
@@ -200,30 +208,26 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
 
         while (timer < 2f) // 2초를 기다림
         {
-            if (SceneManager.GetActiveScene().name == "Board" || SceneManager.GetActiveScene().name == "AlkkagiScene" )
+            if (SceneManager.GetActiveScene().name == "Board")
             {
                 timer += Time.deltaTime; // 타이머 증가
             }
             yield return null; // 다음 프레임까지 대기
         }
-        TurnObj.SetActive(true);
-        TurnText.text = "Blue Turn";
 
         Debug.Log("파랑턴으로 넘어감...");
         BlueStart();
     }
     private void BlueStart()
     {
-        //if (!GOver)
-        {
-            IsMyTurn = false;
-            forBlueTurn = false;
-            BlueSelect();
-            Invoke("RedTurn", 3f);
-        } 
+        IsMyTurn = false;
+        forBlueTurn = false;
+        BlueSelect();
+        Invoke("RedTurn", 3f);
     }
     private void RedTurn()
     {
+        //Debug.Log("rt");
         blueT = false;
         IsMove = true;
     }
@@ -335,20 +339,6 @@ public class AlKKAGIManager : MonoBehaviour//Singleton<AlKKAGIManager>
             }
         }
     }
-
-    public void RedTurnChange()
-    {
-        TurnObj.SetActive(true);
-        TurnText.text = "My Turn";
-
-        Invoke("falseTurnObj", 1f);
-    }
-
-    private void falseTurnObj()
-    {
-        TurnObj.SetActive(false);
-    }
-
     public void GameOver(int who)
     {
         if (who == 0)

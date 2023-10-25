@@ -21,25 +21,13 @@ public class BlueMovement : MonoBehaviour
     private string targetTag = "RedPiece"; // 검색할 태그
     private float rotationDuration; // 회전을 완료할 시간 (초)
     private float rotationSpeed;
-    private float dieTime;
+
 
     private void Start()
     {
            rotationSpeed = 360f;
            rotationDuration = 1f;
            GM = GameObject.Find("AlKKAGIManager");
-    }
-
-    private void Update()
-    {
-        if (this.gameObject.transform.position.y < -5)
-        {
-            dieTime += Time.deltaTime;
-            if (dieTime > 3f)
-            {
-                Destroy(this.gameObject);
-            }
-        }
     }
 
     public void MoveStart() //기물 이동
@@ -50,8 +38,9 @@ public class BlueMovement : MonoBehaviour
     {
         if (!IsCrash)
         {
-            //Debug.Log("파랑 헛스윙");
-            IFC();
+            Debug.Log("파랑 헛스윙");
+            GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
+            GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
         }
         else
         {
@@ -68,7 +57,6 @@ public class BlueMovement : MonoBehaviour
         MoveSpeed = ((float)Math.Floor(Pita)); //속도값
         Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
         Arrow = direction;
-
         if (MoveSpeed < 2f)
         {
             Debug.Log("2이하");
@@ -82,7 +70,6 @@ public class BlueMovement : MonoBehaviour
 
     private void RocateRed() //적 탐색
     {
-        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
         //StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
         Invoke("attack", 1f);
     }
@@ -167,7 +154,6 @@ public class BlueMovement : MonoBehaviour
     }
     private void IFC()
     {
-        GM.GetComponent<AlKKAGIManager>().RedTurnChange();
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }
