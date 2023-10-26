@@ -24,7 +24,7 @@ public class CustomPosManager : MonoBehaviour
         PosMan.GetComponent<Position>().BST = Random.Range(1, 5);
         PosMan.GetComponent<Position>().BlueSettingSelect();
         PosMan.GetComponent<Position>().AutoPosBlue();
-        //PosMan.GetComponent<Position>().BlueSetting();
+        PosMan.GetComponent<Position>().BlueSetting();
         GM.GetComponent<AlKKAGIManager>().PieceSet();
         this.gameObject.SetActive(false);
     }
