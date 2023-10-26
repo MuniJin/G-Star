@@ -21,11 +21,11 @@ public class CustomPos : MonoBehaviour
     private void PrintError(int ErrorNum)
     {
         ErrorBox.SetActive(true);
-        if (ErrorNum == 0) 
+        if (ErrorNum == 0)
             ErrorLog.text = "범위를 벗어났습니다";
-        if (ErrorNum == 1) 
+        if (ErrorNum == 1)
             ErrorLog.text = "이미 배치된 위치입니다";
-        Invoke("CloseErrorBox",1f);
+        Invoke("CloseErrorBox", 1f);
     }
     private void CloseErrorBox()
     {
@@ -51,20 +51,20 @@ public class CustomPos : MonoBehaviour
         int CloseX = Mathf.RoundToInt(this.gameObject.transform.position.x / 2.0f) * 2;
         int CloseZ = Mathf.RoundToInt(this.gameObject.transform.position.z / 2.0f) * 2;
 
-        if (this.gameObject.transform.position.z > -11f || this.gameObject.transform.position.z < -18f || this.gameObject.transform.position.x < 0 || this.gameObject.transform.position.x > 16)
+        if (this.gameObject.transform.position.z > -9f || this.gameObject.transform.position.z < -18f || this.gameObject.transform.position.x < 0 || this.gameObject.transform.position.x > 16)
         {
             PrintError(0);
             this.gameObject.transform.position = ReturnPos;
         }
         else
         {
-            if (CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] != 1)
+            if (CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] != 1)
             {
                 if (this.gameObject.name == "King_Red")
                 {
                     if (CusManager.PiecesNum[0].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[0], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[0].text, out piecesNum);
@@ -80,7 +80,7 @@ public class CustomPos : MonoBehaviour
                 {
                     if (CusManager.PiecesNum[1].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[1], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[1].text, out piecesNum);
@@ -96,7 +96,7 @@ public class CustomPos : MonoBehaviour
                 {
                     if (CusManager.PiecesNum[2].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[2], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[2].text, out piecesNum);
@@ -112,7 +112,7 @@ public class CustomPos : MonoBehaviour
                 {
                     if (CusManager.PiecesNum[3].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[3], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[3].text, out piecesNum);
@@ -128,7 +128,7 @@ public class CustomPos : MonoBehaviour
                 {
                     if (CusManager.PiecesNum[4].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[4], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[4].text, out piecesNum);
@@ -144,7 +144,7 @@ public class CustomPos : MonoBehaviour
                 {
                     if (CusManager.PiecesNum[5].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[5], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[5].text, out piecesNum);
@@ -161,7 +161,7 @@ public class CustomPos : MonoBehaviour
                 {
                     if (CusManager.PiecesNum[6].text != "0")
                     {
-                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 12) / 2] = 1;
+                        CusManager.LocalPos[CloseX / 2, -1 * (CloseZ + 10) / 2] = 1;
                         GameObject newPiece = Instantiate(CusManager.RedPieces[6], new Vector3(CloseX, 0, CloseZ), Quaternion.identity);
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[6].text, out piecesNum);
@@ -182,3 +182,4 @@ public class CustomPos : MonoBehaviour
         }
     }
 }
+

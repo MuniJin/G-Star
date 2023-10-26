@@ -15,12 +15,13 @@ public class BlueMovement : MonoBehaviour
     public Vector3 SaveSpeed;
     private Vector3 dir;
     private float totalSpeed;
+    private bool IsCrash;
 
     private List<GameObject> redObjects = new List<GameObject>();
     private string targetTag = "RedPiece"; // 검색할 태그
     private float rotationDuration; // 회전을 완료할 시간 (초)
     private float rotationSpeed;
-
+    private float dieTime;
 
     private void Start()
     {
@@ -29,22 +30,32 @@ public class BlueMovement : MonoBehaviour
         GM = GameObject.Find("AlKKAGIManager");
     }
 
+    private void Update()
+    {
+        if (this.gameObject.transform.position.y < -5)
+        {
+            dieTime += Time.deltaTime;
+            if (dieTime > 3f)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
     public void MoveStart() //기물 이동
     {
-        GM.GetComponent<AlKKAGIManager>().BlueCrash = false;
         Invoke("RocateRed", 1f);
     }
     private void NotCrash() //헛스윙 체크
     {
-        if (!GM.GetComponent<AlKKAGIManager>().BlueCrash) 
+        if (!IsCrash)
         {
             //Debug.Log("파랑 헛스윙");
-            GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
-            GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
+            IFC();
         }
         else
         {
-            //Debug.Log("충돌!");
+            Debug.Log("충돌!");
         }
     }
 
@@ -57,21 +68,21 @@ public class BlueMovement : MonoBehaviour
         MoveSpeed = ((float)Math.Floor(Pita)); //속도값
         Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
         Arrow = direction;
+
         if (MoveSpeed < 2f)
         {
             Debug.Log("2이하");
             MoveSpeed = 5f;
         }
-        float mass = this.gameObject.GetComponent<Rigidbody>().mass;
-        if (mass > 2f)
-            mass = 1.5f;
-        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed*mass, ForceMode.Impulse);
+
+        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
     }
 
     private void RocateRed() //적 탐색
     {
+        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
         //StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
         Invoke("attack", 1f);
     }
@@ -109,7 +120,7 @@ public class BlueMovement : MonoBehaviour
         if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject
                 && !GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
-            GM.GetComponent<AlKKAGIManager>().BlueCrash = true;
+            IsCrash = true;
 
             GameObject collidedObject = collision.gameObject;
 
@@ -121,7 +132,7 @@ public class BlueMovement : MonoBehaviour
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-            // Debug.Log("totals - blue : " + totalSpeed);
+            Debug.Log("totals - blue : " + totalSpeed);
             if (totalSpeed < 1f)
             {
                 Debug.Log("제발");
@@ -156,6 +167,7 @@ public class BlueMovement : MonoBehaviour
     }
     private void IFC()
     {
+        GM.GetComponent<AlKKAGIManager>().RedTurnChange();
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }

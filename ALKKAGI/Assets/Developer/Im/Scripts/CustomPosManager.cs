@@ -9,7 +9,7 @@ public class CustomPosManager : MonoBehaviour
     public GameObject[] RedPieces;
     public GameObject GM;
     public GameObject PosMan;
-    public int[,] LocalPos = new int[9, 4]; // 0,0 -> 0 0 -12      // 8,3 -> 16 0 -18
+    public int[,] LocalPos = new int[9, 5]; // 0,0 -> 0 0 -12      // 8,3 -> 16 0 -18
 
     private void Update()
     {
@@ -19,13 +19,14 @@ public class CustomPosManager : MonoBehaviour
         }
     }
 
-    private void SettingEnd()
+    public void SettingEnd()
     {
         PosMan.GetComponent<Position>().BST = Random.Range(1, 5);
         PosMan.GetComponent<Position>().BlueSettingSelect();
         PosMan.GetComponent<Position>().AutoPosBlue();
-        PosMan.GetComponent<Position>().BlueSetting();
+        //PosMan.GetComponent<Position>().BlueSetting();
         GM.GetComponent<AlKKAGIManager>().PieceSet();
         this.gameObject.SetActive(false);
     }
 }
+
