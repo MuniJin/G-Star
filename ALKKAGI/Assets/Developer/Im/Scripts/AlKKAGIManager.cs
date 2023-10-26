@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,6 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int BluePattern = 0; //AI 패턴
     private GameObject[] LeftBluePiece; //파랑의 남은 기물
     private AudioSource myAudioSource;
-    private bool GOver;
 
     public AudioClip ShootSound;
     public AudioClip CrashSound;
@@ -27,19 +27,20 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove; //이동 체크
     public bool IsFirstCrash;
-    public bool RedCrash; //충돌체크
-    public bool BlueCrash;
+    public int CheatMode; //테스트용 치트모드
 
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
-
+    public GameObject TurnObj;
+    public TMP_Text TurnText;
     public RawImage CrashRedImage;
     public RawImage CrashBlueImage;
 
-    public GameObject[] GameOverImg;
+    public Texture[] CrashImg;
     public float timer = 0f;
     private bool forBlueTurn;
+    private bool GOver;
 
     private void Start()
     {
@@ -52,7 +53,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public void Crash() //충돌
     {
         timer = 0;
-
+        //CrashEffect();
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
         Invoke("CrashSceneChange", 1.5f);
@@ -66,29 +67,22 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
     }
 
-    public void FPSResults()
-    {
-        Invoke("FPSResult", 1f);
-    }
-
     public void FPSResult() //FPS종료
     {
         if (IsMyTurn)
         {
             if (IsWin) //승리했을시
             {
-                //Debug.Log("FPS 승리");
                 CrashObjR.GetComponent<PieceMove>().Win();
-                if (!blueT && !forBlueTurn) //얘가 문제임-
+                if (!blueT && !forBlueTurn)
                 {
                     StartCoroutine(BlueTurn());
                 }
             }
             else //패배했을시
             {
-                //Debug.Log("FPS 패배");
                 CrashObjR.GetComponent<PieceMove>().lose();
-                if (!blueT && !forBlueTurn) //얘가 문제임-
+                if (!blueT && !forBlueTurn)
                 {
                     StartCoroutine(BlueTurn());
                 }
@@ -110,7 +104,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
     }
 
-    public void BlueSelect()
+    private void BlueSelect()
     {
         BluePattern = Random.Range(1, 5);
         if (BluePattern == 1) //패턴1 뒷열 오브젝트들
@@ -152,38 +146,44 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
         while (timer < 2f) // 2초를 기다림
         {
-            if (SceneManager.GetActiveScene().name == "Board")
+            if (SceneManager.GetActiveScene().name == "Board" || SceneManager.GetActiveScene().name == "AlkkagiScene")
             {
                 timer += Time.deltaTime; // 타이머 증가
             }
             yield return null; // 다음 프레임까지 대기
         }
+        TurnObj.SetActive(true);
+        TurnText.text = "Blue Turn";
 
-        //Debug.Log("파랑턴으로 넘어감...");
+        Debug.Log("파랑턴으로 넘어감...");
         BlueStart();
     }
-    public void BlueStart()
+    private void BlueStart()
     {
-        if (!GOver) 
+        if (!GOver)
         {
             IsMyTurn = false;
             forBlueTurn = false;
             BlueSelect();
             Invoke("RedTurn", 3f);
-        } 
+        }
     }
     private void RedTurn()
     {
-        //Debug.Log("rt");
         blueT = false;
         IsMove = true;
     }
     private void repick()
     {
-        if (randomChildObject == null || randomChildObject.transform.position.z >= 1.5f || randomChildObject.transform.position.z <= -19f||
-            randomChildObject.transform.position.x > 17.5f || randomChildObject.transform.position.x < -1f)
+        if (randomChildObject == null)//선택된 대상이 null값일때
         {
-            Debug.Log("blue repick");
+            Debug.Log("repick");
+            BlueSelect();//다시 고른다
+        }
+        else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f ||
+            randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
+        {
+            Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
     }
@@ -204,6 +204,9 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         for (int i = 0; i < RedPieces.transform.childCount; i++)
         {
             LeftRedPiece[i] = RedPieces.transform.GetChild(i).gameObject;
+        }
+        for (int i = 0; i < LeftRedPiece.Length; i++)
+        {
             LeftRedPiece[i].GetComponent<PieceMove>().DragObj.SetActive(true);
         }
     }
@@ -211,6 +214,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int a, b, c, d, e, f, g, h, i, j, k, l;
     public void Death(int deathPiece)
     {
+        CrashObjB = null;
+        CrashObjR = null;
         //데스 사운드 재생
         myAudioSource.PlayOneShot(DeathSound);
 
@@ -280,26 +285,32 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             }
         }
     }
+
+    public void RedTurnChange()
+    {
+        TurnObj.SetActive(true);
+        TurnText.text = "My Turn";
+
+        Invoke("falseTurnObj", 1f);
+    }
+
+    private void falseTurnObj()
+    {
+        TurnObj.SetActive(false);
+    }
+
     public void GameOver(int who)
     {
-        GOver = true;
-        Time.timeScale = 0;
-        for (int i = 0; i < LeftRedPiece.Length; i++)
-            LeftRedPiece[i].GetComponent<PieceMove>().DragObj.SetActive(false);
-        for (int i = 0; i < LeftBluePiece.Length; i++)
-            LeftBluePiece[i].GetComponent<Rigidbody>().isKinematic = false;
-
         if (who == 0)
         {
-            //Blue Is Win -패배-
-            GameOverImg[0].SetActive(true);
+            //Blue Is Win
+            GOver = true;
         }
 
         if (who == 1)
         {
-            //Red Is Win -승리-
-            GameOverImg[1].SetActive(true);
+            //Red Is Win player win
+            GOver = true;
         }
     }
 }
-
