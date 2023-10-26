@@ -28,17 +28,8 @@ public class Bullet : MonoBehaviour
                 //if (go.GetHp() <= 0)
                 //    FPSManager.Instance.Lose();
             }
-
         }
-        else
-        {
-            this.GetComponent<MeshCollider>().isTrigger = false;
-            Invoke("DestroyBullet", 2f);
-        }
-    }
 
-    private void DestroyBullet()
-    {
         Destroy(this.gameObject);
     }
 }

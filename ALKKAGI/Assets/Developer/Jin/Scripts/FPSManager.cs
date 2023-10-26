@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class FPSManager : Singleton<FPSManager>
 {
-    private AlKKAGIManager ALM;
+    private AlKKAGIManager am;
 
     // 맵 리스트
     [SerializeField]
@@ -46,11 +46,11 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Cannon", "Cannon");
+            Init("Guard", "Cannon");
         else
         {
-            ALM = AlKKAGIManager.Instance;
-            Init(ALM.CrashObjR.name, ALM.CrashObjB.name);
+            am = AlKKAGIManager.Instance;
+            Init(am.CrashObjR.name, am.CrashObjB.name);
         }
     }
 
@@ -169,28 +169,28 @@ public class FPSManager : Singleton<FPSManager>
     // 게임 승패내기용 임의의 함수
     public void Win()
     {
-        ALM.BoardObj.SetActive(true);
-        ALM.IsWin = true;
+        am.BoardObj.SetActive(true);
+        am.IsWin = true;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Board");
-        ALM.FPSResult();
+        am.FPSResult();
 
     }
 
     // 게임 승패내기용 임의의 함수
     public void Lose()
     {
-        ALM.BoardObj.SetActive(true);
+        am.BoardObj.SetActive(true);
         Cursor.visible = false;
-        ALM.IsWin = false;
+        am.IsWin = false;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Board");
-        ALM.FPSResult();
+        am.FPSResult();
     }
 }

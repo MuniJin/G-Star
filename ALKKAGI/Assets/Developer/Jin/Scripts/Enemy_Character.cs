@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_Character : Default_Character
 {
-    private AlKKAGIManager ALM;
+    private AlKKAGIManager am;
     private FPSManager fm;
 
     Default_Character _d;
@@ -14,7 +14,7 @@ public class Enemy_Character : Default_Character
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            ALM = AlKKAGIManager.Instance;
+            am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
 
 

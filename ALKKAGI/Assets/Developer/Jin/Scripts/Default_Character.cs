@@ -7,17 +7,15 @@ public abstract class Default_Character : MonoBehaviour
 {
     // 체력
     protected int _hp { get; set; }
-
     // 스킬 쿨타임
-    public float _coolDown { get; set; }
+    protected float _coolDown { get; set; }
     // 공격 데미지
-    public float _damage { get; set; }
+    protected float _damage { get; set; }
 
     // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
     protected abstract void Jump();
     public abstract void Attack(Vector3 bulpos, float shootPower);
-
     public abstract IEnumerator Skill(GameObject go);
 }
 
@@ -252,7 +250,6 @@ public class Cannon : Decorator_Character
         groundLayer = LayerMask.GetMask("Ground");
 
         basePlayer = base.gameObject;
-
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
@@ -337,6 +334,8 @@ public class Guards : Decorator_Character
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
+
+
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))

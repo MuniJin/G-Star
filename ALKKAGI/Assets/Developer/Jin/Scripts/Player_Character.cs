@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class Player_Character : Default_Character
 {
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
-    private AlKKAGIManager ALM;
+    private AlKKAGIManager am;
     private FPSManager fm;
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Default_Character _d;
@@ -28,14 +28,11 @@ public class Player_Character : Default_Character
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            ALM = AlKKAGIManager.Instance;
+            am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
 
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
-
-        //// 플레이어 초기 체력 세팅
-        this._hp = 100;
 
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
@@ -44,7 +41,6 @@ public class Player_Character : Default_Character
         this.gameObject.tag = "Player";
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
-
         if (bullet.GetComponent<Bullet>() == false)
             bullet.AddComponent<Bullet>();
     }
@@ -66,34 +62,34 @@ public class Player_Character : Default_Character
             Win();
         if (Input.GetKeyDown(KeyCode.P))
             Lose();
+
     }
 
     // 게임 승패내기용 임의의 함수
     public void Win()
     {
-        ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
-        ALM.GetComponent<AlKKAGIManager>().IsWin = true;
+        am.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
+        am.GetComponent<AlKKAGIManager>().IsWin = true;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         SceneManager.LoadScene("Board");
-        ALM.GetComponent<AlKKAGIManager>().FPSResult();
-
+        am.GetComponent<AlKKAGIManager>().FPSResult();
     }
 
     // 게임 승패내기용 임의의 함수
     public void Lose()
     {
-        ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
+        am.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
         Cursor.visible = false;
-        ALM.GetComponent<AlKKAGIManager>().IsWin = false;
+        am.GetComponent<AlKKAGIManager>().IsWin = false;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         SceneManager.LoadScene("Board");
-        ALM.GetComponent<AlKKAGIManager>().FPSResult();
+        am.GetComponent<AlKKAGIManager>().FPSResult();
     }
 
     private void FixedUpdate()
@@ -160,9 +156,9 @@ public class Player_Character : Default_Character
     // 공격
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
+        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
 
-        go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
+        go.GetComponent<Rigidbody>().AddForce(cam.transform.forward * shootPower, ForceMode.Impulse);
     }
 
     // 스킬(Default_Character를 상속받아서 존재하나 필요없어서 예외처리로 해둠)
@@ -179,6 +175,4 @@ public class Player_Character : Default_Character
         else
             Debug.Log("Not Decorator");
     }
-
-    
 }
