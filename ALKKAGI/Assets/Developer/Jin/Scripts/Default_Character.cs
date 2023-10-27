@@ -118,7 +118,7 @@ public class Rook : Decorator_Character
             useSkill = true;
             
             Vector3 forwardDirection = Camera.main.transform.forward;
-            go.GetComponent<Rigidbody>().AddForce(forwardDirection * 20f, ForceMode.Impulse);
+            go.GetComponent<Rigidbody>().AddForce(forwardDirection * 30f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;

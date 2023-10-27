@@ -46,7 +46,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Guard", "Cannon");
+            Init("Chariot", "Cannon");
         else
         {
             am = AlKKAGIManager.Instance;
