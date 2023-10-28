@@ -102,8 +102,8 @@ public class Player_Character : Default_Character
     private float rotCamX = 5f;
     private float rotCamY = 3f;
 
-    private float limitMinX = -40f;
-    private float limitMaxX = 40f;
+    private float limitMinX = -90f;
+    private float limitMaxX = 90f;
 
     private Camera cam;
 
