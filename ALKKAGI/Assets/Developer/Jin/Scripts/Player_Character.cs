@@ -9,15 +9,14 @@ using UnityEngine.SceneManagement;
 public class Player_Character : Default_Character
 {
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
-    public GameObject ALM;
+    private AlKKAGIManager am;
+    private FPSManager fm;
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Default_Character _d;
     // 물리 계산을 위해 선언
     private Rigidbody rb;
     // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
     public GameObject bullet;
-    //public GameObject playerObj;
-    //public GameObject kingSkill;
 
     // 속도, 점프 힘
     public float speed = 5f;
@@ -29,13 +28,11 @@ public class Player_Character : Default_Character
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            ALM = GameObject.Find("AlKKAGIManager");
+            am = AlKKAGIManager.Instance;
+        fm = FPSManager.Instance;
 
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
-
-        //// 플레이어 초기 체력 세팅
-        this._hp = 100;
 
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
@@ -43,8 +40,9 @@ public class Player_Character : Default_Character
         // 플레이어 태그 변경
         this.gameObject.tag = "Player";
 
-        ChooseCharacter();
-        bullet = Resources.Load<GameObject>("Bullets\\Stone");
+        fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
+        if (bullet.GetComponent<Bullet>() == false)
+            bullet.AddComponent<Bullet>();
     }
 
     private void Update()
@@ -54,7 +52,7 @@ public class Player_Character : Default_Character
             Jump();
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-            Attack(bulPos.transform.position, 40f);
+            _d.Attack(bulPos.transform.position, 40f);
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
@@ -64,34 +62,34 @@ public class Player_Character : Default_Character
             Win();
         if (Input.GetKeyDown(KeyCode.P))
             Lose();
+
     }
 
     // 게임 승패내기용 임의의 함수
     public void Win()
     {
-        ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
-        ALM.GetComponent<AlKKAGIManager>().IsWin = true;
+        am.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
+        am.GetComponent<AlKKAGIManager>().IsWin = true;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         SceneManager.LoadScene("Board");
-        ALM.GetComponent<AlKKAGIManager>().FPSResult();
-
+        am.GetComponent<AlKKAGIManager>().FPSResult();
     }
 
     // 게임 승패내기용 임의의 함수
     public void Lose()
     {
-        ALM.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
+        am.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
         Cursor.visible = false;
-        ALM.GetComponent<AlKKAGIManager>().IsWin = false;
+        am.GetComponent<AlKKAGIManager>().IsWin = false;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         SceneManager.LoadScene("Board");
-        ALM.GetComponent<AlKKAGIManager>().FPSResult();
+        am.GetComponent<AlKKAGIManager>().FPSResult();
     }
 
     private void FixedUpdate()
@@ -118,8 +116,8 @@ public class Player_Character : Default_Character
     private float mouseX, mouseY;
     private float eulerAngleX, eulerAngleY;
 
-    //private float rotCamX = 5f;
-    //private float rotCamY = 3f;
+    private float rotCamX = 5f;
+    private float rotCamY = 3f;
 
     private float limitMinX = -40f;
     private float limitMaxX = 40f;
@@ -135,8 +133,8 @@ public class Player_Character : Default_Character
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * sensitivity;
-        eulerAngleY += mouseX * sensitivity;
+        eulerAngleX -= mouseY * rotCamX * sensitivity;
+        eulerAngleY += mouseX * rotCamY * sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
@@ -160,7 +158,7 @@ public class Player_Character : Default_Character
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
 
-        go.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * shootPower, ForceMode.Impulse);
+        go.GetComponent<Rigidbody>().AddForce(cam.transform.forward * shootPower, ForceMode.Impulse);
     }
 
     // 스킬(Default_Character를 상속받아서 존재하나 필요없어서 예외처리로 해둠)
@@ -176,45 +174,5 @@ public class Player_Character : Default_Character
             StartCoroutine(_d.Skill(this.gameObject));
         else
             Debug.Log("Not Decorator");
-    }
-
-    // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
-    public void ChooseCharacter()
-    {
-        string str = this.gameObject.name.Split('_')[0];
-
-        if (_d == null)
-        {
-            switch (str)
-            {
-                case "Solider":
-                    _d = this.gameObject.AddComponent<Pawn>();
-                    break;
-                case "Chariot":
-                    _d = this.gameObject.AddComponent<Rook>();
-                    break;
-                case "Horse":
-                    _d = this.gameObject.AddComponent<Knight>();
-                    //
-                    break;
-                case "Elephant":
-                    _d = this.gameObject.AddComponent<Elephant>();
-                    //
-                    break;
-                case "Cannon":
-                    _d = this.gameObject.AddComponent<Cannon>();
-                    break;
-                case "Guard":
-                    _d = this.gameObject.AddComponent<Guards>();
-                    break;
-                case "King":
-                    _d = this.gameObject.AddComponent<King>();
-                    //
-                    break;
-                default:
-                    Debug.Log("it does not exist");
-                    break;
-            }
-        }
     }
 }
