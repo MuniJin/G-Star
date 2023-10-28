@@ -32,13 +32,15 @@ public class AlggagiDrag : MonoBehaviour
     {
         if (GM.GetComponent<AlKKAGIManager>().IsMyTurn && !PauseButton.GetComponent<PauseButton>().IsPause && GM.GetComponent<AlKKAGIManager>().IsMove) //내턴일때 드래그시
         {
-            MainObj.GetComponent<PieceMove>().RotationReset(); //회전값 초기화
             float distance = Camera.main.WorldToScreenPoint(transform.position).z;
-
             Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance); //마우스 포지션 가져오기
             Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos); //오브젝트 포지션에 마우스 포지션을 대입
             objPos.y = 0.5f;
             transform.position = objPos;
+
+
+
+            MainObj.GetComponent<PieceMove>().RotationReset(); //회전값 초기화
 
             //Arrow의 방향을 정해주는 라인
             Arrow.transform.position = new Vector3(-objPos.x, 0.5f, -objPos.z) + MainObj.transform.position * 2;

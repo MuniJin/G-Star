@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BlueMovement : MonoBehaviour
@@ -19,14 +20,12 @@ public class BlueMovement : MonoBehaviour
 
     private List<GameObject> redObjects = new List<GameObject>();
     private string targetTag = "RedPiece"; // 검색할 태그
-    private float rotationDuration; // 회전을 완료할 시간 (초)
-    private float rotationSpeed;
     private float dieTime;
+    GameObject[] uniqueRedPieces;
+    public GameObject ArrowObj;
 
     private void Start()
     {
-        rotationSpeed = 360f;
-        rotationDuration = 1f;
         GM = GameObject.Find("AlKKAGIManager");
     }
 
@@ -44,7 +43,9 @@ public class BlueMovement : MonoBehaviour
 
     public void MoveStart() //기물 이동
     {
-        Invoke("RocateRed", 1f);
+        //Invoke("LocateRed", 1f);
+        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
+        startRay();
     }
     private void NotCrash() //헛스윙 체크
     {
@@ -80,39 +81,9 @@ public class BlueMovement : MonoBehaviour
         redObjects.Clear(); //검색한 오브젝트 초기화
     }
 
-    private void RocateRed() //적 탐색
+    private void startRay()
     {
-        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
-        //StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
-        Invoke("attack", 1f);
-    }
-
-    private void attack()
-    {
-        Invoke("NotCrash", 2.5f);
-        if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
-        {
-            GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
-            if (Target == null)
-            {
-                Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
-            }
-            else
-            {
-                targetlocal = Target.transform.localPosition;
-                DisX = targetlocal.x / 100;
-                DisZ = targetlocal.z / 100;
-                MoveMath();
-            }
-        }
-        else
-        {
-            GameObject target = redObjects[UnityEngine.Random.Range(0, redObjects.Count)];
-            targetlocal = target.transform.localPosition;
-            DisX = targetlocal.x / 100;
-            DisZ = targetlocal.z / 100;
-            MoveMath();
-        }
+        StartCoroutine(GetRedPiecesCoroutine()); //사정거리 내의 빨강 검색
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -132,7 +103,7 @@ public class BlueMovement : MonoBehaviour
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-            Debug.Log("totals - blue : " + totalSpeed);
+            //Debug.Log("totals - blue : " + totalSpeed);
             if (totalSpeed < 1f)
             {
                 Debug.Log("제발");
@@ -147,8 +118,61 @@ public class BlueMovement : MonoBehaviour
         }
     }
 
+    public float rayLength = 20f;
+    public float interval = 0.1f; // 레이를 발사하는 간격
 
+    private IEnumerator GetRedPiecesCoroutine() //적 탐색
+    {
+        // 360도의 레이를 발사하는 루프
+        for (float angle = 0f; angle < 360f; angle += 2f)
+        {
+            float radians = angle * Mathf.Deg2Rad;
+            Vector3 direction = new Vector3(Mathf.Sin(radians), 0 , Mathf.Cos(radians));
+            Vector3 rayOrigin = transform.position;
 
+            // 디버그 레이를 그리기 위한 코드
+            Debug.DrawRay(rayOrigin, direction * rayLength, Color.red);
+
+            RaycastHit hit;
+            if (Physics.Raycast(rayOrigin, direction, out hit, rayLength))
+            {
+                // 충돌한 오브젝트의 태그가 "RedPiece"인지 확인
+                if (hit.collider.CompareTag("RedPiece"))
+                {
+                    redObjects.Add(hit.collider.gameObject);
+                }
+            }
+
+            yield return null;
+        }
+        if (redObjects.Count == 0) //감지 실패시 다른 오브젝트로 이동 후 감지
+        {
+
+        }
+        else //감지 성공시 배열 정렬 후 공격
+        {
+            redObjects = redObjects.Distinct().ToList();
+            // 걸러진 RedPiece 오브젝트를 배열로 변환
+            uniqueRedPieces = redObjects.ToArray();
+
+            int targetNum = uniqueRedPieces.Length;
+            GameObject Target = uniqueRedPieces[UnityEngine.Random.Range(0, targetNum)];
+            targetlocal = Target.transform.localPosition;
+            DisX = targetlocal.x / 100;
+            DisZ = targetlocal.z / 100;
+
+            BlueShootEffect(Target);
+
+            Invoke("MoveMath", 0.5f);
+        }
+    }
+    private void BlueShootEffect(GameObject target)
+    {
+        GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position)/2+new Vector3(0,0.5f,0), Quaternion.identity);
+        
+        newPiece.transform.LookAt(target.transform);
+    }
+    
     public void RedWin() //FPS 승리시
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
@@ -171,38 +195,32 @@ public class BlueMovement : MonoBehaviour
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }
+}   
 
-    private IEnumerator GetRedPiecesCoroutine() //적 탐색
-    {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < rotationDuration)
-        {
-            Quaternion rotation = Quaternion.Euler(Vector3.up * Time.time * rotationSpeed); // 회전을 나타내는 Quaternion을 계산
-
-            Vector3 rayOrigin = transform.position;  // 레이 발사 위치 계산 (레이의 시작점)
-
-            Vector3 rayDirection = rotation * Vector3.forward * 20f; // 레이 방향 계산 (레이 방향을 회전에 따라 변경)
-
-            Ray ray = new Ray(rayOrigin, rayDirection); // 레이 발사
-            RaycastHit hitInfo;
-
-            Debug.DrawRay(rayOrigin, rayDirection, Color.red);
-
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                if (hitInfo.collider.CompareTag(targetTag)) // 충돌한 오브젝트의 태그 확인
-                {
-                    GameObject hitObject = hitInfo.collider.gameObject;
-                    if (!redObjects.Contains(hitObject))  // RedPiece 태그가 있는 오브젝트를 redObjects 리스트에 추가
-                    {
-                        redObjects.Add(hitObject);
-                    }
-                }
-            }
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
-}
+//private void attack()
+     //{
+     //    Invoke("NotCrash", 2.5f);
+     //    if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
+     //    {
+     //        GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
+     //        if (Target == null)
+     //        {
+     //            Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
+     //        }
+     //        else
+     //        {
+     //            targetlocal = Target.transform.localPosition;
+     //            DisX = targetlocal.x / 100;
+     //            DisZ = targetlocal.z / 100;
+     //            MoveMath();
+     //        }
+     //    }
+     //    else
+     //    {
+     //        GameObject target = redObjects[UnityEngine.Random.Range(0, redObjects.Count)];
+     //        targetlocal = target.transform.localPosition;
+     //        DisX = targetlocal.x / 100;
+     //        DisZ = targetlocal.z / 100;
+     //        MoveMath();
+     //    }
+     //}

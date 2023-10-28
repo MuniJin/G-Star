@@ -41,7 +41,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public float timer = 0f;
     private bool forBlueTurn;
     private bool GOver;
-
+    public GameObject[] GameOverObj;
     private void Start()
     {
         IsFirstCrash = true;
@@ -155,7 +155,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         TurnObj.SetActive(true);
         TurnText.text = "Blue Turn";
 
-        Debug.Log("파랑턴으로 넘어감...");
+        //Debug.Log("파랑턴으로 넘어감...");
         BlueStart();
     }
     private void BlueStart()
@@ -305,12 +305,16 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         {
             //Blue Is Win
             GOver = true;
+            Time.timeScale = 0;
+            GameOverObj[0].SetActive(true);
         }
 
         if (who == 1)
         {
             //Red Is Win player win
             GOver = true;
+            Time.timeScale = 0;
+            GameOverObj[1].SetActive(true);
         }
     }
 }
