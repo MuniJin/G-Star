@@ -19,8 +19,8 @@ public class Player_Character : Default_Character
     public GameObject bullet;
 
     // 속도, 점프 힘
-    public float speed = 5f;
-    public float jumpForce = 5f;
+    public float speed = 8f;
+    public float jumpForce = 8f;
 
     // 총구 위치
     public GameObject bulPos;
@@ -37,9 +37,6 @@ public class Player_Character : Default_Character
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
 
-        // 플레이어 태그 변경
-        this.gameObject.tag = "Player";
-
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
         if (bullet.GetComponent<Bullet>() == false)
             bullet.AddComponent<Bullet>();
@@ -47,6 +44,11 @@ public class Player_Character : Default_Character
 
     private void Update()
     {
+        // 플레이어 움직임
+        Move();
+        // 마우스 움직임에 따른 카메라 회전값 변경
+        CamMove();
+
         // 점프, velocity가 없을때 점프 가능하게
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
@@ -59,45 +61,26 @@ public class Player_Character : Default_Character
 
         // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
         if (Input.GetKeyDown(KeyCode.O))
-            Win();
+            fm.Win();
         if (Input.GetKeyDown(KeyCode.P))
-            Lose();
+            fm.Lose();
 
+        if (Input.GetKeyDown(KeyCode.Z))
+            _d.GetStatus();
     }
 
-    // 게임 승패내기용 임의의 함수
-    public void Win()
+    public void Hitted(int damage)
     {
-        am.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
-        am.GetComponent<AlKKAGIManager>().IsWin = true;
+        _d.Attacked(18);
+        //_d.Attacked(damage);
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        _d.GetStatus();
 
-        SceneManager.LoadScene("Board");
-        am.GetComponent<AlKKAGIManager>().FPSResult();
-    }
-
-    // 게임 승패내기용 임의의 함수
-    public void Lose()
-    {
-        am.GetComponent<AlKKAGIManager>().BoardObj.SetActive(true);
-        Cursor.visible = false;
-        am.GetComponent<AlKKAGIManager>().IsWin = false;
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        SceneManager.LoadScene("Board");
-        am.GetComponent<AlKKAGIManager>().FPSResult();
-    }
-
-    private void FixedUpdate()
-    {
-        // 플레이어 움직임
-        Move();
-        // 마우스 움직임에 따른 카메라 회전값 변경
-        CamMove();
+        if (_d.GetHp() <= 0f)
+        {
+            Debug.Log("Game Over");
+            fm.Lose();
+        }
     }
 
     float h, v;
@@ -124,7 +107,7 @@ public class Player_Character : Default_Character
 
     private Camera cam;
 
-    public float sensitivity = 2f;
+    public float sensitivity = 0.5f;
 
     private void CamMove()
     {
@@ -157,7 +140,8 @@ public class Player_Character : Default_Character
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
-
+        go.GetComponent<Bullet>().damage = _d.GetDamage();
+        
         go.GetComponent<Rigidbody>().AddForce(cam.transform.forward * shootPower, ForceMode.Impulse);
     }
 

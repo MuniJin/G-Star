@@ -46,7 +46,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Chariot", "Cannon");
+            Init("Cannon", "Cannon");
         else
         {
             am = AlKKAGIManager.Instance;
@@ -80,6 +80,8 @@ public class FPSManager : Singleton<FPSManager>
         // 플레이어 오브젝트 카메라에 안보이게 설정
         foreach (Transform t in myP.transform)
             t.gameObject.layer = 3;
+
+        myP.transform.GetChild(1).tag = "Player";
 
         return myP;
     }
@@ -121,25 +123,32 @@ public class FPSManager : Singleton<FPSManager>
                 case "Solider":
                     _d = go.gameObject.AddComponent<Pawn>();
                     bullet = Resources.Load<GameObject>("Bullets\\Stone");
+                    _d.SetStatus(100, 10f, 10);
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Rook>();
+                    _d.SetStatus(100, 10f, 10);
                     break;
                 case "Horse":
                     _d = go.gameObject.AddComponent<Knight>();
+                    _d.SetStatus(100, 10f, 10);
                     break;
                 case "Elephant":
                     _d = go.gameObject.AddComponent<Elephant>();
+                    _d.SetStatus(100, 10f, 10);
                     break;
                 case "Cannon":
                     _d = go.gameObject.AddComponent<Cannon>();
+                    _d.SetStatus(150, 3f, 15);
                     break;
                 case "Guard":
                     _d = go.gameObject.AddComponent<Guards>();
                     bullet = Resources.Load<GameObject>("Bullets\\Book");
+                    _d.SetStatus(100, 10f, 10);
                     break;
                 case "King":
                     _d = go.gameObject.AddComponent<King>();
+                    _d.SetStatus(100, 10f, 10);
                     break;
                 default:
                     Debug.Log("it does not exist");

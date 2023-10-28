@@ -17,11 +17,20 @@ public class Enemy_Character : Default_Character
             am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
 
-
-        // 플레이어 태그 변경
-        this.gameObject.tag = "Player";
-
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
+    }
+    
+    public void Hitted(int damage)
+    {
+        _d.Attacked(damage);
+        
+        _d.GetStatus();
+
+        if (_d.GetHp() <= 0f)
+        {
+            Debug.Log("Game Over");
+            fm.Win();
+        }
     }
 
     public override void Attack(Vector3 bulpos, float shootPower)

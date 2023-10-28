@@ -7,10 +7,29 @@ public abstract class Default_Character : MonoBehaviour
 {
     // 체력
     protected int _hp { get; set; }
+
+    public void Attacked(int damage) { _hp -= damage; }
+
+    public int GetHp() { return _hp; }
+
     // 스킬 쿨타임
     protected float _coolDown { get; set; }
+
+    public float GetCoolDown() { return _coolDown; }
+
     // 공격 데미지
-    protected float _damage { get; set; }
+    protected int _damage { get; set; }
+
+    public int GetDamage() { return _damage; }
+
+    public void SetStatus(int hp, float coolDown, int damage)
+    {
+        _hp = hp;
+        _coolDown = coolDown;
+        _damage = damage;
+    }
+
+    public void GetStatus() { Debug.Log($"Hp : {_hp} | CoolDown : {_coolDown} | Damage : {_damage}"); }
 
     // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
@@ -235,7 +254,8 @@ public class Knight : Decorator_Character
 // 포 : 순간이동
 public class Cannon : Decorator_Character
 {
-    private float cooldown = 5f;
+    private float cooldown;
+    private float damage;
     private bool useSkill = false;
 
     private LayerMask groundLayer;
@@ -253,11 +273,15 @@ public class Cannon : Decorator_Character
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
+            cooldown = this.GetCoolDown();
+            damage = this.GetDamage();
+
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
+
             Destroy(pScript);
         }
     }
@@ -292,9 +316,6 @@ public class Cannon : Decorator_Character
                     {
                         // 충돌한 지점의 벡터3 값을 얻습니다.
                         Vector3 hitPoint = hit.point;
-
-                        // 이제 hitPoint 변수에는 충돌한 지점의 월드 좌표가 포함됩니다.
-                        Debug.Log("Hit point: " + hitPoint);
 
                         // hitPoint 변수를 사용하여 원하는 작업을 수행할 수 있습니다.
                         go.transform.position = hitPoint + Vector3.up;
