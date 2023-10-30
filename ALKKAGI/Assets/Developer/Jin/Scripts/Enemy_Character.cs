@@ -11,6 +11,8 @@ public class Enemy_Character : Default_Character
 
     private GameObject bullet;
 
+    private float cooldown = 0f;
+    private float dcd;
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
@@ -18,8 +20,21 @@ public class Enemy_Character : Default_Character
         fm = FPSManager.Instance;
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
+        dcd = _d.GetCoolDown();
     }
-    
+
+    private void Update()
+    {
+        cooldown += Time.deltaTime;
+
+        if (cooldown >= dcd)
+        {
+            UseSkill();
+
+            cooldown = 0f;
+        }
+    }
+
     public void Hitted(int damage)
     {
         _d.Attacked(damage);
@@ -38,9 +53,12 @@ public class Enemy_Character : Default_Character
         throw new System.NotImplementedException();
     }
 
-    public override IEnumerator Skill(GameObject go)
+    private void UseSkill()
     {
-        throw new System.NotImplementedException();
+        if (_d != null)
+            StartCoroutine(_d.Skill(this.gameObject));
+        else
+            Debug.Log("Not Decorator");
     }
 
     protected override void Jump()
@@ -53,4 +71,8 @@ public class Enemy_Character : Default_Character
         throw new System.NotImplementedException();
     }
 
+    public override IEnumerator Skill(GameObject go)
+    {
+        throw new System.NotImplementedException();
+    }
 }

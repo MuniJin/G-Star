@@ -4,51 +4,67 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    public bool isAttack;
-    private Quaternion originVector;
-    private Quaternion attackingVector;
-    private Vector3 targetPos;
-    private Vector3 originPos;
-    private void Start()
+    public float throwSpeed = 1f;
+    private bool isThrown = false;
+    private bool isNoHit = false;
+
+    private Quaternion originalRotation;
+    private Vector3 originPosition;
+
+    public GameObject player;
+    private MeshCollider mc;
+
+    void Start()
     {
-        isAttack = false;
-        originVector = this.transform.rotation;
-        attackingVector = new Quaternion(0f, 90f, 90f, 1);
-        originPos = this.transform.position;
+        originalRotation = transform.rotation;
+        originPosition = transform.localPosition;
+        mc = this.GetComponent<MeshCollider>();
     }
 
-    private void Update()
+    public void ThrowHammer(Vector3 direction)
     {
-        if(isAttack)
-        {
-            Debug.Log("Start Hammer Attack");
-            if (this.GetComponent<MeshCollider>().isTrigger == false)
-                this.GetComponent<MeshCollider>().isTrigger = true;
+        if (isNoHit)
+            StopCoroutine(NoHit());
+        isNoHit = true;
+        isThrown = true;
 
-            this.transform.position = Vector3.MoveTowards(originPos, targetPos, 0.1f);
-        }
+        this.transform.parent = null; // 부모에서 분리
+
+        Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.AddForce(direction * throwSpeed, ForceMode.Impulse);
+
+        mc.isTrigger = true;
+        StartCoroutine(NoHit());
     }
 
-    public void Attack()
+    public void ReturnHammer()
     {
-        isAttack = true;
+        isThrown = false;
+        mc.isTrigger = false;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        this.transform.rotation = originalRotation;
+        this.transform.parent = player.transform.GetChild(1); // 다시 플레이어의 자식으로 설정
+        this.transform.position = player.transform.position + originPosition;
+        this.transform.rotation = player.transform.rotation * originalRotation;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-        {
-            targetPos = hit.point;
-            Debug.Log(hit.point);
-        }
+        Rigidbody rb =  GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        Destroy(rb);
+    }
+
+    private IEnumerator NoHit()
+    {
+        yield return new WaitForSeconds(2f);
+        ReturnHammer();
+        isNoHit = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null)
+        if (other != null)
         {
-            Debug.Log(other.name);
-            this.GetComponent<MeshCollider>().isTrigger = false;
+            ReturnHammer();
         }
     }
 }

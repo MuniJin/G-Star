@@ -52,9 +52,11 @@ public class Player_Character : Default_Character
         // 점프, velocity가 없을때 점프 가능하게
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
+
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
             _d.Attack(bulPos.transform.position, 40f);
+
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
@@ -137,12 +139,26 @@ public class Player_Character : Default_Character
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     // 공격
+    private float bulletSpeed = 80f;
+
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
-        go.GetComponent<Bullet>().damage = _d.GetDamage();
-        
-        go.GetComponent<Rigidbody>().AddForce(cam.transform.forward * shootPower, ForceMode.Impulse);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
+            go.tag = this.gameObject.tag;
+
+            Vector3 direction = (hit.point - go.transform.position).normalized;
+            Rigidbody rb = go.GetComponent<Rigidbody>();
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.velocity = direction * bulletSpeed;
+
+            go.GetComponent<Bullet>().damage = _d.GetDamage();
+        }
     }
 
     // 스킬(Default_Character를 상속받아서 존재하나 필요없어서 예외처리로 해둠)

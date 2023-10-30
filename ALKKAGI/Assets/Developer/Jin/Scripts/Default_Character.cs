@@ -296,43 +296,65 @@ public class Cannon : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
-        if (!useSkill)
+        if (basePlayer.tag == "Player")
         {
-            useSkill = true;
-
-            while (true)
+            if (!useSkill)
             {
-                Cursor.lockState = CursorLockMode.None; // 마우스를 중앙에 고정
-                Cursor.visible = true; // 마우스를 보이지 않게 설정
-             
-                if (Input.GetMouseButtonDown(1))
+                useSkill = true;
+                while (true)
                 {
-                    // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
+                    Cursor.lockState = CursorLockMode.None; // 마우스를 중앙에 고정
+                    Cursor.visible = true; // 마우스를 보이지 않게 설정
 
-                    // 레이캐스트를 발사하여 충돌한 객체를 감지합니다.
-                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+                    if (Input.GetMouseButtonDown(1))
                     {
-                        // 충돌한 지점의 벡터3 값을 얻습니다.
-                        Vector3 hitPoint = hit.point;
+                        // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
 
-                        // hitPoint 변수를 사용하여 원하는 작업을 수행할 수 있습니다.
-                        go.transform.position = hitPoint + Vector3.up;
+                        // 레이캐스트를 발사하여 충돌한 객체를 감지합니다.
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+                        {
+                            // 충돌한 지점의 벡터3 값을 얻습니다.
+                            Vector3 hitPoint = hit.point;
 
-                        Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
-                        Cursor.visible = false; // 마우스를 보이지 않게 설정
+                            // hitPoint 변수를 사용하여 원하는 작업을 수행할 수 있습니다.
+                            go.transform.position = hitPoint + Vector3.up;
+
+                            Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
+                            Cursor.visible = false; // 마우스를 보이지 않게 설정
+                        }
+
+                        break;
                     }
 
-                    break;
+                    yield return null;
                 }
-
-                yield return null;
             }
-
-            yield return new WaitForSeconds(cooldown);
-            useSkill = false;
         }
+        if (basePlayer.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
+                float rayLength = 100f;
+
+                Vector3 randomDirection = Random.onUnitSphere;
+
+                Ray ray = new Ray(transform.position, randomDirection);
+                Debug.DrawRay(ray.origin, ray.direction * rayLength, Color.red, 1f);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, rayLength, groundLayer))
+                {
+                    Vector3 hitPoint = hit.point;
+
+                    go.transform.position = hitPoint + Vector3.up;
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(cooldown);
+        useSkill = false;
     }
 }
 

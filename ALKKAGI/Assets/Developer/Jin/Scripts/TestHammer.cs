@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestHammer : MonoBehaviour
 {
-    public GameObject hammer;
+    public Hammer hammer;
     public GameObject shield;
 
     private bool isZoom;
@@ -20,24 +20,32 @@ public class TestHammer : MonoBehaviour
     {
         Move();
         CamMove();
-
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
         if (Input.GetMouseButtonDown(1))
             HammerAttack();
         if(!isZoom)
         {
             if(Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Attack2");
+                
             }
         }
         if(isZoom)
         {
             if(Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Attack");
-                hammer.GetComponent<Hammer>().Attack();
                 isZoom = false;
                 cam.fieldOfView *= 3;
+                Vector3 throwDir = Vector3.zero;
+
+                
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                    throwDir = hit.point;
+
+                hammer.ThrowHammer(throwDir);
             }
         }
     }

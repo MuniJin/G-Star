@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 39136265}
   - component: {fileID: 39136264}
   - component: {fileID: 39136263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1923,6 +1923,101 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7718077856273833413, guid: 2ce61d7ceffb6774bab48d6efea3a2dc, type: 3}
+--- !u!1 &363930984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 363930985}
+  - component: {fileID: 363930988}
+  - component: {fileID: 363930987}
+  - component: {fileID: 363930986}
+  m_Layer: 6
+  m_Name: Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &363930985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363930984}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 90, z: 0}
+  m_LocalScale: {x: 225, y: 225, z: 5}
+  m_Children: []
+  m_Father: {fileID: 1316958544}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!65 &363930986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363930984}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &363930987
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363930984}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &363930988
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363930984}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &364433848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7844699552598339467, guid: 10b0fef477247e64fbaa1d77d915c0a6, type: 3}
@@ -2353,7 +2448,7 @@ GameObject:
   - component: {fileID: 442473142}
   - component: {fileID: 442473141}
   - component: {fileID: 442473140}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5846,7 +5941,7 @@ GameObject:
   - component: {fileID: 886888733}
   - component: {fileID: 886888732}
   - component: {fileID: 886888731}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7684,6 +7779,7 @@ Transform:
   - {fileID: 886888730}
   - {fileID: 39136262}
   - {fileID: 442473139}
+  - {fileID: 363930985}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7884,7 +7980,7 @@ GameObject:
   - component: {fileID: 1353024599}
   - component: {fileID: 1353024598}
   - component: {fileID: 1353024597}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}

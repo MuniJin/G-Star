@@ -5,25 +5,47 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage;
+    private bool hasCollided = false; // 충돌 여부를 추적
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Bullet")
+        if (hasCollided) // 이미 충돌한 경우
         {
-            if (other.tag == "Enemy")
-            {
-                GameObject go = other.transform.parent.gameObject;
+            Destroy(gameObject); // 총알 오브젝트를 파괴
 
-                go.GetComponent<Enemy_Character>().Hitted(damage);
-            }
-            else if (other.tag == "Player")
-            {
-                GameObject go = other.transform.parent.gameObject;
-
-                go.GetComponent<Player_Character>().Hitted(damage);
-            }
+            return;
         }
 
-        Destroy(this.gameObject);
+        if (this.gameObject.tag != other.tag)
+        {
+            if (other.tag != "Bullet")
+            {
+                if (other.tag == "Enemy")
+                {
+                    GameObject go = other.transform.parent.gameObject;
+                    go.GetComponent<Enemy_Character>().Hitted(damage);
+                }
+                else if (other.tag == "Player")
+                {
+                    GameObject go = other.transform.parent.gameObject;
+                    go.GetComponent<Player_Character>().Hitted(damage);
+                }
+
+                // 법선 벡터 계산
+                Vector3 normal = other.transform.position - transform.position;
+                normal.Normalize();
+
+                // 입사각 계산
+                float angleOfIncidence = Vector3.Angle(normal, GetComponent<Rigidbody>().velocity.normalized);
+
+                // 반사각 계산
+                float angleOfReflection = 180 - angleOfIncidence;
+
+                // 총알의 속도를 반사 방향으로 수정
+                GetComponent<Rigidbody>().velocity = Vector3.Reflect(GetComponent<Rigidbody>().velocity, normal);
+
+                hasCollided = true;
+            }
+        }
     }
 }
