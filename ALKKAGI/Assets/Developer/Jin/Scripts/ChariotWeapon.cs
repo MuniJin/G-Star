@@ -18,6 +18,9 @@ public class ChariotWeapon : MonoBehaviour
 
         eTimer = 0f;
     }
+
+    private float angle = 0f;
+
     private void Update()
     {
         if (this.tag == "Enemy")
@@ -27,9 +30,18 @@ public class ChariotWeapon : MonoBehaviour
             if (eTimer >= 3f)
             {
                 GameObject p = GameObject.FindWithTag("Player");
-                Debug.Log(Vector3.Distance(this.transform.position, p.transform.position));
+                
+                float dist = Vector3.Distance(this.transform.position, p.transform.position);
 
-                hammer.ThrowHammer(p.transform.position);
+                angle = dist / 20 - 1f;
+                float additionalDistance = dist * Mathf.Tan(Mathf.Deg2Rad * angle);
+
+                float r1, r2, r3;
+                r1 = Random.Range(-2f, 5f);
+                r2 = Random.Range(-2f, 5f);
+                r3 = Random.Range(-2f, 5f);
+
+                hammer.ThrowHammer(p.transform.position + new Vector3(r1, additionalDistance + r2, r3));
                 eTimer = 0f;
             }
         }

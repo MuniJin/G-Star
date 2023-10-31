@@ -136,6 +136,8 @@ public class Rook : Decorator_Character
             eScript = basePlayer.GetComponent<Enemy_Character>();
             Destroy(pScript);
         }
+
+        cooldown = this.GetCoolDown();
     }
 
     public override void Attack(Vector3 bulpos, float shootPower)
@@ -150,12 +152,18 @@ public class Rook : Decorator_Character
     {
         if (!useSkill)
         {
+            Debug.Log("UseSkill");
             useSkill = true;
-            
-            Vector3 forwardDirection = Camera.main.transform.forward;
+            Vector3 forwardDirection = Vector3.zero;
+            if (go.tag == "Player")
+                forwardDirection = Camera.main.transform.forward;
+            else if(go.tag == "Enemy")
+                forwardDirection = go.transform.forward;
+
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 30f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
+            Debug.Log("EndSkill");
             useSkill = false;
         }
     }
@@ -311,7 +319,6 @@ public class Cannon : Decorator_Character
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
-            cooldown = this.GetCoolDown();
             damage = this.GetDamage();
 
             Destroy(eScript);
@@ -322,6 +329,8 @@ public class Cannon : Decorator_Character
 
             Destroy(pScript);
         }
+
+        cooldown = this.GetCoolDown();
     }
 
     public override void Attack(Vector3 bulpos, float shootPower)
@@ -461,17 +470,21 @@ public class King : Decorator_Character
     private Player_Character pScript;
     private Enemy_Character eScript;
 
+    private GameObject ks;
+
     private void Start()
     {
         basePlayer = base.gameObject;
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
+            ks = Resources.Load<GameObject>("KingSkill_Red");
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
+            ks = Resources.Load<GameObject>("KingSkill_Red");
             Destroy(pScript);
         }
     }
@@ -486,20 +499,29 @@ public class King : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
-        Player_Character g = go.GetComponent<Player_Character>();
-
-        if (!useSkill)
+        if (go.tag == "Player")
         {
-            useSkill = true;
+            if (!useSkill)
+            {
+                useSkill = true;
 
-            GameObject p = go.transform.GetChild(0).gameObject;
-            Vector3 forwardDirection = Camera.main.transform.forward;
+                Instantiate(ks, go.transform.position, Quaternion.identity);
 
-            Vector3 ksPos = p.transform.position + (Camera.main.transform.forward * 2f);
-            //GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
+                yield return new WaitForSeconds(cooldown);
+                useSkill = false;
+            }
+        }
+        else if(go.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
 
-            yield return new WaitForSeconds(cooldown);
-            useSkill = false;
+                Instantiate(ks, go.transform.position, Quaternion.identity);
+
+                yield return new WaitForSeconds(cooldown);
+                useSkill = false;
+            }
         }
     }
 }

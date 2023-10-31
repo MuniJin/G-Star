@@ -51,7 +51,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Chariot", "Chariot");
+            Init("King", "King");
         else
         {
             am = AlKKAGIManager.Instance;
@@ -133,7 +133,7 @@ public class FPSManager : Singleton<FPSManager>
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Rook>();
                     bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
-                    _d.SetStatus(100, 10f, 30);
+                    _d.SetStatus(100, 1.5f, 30);
                     break;
                 case "Horse":
                     _d = go.gameObject.AddComponent<Knight>();

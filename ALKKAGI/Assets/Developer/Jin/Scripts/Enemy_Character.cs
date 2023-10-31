@@ -21,6 +21,7 @@ public class Enemy_Character : Default_Character
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
         dcd = _d.GetCoolDown();
+        Debug.Log(dcd);
     }
 
     private void Update()
