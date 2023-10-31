@@ -60,31 +60,36 @@ public class PieceMove : MonoBehaviour
             Debug.Log("충돌!");
         }
     }
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject
             && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
-            IsCrash = true;
             GameObject collidedObject = collision.gameObject;
-
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
-
-            SaveSpeed = rb.velocity;
-            totalSpeed = SaveSpeed.magnitude;
-            dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
-
-            Debug.Log("totals - red : " + totalSpeed);
-            if (totalSpeed < 1f)
+            IsCrash = true;
+            if (GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash == false)
             {
-                Debug.Log("제발 R");
-                totalSpeed = 20f;
-            }
-            rb.isKinematic = true;
-            GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash = true;
 
-            GM.GetComponent<AlKKAGIManager>().Crash();
+                SaveSpeed = rb.velocity;
+                totalSpeed = SaveSpeed.magnitude/2;
+                dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
+
+                Debug.Log("totals - red : " + totalSpeed);
+                if (totalSpeed < 1f)
+                {
+                    Debug.Log("제발 R");
+                    totalSpeed = 20f;
+                }
+                rb.isKinematic = true;
+                GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                GM.GetComponent<AlKKAGIManager>().Crash();
+            }
         }
     }
 
