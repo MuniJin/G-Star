@@ -17,6 +17,7 @@ public class BlueMovement : MonoBehaviour
     private Vector3 dir;
     private float totalSpeed;
     private bool IsCrash;
+    public bool redTurnCrash;
 
     private List<GameObject> redObjects = new List<GameObject>();
     private string targetTag = "RedPiece"; // 검색할 태그
@@ -44,7 +45,6 @@ public class BlueMovement : MonoBehaviour
     public void MoveStart() //기물 이동
     {
         //Invoke("LocateRed", 1f);
-        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
         startRay();
     }
     private void NotCrash() //헛스윙 체크
@@ -52,6 +52,7 @@ public class BlueMovement : MonoBehaviour
         if (!IsCrash)
         {
             //Debug.Log("파랑 헛스윙");
+            Destroy(GameObject.Find("ArrowBlue(Clone)"));
             IFC();
         }
         else
@@ -79,6 +80,8 @@ public class BlueMovement : MonoBehaviour
         this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
+
+        Invoke("NotCrash", 1f);
     }
 
     private void startRay()
@@ -134,6 +137,10 @@ public class BlueMovement : MonoBehaviour
             Debug.DrawRay(rayOrigin, direction * rayLength, Color.red);
 
             RaycastHit hit;
+
+            if (angle >= 180)
+                GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
+
             if (Physics.Raycast(rayOrigin, direction, out hit, rayLength))
             {
                 // 충돌한 오브젝트의 태그가 "RedPiece"인지 확인

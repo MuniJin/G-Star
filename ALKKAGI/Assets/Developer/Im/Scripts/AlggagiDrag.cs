@@ -22,6 +22,8 @@ public class AlggagiDrag : MonoBehaviour
     public float ShootPower = 0f;
     private float cosA;
     double angleA;
+    float Radi;
+
     private void Start()
     {
         PauseButton = GameObject.Find("PauseButton");
@@ -30,26 +32,23 @@ public class AlggagiDrag : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (GM.GetComponent<AlKKAGIManager>().IsMyTurn && !PauseButton.GetComponent<PauseButton>().IsPause && GM.GetComponent<AlKKAGIManager>().IsMove) //내턴일때 드래그시
+        if (GM.GetComponent<AlKKAGIManager>().IsMyTurn && !PauseButton.GetComponent<PauseButton>().IsPause && GM.GetComponent<AlKKAGIManager>().IsMove) // 내턴일때 드래그시
         {
             float distance = Camera.main.WorldToScreenPoint(transform.position).z;
-            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance); //마우스 포지션 가져오기
-            Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos); //오브젝트 포지션에 마우스 포지션을 대입
-            objPos.y = 0.5f;
-            transform.position = objPos;
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance); // 마우스 포지션 가져오기
+            Vector3 objPos = Camera.main.ScreenToWorldPoint(mousePos); // 오브젝트 포지션에 마우스 포지션을 대입
 
-
-
-            MainObj.GetComponent<PieceMove>().RotationReset(); //회전값 초기화
+            MainObj.GetComponent<PieceMove>().RotationReset(); // 회전값 초기화
 
             //Arrow의 방향을 정해주는 라인
             Arrow.transform.position = new Vector3(-objPos.x, 0.5f, -objPos.z) + MainObj.transform.position * 2;
             Vector3 direction = Arrow.transform.position - MainObj.transform.position;
             Arrow.transform.rotation = Quaternion.LookRotation(direction);
 
-            //동심원의 방향, 크기를 정해주는 라인(~76라인)
+            // 동심원의 방향, 크기를 정해주는 라인(~76라인)
             Vector3 dir = direction * -1;
-            float hypotenuse = (float)Math.Sqrt(direction.x * direction.x + direction.z * direction.z); //Trigger를 꼭직점으로 가지는 삼각형의 빗변
+            float hypotenuse = (float)Math.Sqrt(direction.x * direction.x + direction.z * direction.z); // Trigger를 꼭직점으로 가지는 삼각형의 빗변
+
             if (Math.Abs(dir.x) > Math.Abs(dir.z))
                 cosA = dir.z / hypotenuse;
             else
@@ -74,11 +73,25 @@ public class AlggagiDrag : MonoBehaviour
             else                                         //5시 방향
                 angleA = Math.Acos(cosA);
             double degreesA = angleA * 180 / Math.PI; //cos값    을 이용하여 각도(원의 기울기)를 구해준다
+
+            if (hypotenuse > 5f)
+            {
+                // 5f 거리를 넘지 않도록 위치를 제한
+                float scaleFactor = 5f / hypotenuse;
+                objPos = MainObj.transform.position - direction * scaleFactor;
+                hypotenuse = 5f;
+                Arrow.transform.position = new Vector3(-objPos.x, 0.5f, -objPos.z) + MainObj.transform.position * 2; // Arrow 위치를 업데이트
+            }
+
             ConCircle.transform.localRotation = Quaternion.Euler(0, (float)degreesA, 0); //기울기 최신화
-            ConCircle.transform.localScale = new Vector3(0.125f * hypotenuse * 1.67f, 0.125f, 0.125f * hypotenuse * 1.67f); //크기 최신화
+            objPos.y = 0.5f;
+            transform.position = objPos;
+
+            ConCircle.transform.localScale = new Vector3(0.125f * hypotenuse * 1.67f, 0.125f, 0.125f * hypotenuse * 1.67f); // 크기 최신화
 
             IsPieceSelected = true;
-            if (Input.GetMouseButtonDown(1)) //우클릭시 드래그 상태 해제
+
+            if (Input.GetMouseButtonDown(1)) // 우클릭시 드래그 상태 해제
             {
                 Debug.Log("선택 취소");
                 GM.GetComponent<AlKKAGIManager>().IsMove = false;
@@ -86,11 +99,13 @@ public class AlggagiDrag : MonoBehaviour
                 this.gameObject.transform.localPosition = new Vector3(0, 0.15f, 0);
                 Arrow.transform.localPosition = new Vector3(0, 0.2f, 0);
                 Arrow.transform.rotation = Quaternion.Euler(0, 0, 0);
-                ConCircle.transform.localScale = new Vector3(0.125f, 0.125f, 0.125f);
+                ConCircle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                 Invoke("DragReset", 1f);
             }
         }
     }
+
+
     private void DragReset()
     {
         GM.GetComponent<AlKKAGIManager>().IsMove = true;

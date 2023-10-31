@@ -41,7 +41,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public float timer = 0f;
     private bool forBlueTurn;
     private bool GOver;
-    public GameObject[] GameOverObj;
+    public GameObject GameOverObj;
     private void Start()
     {
         IsFirstCrash = true;
@@ -76,6 +76,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                 CrashObjR.GetComponent<PieceMove>().Win();
                 if (!blueT && !forBlueTurn)
                 {
+                    CrashObjB = null;
+                    CrashObjR = null;
                     StartCoroutine(BlueTurn());
                 }
             }
@@ -84,6 +86,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                 CrashObjR.GetComponent<PieceMove>().lose();
                 if (!blueT && !forBlueTurn)
                 {
+                    CrashObjB = null;
+                    CrashObjR = null;
                     StartCoroutine(BlueTurn());
                 }
             }
@@ -94,14 +98,17 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             {
                 //Debug.Log("FPS 승리 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
+                CrashObjB = null;
+                CrashObjR = null;
             }
             else //패배했을신
             {
                 //Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
+                CrashObjB = null;
+                CrashObjR = null;
             }
         }
-
     }
 
     private void BlueSelect()
@@ -152,18 +159,21 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             }
             yield return null; // 다음 프레임까지 대기
         }
-        TurnObj.SetActive(true);
-        TurnText.text = "Blue Turn";
-
         //Debug.Log("파랑턴으로 넘어감...");
         BlueStart();
     }
     private void BlueStart()
     {
+        TurnObj.SetActive(true);
+        TurnText.text = "<#6000FF>Blue Turn";
         if (!GOver)
         {
             IsMyTurn = false;
             forBlueTurn = false;
+            for(int i = 0; i < LeftBluePiece.Length; i++)
+                if (LeftBluePiece[i] != null)
+                    LeftBluePiece[i].GetComponent<BlueMovement>().redTurnCrash = false;
+            
             BlueSelect();
             Invoke("RedTurn", 3f);
         }
@@ -214,8 +224,6 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int a, b, c, d, e, f, g, h, i, j, k, l;
     public void Death(int deathPiece)
     {
-        CrashObjB = null;
-        CrashObjR = null;
         //데스 사운드 재생
         myAudioSource.PlayOneShot(DeathSound);
 
@@ -289,7 +297,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public void RedTurnChange()
     {
         TurnObj.SetActive(true);
-        TurnText.text = "My Turn";
+        TurnText.text = "<color=red>My Turn";
 
         Invoke("falseTurnObj", 1f);
     }
@@ -306,7 +314,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             //Blue Is Win
             GOver = true;
             Time.timeScale = 0;
-            GameOverObj[0].SetActive(true);
+            GameOverObj.SetActive(true);
+            GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=blue>패배!";
         }
 
         if (who == 1)
@@ -314,7 +323,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             //Red Is Win player win
             GOver = true;
             Time.timeScale = 0;
-            GameOverObj[1].SetActive(true);
+            GameOverObj.SetActive(true);
+            GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=red>승리!";
         }
     }
 }
