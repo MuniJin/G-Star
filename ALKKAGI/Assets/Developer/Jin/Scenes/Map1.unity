@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 97451698}
   m_Layer: 6
   m_Name: PlayerSpawnPoint
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14775,6 +14775,7 @@ MonoBehaviour:
   - {fileID: 727354824}
   - {fileID: 1960702820}
   - {fileID: 527524072}
+  mapNum: 2
 --- !u!1 &2002889116 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6867285850789189447, guid: 10b0fef477247e64fbaa1d77d915c0a6, type: 3}
@@ -15396,7 +15397,7 @@ GameObject:
   - component: {fileID: 4954539797155507023}
   m_Layer: 0
   m_Name: PlayerSpawnPoint
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15500,7 +15501,7 @@ GameObject:
   - component: {fileID: 6785769303225030712}
   m_Layer: 6
   m_Name: PlayerSpawnPoint
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15516,7 +15517,7 @@ GameObject:
   - component: {fileID: 6785769305080652439}
   m_Layer: 6
   m_Name: PlayerSpawnPoint
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

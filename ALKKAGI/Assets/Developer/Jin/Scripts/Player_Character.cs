@@ -40,6 +40,9 @@ public class Player_Character : Default_Character
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
         if (bullet.GetComponent<Bullet>() == false)
             bullet.AddComponent<Bullet>();
+
+        if (this.name.Split('_')[0] == "Chariot")
+            bullet.GetComponent<Bullet>().damage = _d.GetDamage();
     }
 
     private void Update()
@@ -55,7 +58,10 @@ public class Player_Character : Default_Character
 
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-            _d.Attack(bulPos.transform.position, 40f);
+        {
+            if (this.name.Split('_')[0] != "Chariot")
+                _d.Attack(bulPos.transform.position, 40f);
+        }
 
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
@@ -73,7 +79,7 @@ public class Player_Character : Default_Character
 
     public void Hitted(int damage)
     {
-        _d.Attacked(18);
+        _d.Attacked(1);
         //_d.Attacked(damage);
 
         _d.GetStatus();

@@ -83,15 +83,31 @@ public class Pawn : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
-        if (!useSkill)
+        if (go.tag == "Player")
         {
-            useSkill = true;
-            go.GetComponent<Player_Character>().speed *= 2f;
-         
-            yield return new WaitForSeconds(cooldown);
-            
-            go.GetComponent<Player_Character>().speed /= 2f;
-            useSkill = false;
+            if (!useSkill)
+            {
+                useSkill = true;
+                go.GetComponent<Player_Character>().speed *= 2f;
+
+                yield return new WaitForSeconds(cooldown);
+
+                go.GetComponent<Player_Character>().speed /= 2f;
+                useSkill = false;
+            }
+        }
+        else if(go.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
+                go.GetComponent<EnemyAI2>().moveSpeed *= 2f;
+
+                yield return new WaitForSeconds(cooldown);
+
+                go.GetComponent<EnemyAI2>().moveSpeed /= 2f;
+                useSkill = false;
+            }
         }
     }
 }
@@ -228,26 +244,48 @@ public class Knight : Decorator_Character
     public override IEnumerator Skill(GameObject go)
     {
         Vector3 b1, b2;
-        Player_Character g = go.GetComponent<Player_Character>();
 
-        if (!useSkill)
+        if (go.tag == "Player")
         {
-            useSkill = true;
-
-            for (int i = 0; i < 3; i++)
+            if (!useSkill)
             {
-                b1 = g.bulPos.transform.position + go.transform.right * -0.5f;
-                b2 = g.bulPos.transform.position + go.transform.right * 0.5f;
+                useSkill = true;
 
-                g.Attack(b1, 60f);
-                g.Attack(b2, 60f);
+                for (int i = 0; i < 3; i++)
+                {
+                    b1 = pScript.bulPos.transform.position + go.transform.right * -0.5f;
+                    b2 = pScript.bulPos.transform.position + go.transform.right * 0.5f;
 
-                yield return new WaitForSeconds(0.2f);
+                    pScript.Attack(b1, 60f);
+                    pScript.Attack(b2, 60f);
+
+                    yield return new WaitForSeconds(0.2f);
+                }
             }
-
-            yield return new WaitForSeconds(cooldown - 0.6f);
-            useSkill = false;
         }
+        else if(go.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    b1 = go.transform.GetChild(0).transform.position + go.transform.right * -0.5f;
+                    b2 = go.transform.GetChild(0).transform.position + go.transform.right * 0.5f;
+
+                    go.GetComponent<EnemyAI2>().Attack(b1, 60f);
+                    go.GetComponent<EnemyAI2>().Attack(b2, 60f);
+                    //eScript.Attack(b1, 60f);
+                    //eScript.Attack(b2, 60f);
+
+                    yield return new WaitForSeconds(0.2f);
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(cooldown - 0.6f);
+        useSkill = false;
     }
 }
 
@@ -342,7 +380,7 @@ public class Cannon : Decorator_Character
                 Vector3 randomDirection = Random.onUnitSphere;
 
                 Ray ray = new Ray(transform.position, randomDirection);
-                Debug.DrawRay(ray.origin, ray.direction * rayLength, Color.red, 1f);
+                
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, rayLength, groundLayer))
                 {

@@ -11,6 +11,7 @@ public class FPSManager : Singleton<FPSManager>
     // 맵 리스트
     [SerializeField]
     private List<GameObject> Maps;
+    public int mapNum;
 
     // 플레이어, AI의 스폰 위치
     private GameObject mySpawnPoint;
@@ -31,7 +32,11 @@ public class FPSManager : Singleton<FPSManager>
 
     private void MapInit()
     {
-        int rand = Random.Range(0, Maps.Count);
+        int rand = 0;
+        if (mapNum == 0)
+            rand = Random.Range(0, Maps.Count);
+        else
+            rand = mapNum;
 
         for (int i = 0; i < Maps.Count; ++i)
         {
@@ -46,7 +51,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Cannon", "Cannon");
+            Init("Chariot", "Chariot");
         else
         {
             am = AlKKAGIManager.Instance;
@@ -127,7 +132,8 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Rook>();
-                    _d.SetStatus(100, 10f, 10);
+                    bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
+                    _d.SetStatus(100, 10f, 30);
                     break;
                 case "Horse":
                     _d = go.gameObject.AddComponent<Knight>();
