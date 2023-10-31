@@ -4,27 +4,26 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int damage;
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy")
+        if (other.tag != "Bullet")
         {
-            TestEnemyHp go = other.gameObject.transform.parent.gameObject.GetComponent<TestEnemyHp>();
+            if (other.tag == "Enemy")
+            {
+                GameObject go = other.transform.parent.gameObject;
 
-            go.SetHp(10);
+                go.GetComponent<Enemy_Character>().Hitted(damage);
+            }
+            else if (other.tag == "Player")
+            {
+                GameObject go = other.transform.parent.gameObject;
 
-            if (go.GetHp() <= 0)
-                FPSManager.Instance.Win();
+                go.GetComponent<Player_Character>().Hitted(damage);
+            }
         }
-        else if(other.tag == "Player")
-        {
-            Player_Character go = other.gameObject.GetComponent<Player_Character>();
 
-            go.SetHp(10);
-
-            if (go.GetHp() <= 0)
-                FPSManager.Instance.Lose();
-        }
-        
         Destroy(this.gameObject);
     }
 }

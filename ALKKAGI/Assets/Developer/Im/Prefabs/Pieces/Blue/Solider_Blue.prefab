@@ -239,3 +239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SaveSpeed: {x: 0, y: 0, z: 0}
+  ArrowObj: {fileID: 4477682972425548831, guid: 81e146eb1487cb244b243447f71d8962, type: 3}
+  rayLength: 20
+  interval: 0.1
