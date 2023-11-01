@@ -49,7 +49,7 @@ public class BlueMovement : MonoBehaviour
     }
     private void NotCrash() //헛스윙 체크
     {
-        if (!IsCrash)
+        if (!GM.GetComponent<AlKKAGIManager>().blueCrash)
         {
             //Debug.Log("파랑 헛스윙");
             Destroy(GameObject.Find("ArrowBlue(Clone)"));
@@ -95,6 +95,7 @@ public class BlueMovement : MonoBehaviour
                 && !GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
             IsCrash = true;
+            GM.GetComponent<AlKKAGIManager>().blueCrash = true;
 
             GameObject collidedObject = collision.gameObject;
 
@@ -152,6 +153,7 @@ public class BlueMovement : MonoBehaviour
 
             yield return null;
         }
+
         if (redObjects.Count == 0) //감지 실패시 다른 오브젝트로 이동 후 감지
         {
 

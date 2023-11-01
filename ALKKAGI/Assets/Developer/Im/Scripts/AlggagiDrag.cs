@@ -16,9 +16,9 @@ public class AlggagiDrag : MonoBehaviour
     private GameObject GM;
     private GameObject PauseButton;
 
-    public GameObject MainObj;
-    public GameObject Arrow;
-    public GameObject ConCircle;
+    [SerializeField] private GameObject MainObj;
+    [SerializeField] private GameObject Arrow;
+    [SerializeField] private GameObject ConCircle;
     public float ShootPower = 0f;
     private float cosA;
     double angleA;

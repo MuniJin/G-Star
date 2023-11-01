@@ -16,32 +16,34 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public AudioClip CrashSound;
     public AudioClip DeathSound;
 
-    public GameObject randomChildObject; //선택된 파랑의 기물
-    public GameObject BluePieces; //파랑 기물
-    public GameObject RedPieces;  //빨강 기물
-    public GameObject[] LeftPieces; //모든 남은 기물
-    public GameObject[] LeftRedPiece; //플레이어의 남은 기물
+    [SerializeField] private GameObject randomChildObject; //선택된 파랑의 기물
+    [SerializeField] private GameObject BluePieces; //파랑 기물
+    [SerializeField] private GameObject RedPieces;  //빨강 기물
+    [SerializeField] private GameObject[] LeftPieces; //모든 남은 기물
+    [SerializeField] private GameObject[] LeftRedPiece; //플레이어의 남은 기물
 
     public bool IsWin; //FPS 승패 체크
     public bool blueT; //파랑 턴 체크
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove; //이동 체크
     public bool IsFirstCrash;
-    public int CheatMode; //테스트용 치트모드
+    public bool blueCrash;
+    private int CheatMode; //테스트용 치트모드
 
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
     public GameObject TurnObj;
-    public TMP_Text TurnText;
-    public RawImage CrashRedImage;
-    public RawImage CrashBlueImage;
+    [SerializeField] private TMP_Text TurnText;
+    [SerializeField] private RawImage CrashRedImage;
+    [SerializeField] private RawImage CrashBlueImage;
 
-    public Texture[] CrashImg;
-    public float timer = 0f;
+    private GameObject GameOverObj;
+    private Texture[] CrashImg;
+    private float timer = 0f;
     private bool forBlueTurn;
     private bool GOver;
-    public GameObject GameOverObj;
+
     private void Start()
     {
         IsFirstCrash = true;
@@ -59,7 +61,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         Invoke("CrashSceneChange", 1.5f);
     }
 
-    void CrashSceneChange()
+    private void CrashSceneChange()
     {
         SceneManager.LoadScene("cinemachintest");  //fps 씬 변환
 
@@ -164,16 +166,17 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     }
     private void BlueStart()
     {
+        blueCrash = false;
         TurnObj.SetActive(true);
         TurnText.text = "<#6000FF>Blue Turn";
         if (!GOver)
         {
             IsMyTurn = false;
             forBlueTurn = false;
-            for(int i = 0; i < LeftBluePiece.Length; i++)
+            for (int i = 0; i < LeftBluePiece.Length; i++)
                 if (LeftBluePiece[i] != null)
                     LeftBluePiece[i].GetComponent<BlueMovement>().redTurnCrash = false;
-            
+
             BlueSelect();
             Invoke("RedTurn", 3f);
         }
