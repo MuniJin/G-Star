@@ -51,7 +51,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Chariot", "Guard");
+            Init("Solider", "Solider");
         else
         {
             am = AlKKAGIManager.Instance;
@@ -126,7 +126,7 @@ public class FPSManager : Singleton<FPSManager>
                 case "Solider":
                     _d = go.gameObject.AddComponent<Pawn>();
                     bullet = Resources.Load<GameObject>("Bullets\\Stone");
-                    _d.SetStatus(100, 10f, 10);
+                    _d.SetStatus(100, 10f, 5);
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Rook>();

@@ -82,8 +82,7 @@ public class Player_Character : Default_Character
 
     public void Hitted(int damage)
     {
-        _d.Attacked(1);
-        //_d.Attacked(damage);
+        _d.Attacked(damage);
 
         _d.GetStatus();
 

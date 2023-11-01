@@ -7,7 +7,7 @@ public class Enemy_Character : Default_Character
     private AlKKAGIManager am;
     private FPSManager fm;
 
-    public Default_Character _d;
+    private Default_Character _d;
 
     public GameObject bullet;
     public GameObject bulPos;
@@ -33,6 +33,12 @@ public class Enemy_Character : Default_Character
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
         eCoolDown = _d.GetCoolDown();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+            EAttack();
     }
 
     public void Hitted(int damage)
@@ -71,23 +77,20 @@ public class Enemy_Character : Default_Character
 
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject p = GameObject.FindWithTag("Player");
+        GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
 
-        float dist = Vector3.Distance(this.transform.position, p.transform.position);
-
-        angle = dist / 20 - 1f;
-        float additionalDistance = dist * Mathf.Tan(Mathf.Deg2Rad * angle);
+        Vector3 direction = (GameObject.FindWithTag("Player").transform.position - bulpos).normalized;
 
         float r1, r2, r3;
-        r1 = Random.Range(-2f, 5f);
-        r2 = Random.Range(-2f, 5f);
-        r3 = Random.Range(-2f, 5f);
+        r1 = Random.Range(-0.2f, 0.2f);
+        r2 = Random.Range(-0.2f, 0.2f);
+        r3 = Random.Range(-0.2f, 0.2f);
 
-        GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
-        Vector3 direction = p.transform.position;
+        direction = new Vector3(direction.x + r1, direction.y + r2, direction.z + r3);
 
-        Rigidbody rb = go.GetComponent<Rigidbody>();
-        rb.AddForce((direction + new Vector3(r1, r2, r3)).normalized * shootPower, ForceMode.Impulse);
+        Rigidbody rb2 = go.GetComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb2.velocity = direction * bulletSpeed;
 
         go.GetComponent<Bullet>().damage = _d.GetDamage();
     }

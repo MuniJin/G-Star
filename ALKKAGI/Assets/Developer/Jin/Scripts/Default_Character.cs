@@ -29,7 +29,7 @@ public abstract class Default_Character : MonoBehaviour
         _damage = damage;
     }
 
-    public void GetStatus() { Debug.Log($"Hp : {_hp} | CoolDown : {_coolDown} | Damage : {_damage}"); }
+    public void GetStatus() { Debug.Log($"Name : {this.name} | Hp : {_hp} | CoolDown : {_coolDown} | Damage : {_damage}"); }
 
     // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
@@ -73,13 +73,13 @@ public class Pawn : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -101,11 +101,11 @@ public class Pawn : Decorator_Character
             if (!useSkill)
             {
                 useSkill = true;
-                go.GetComponent<EnemyAI2>().moveSpeed *= 2f;
+                //go.GetComponent<EnemyAI2>().moveSpeed *= 2f;
 
                 yield return new WaitForSeconds(cooldown);
 
-                go.GetComponent<EnemyAI2>().moveSpeed /= 2f;
+                //go.GetComponent<EnemyAI2>().moveSpeed /= 2f;
                 useSkill = false;
             }
         }
@@ -140,13 +140,13 @@ public class Rook : Decorator_Character
         cooldown = this.GetCoolDown();
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -195,13 +195,13 @@ public class Elephant : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -241,13 +241,13 @@ public class Knight : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -333,13 +333,13 @@ public class Cannon : Decorator_Character
         cooldown = this.GetCoolDown();
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -433,13 +433,13 @@ public class Guards : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -484,13 +484,13 @@ public class King : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
