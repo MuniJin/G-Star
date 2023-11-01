@@ -51,7 +51,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("King", "King");
+            Init("Cannon", "King");
         else
         {
             am = AlKKAGIManager.Instance;
@@ -77,7 +77,7 @@ public class FPSManager : Singleton<FPSManager>
         myP.AddComponent<Player_Character>();
 
         GameObject myPbulPoint = new GameObject();
-        myPbulPoint.transform.position = myP.transform.position + Vector3.forward;
+        myPbulPoint.transform.position = myP.transform.position + (Vector3.forward * 2);
         myPbulPoint.name = "bulpos";
         myPbulPoint.transform.SetParent(myP.transform);
         myPbulPoint.transform.SetAsFirstSibling();
@@ -104,7 +104,7 @@ public class FPSManager : Singleton<FPSManager>
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
 
         GameObject EPbulPoint = new GameObject();
-        EPbulPoint.transform.position = enemyP.transform.position - Vector3.forward;
+        EPbulPoint.transform.position = enemyP.transform.position - (Vector3.forward * 2);
         EPbulPoint.name = "bulpos";
         EPbulPoint.transform.SetParent(enemyP.transform);
         EPbulPoint.transform.SetAsFirstSibling();
@@ -145,6 +145,7 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "Cannon":
                     _d = go.gameObject.AddComponent<Cannon>();
+                    bullet = Resources.Load<GameObject>("Bullets\\Dynamite");
                     _d.SetStatus(150, 3f, 15);
                     break;
                 case "Guard":

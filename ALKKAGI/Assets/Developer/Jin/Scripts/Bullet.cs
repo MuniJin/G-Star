@@ -31,6 +31,11 @@ public class Bullet : MonoBehaviour
             return;
         }
 
+        if(this.name.Split('(')[0] == "Dynamite")
+        {
+            this.GetComponent<Explode>().Explosion();
+        }
+
         if (hasCollided) // 이미 충돌한 경우
         {
             Destroy(gameObject); // 총알 오브젝트를 파괴

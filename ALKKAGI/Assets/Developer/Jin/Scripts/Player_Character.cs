@@ -155,8 +155,8 @@ public class Player_Character : Default_Character
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
-            go.tag = this.gameObject.tag;
+            GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
+            //go.tag = this.gameObject.tag;
 
             Vector3 direction = (hit.point - go.transform.position).normalized;
             Rigidbody rb = go.GetComponent<Rigidbody>();

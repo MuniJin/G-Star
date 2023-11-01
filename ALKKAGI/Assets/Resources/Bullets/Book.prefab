@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 704315449750413554}
   - component: {fileID: 704315449750413553}
   - component: {fileID: 704315449750413552}
-  - component: {fileID: 704315449750413452}
   - component: {fileID: 7267414538582711939}
   - component: {fileID: 704315449750413555}
   - component: {fileID: -5503349903477119264}
+  - component: {fileID: 294466577918151381}
   m_Layer: 0
   m_Name: Book
   m_TagString: Bullet
@@ -86,20 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &704315449750413452
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704315449750413559}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 4ce788de3c0103d4dba5764f0383a8cf, type: 3}
 --- !u!54 &7267414538582711939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -141,3 +127,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+--- !u!65 &294466577918151381
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704315449750413559}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.020027151, y: 0.02016568, z: 0.020117171}
+  m_Center: {x: 0, y: 0, z: 0}
