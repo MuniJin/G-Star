@@ -9,6 +9,8 @@ public class senstive : MonoBehaviour
     public float minSensitivity = 1.0f; // 최소 감도
     public float maxSensitivity = 10.0f; // 최대 감도
 
+    public float sen;
+
     void Start()
     {
         sensitivitySlider.onValueChanged.AddListener(ChangeMouseSensitivity);
@@ -18,5 +20,11 @@ public class senstive : MonoBehaviour
     {
         float sensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, value);
         // 여기서 sensitivity를 사용하여 마우스 감도를 조절하세요.
+    }
+
+    private void Update()
+    {
+        Debug.Log(sensitivitySlider.value);
+        sen = sensitivitySlider.value;
     }
 }
