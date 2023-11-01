@@ -9,16 +9,26 @@ public class Enemy_Character : Default_Character
 
     public Default_Character _d;
 
-    private GameObject bullet;
-    private Vector3 bulPos;
+    public GameObject bullet;
+    public GameObject bulPos;
 
     public float eCoolDown;
+
+    private Rigidbody rb;
+
+    // ¼Óµµ, Á¡ÇÁ Èû
+    public float speed = 8f;
+    public float jumpForce = 8f;
 
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
             am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
+
+        bulPos = this.gameObject.transform.GetChild(0).gameObject;
+
+        rb = this.gameObject.GetComponent<Rigidbody>();
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
@@ -40,20 +50,10 @@ public class Enemy_Character : Default_Character
 
     public void EAttack()
     {
-        Attack(bulPos, 60f);
-    }
-
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        throw new System.NotImplementedException();
+        Attack(bulPos.transform.position, bulletSpeed);
     }
 
     public void EUseSkill()
-    {
-        UseSkill();
-    }
-
-    private void UseSkill()
     {
         if (_d != null)
             StartCoroutine(_d.Skill(this.gameObject));
@@ -66,11 +66,33 @@ public class Enemy_Character : Default_Character
         Jump();
     }
 
+    private float bulletSpeed = 80f;
+    private float angle = 0f;
 
-    protected override void Jump()
+    public override void Attack(Vector3 bulpos, float shootPower)
     {
-        Debug.Log("Jump");
+        GameObject p = GameObject.FindWithTag("Player");
+
+        float dist = Vector3.Distance(this.transform.position, p.transform.position);
+
+        angle = dist / 20 - 1f;
+        float additionalDistance = dist * Mathf.Tan(Mathf.Deg2Rad * angle);
+
+        float r1, r2, r3;
+        r1 = Random.Range(-2f, 5f);
+        r2 = Random.Range(-2f, 5f);
+        r3 = Random.Range(-2f, 5f);
+
+        GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
+        Vector3 direction = p.transform.position;
+
+        Rigidbody rb = go.GetComponent<Rigidbody>();
+        rb.AddForce((direction + new Vector3(r1, r2, r3)).normalized * shootPower, ForceMode.Impulse);
+
+        go.GetComponent<Bullet>().damage = _d.GetDamage();
     }
+
+    protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     protected override void Move()
     {

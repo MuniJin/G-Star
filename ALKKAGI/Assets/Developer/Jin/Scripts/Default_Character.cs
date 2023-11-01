@@ -411,8 +411,6 @@ public class Guards : Decorator_Character
     private float cooldown = 2f;
     private bool useSkill = false;
 
-    public GameObject bang;
-
     private GameObject basePlayer;
 
     private Player_Character pScript;
@@ -449,9 +447,6 @@ public class Guards : Decorator_Character
         {
             useSkill = true;
             
-            GameObject b = Instantiate(bang, go.GetComponent<Player_Character>().bulPos.transform.position, Quaternion.identity);
-            b.AddComponent<Rigidbody>();
-            //b.AddComponent<Rigidbody>().AddForce(go.GetComponent<PlayerMovement1>().playerCam.transform.forward * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;

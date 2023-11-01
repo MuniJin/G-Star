@@ -11,19 +11,22 @@ public class Player_Character : Default_Character
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
     private AlKKAGIManager am;
     private FPSManager fm;
+
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Default_Character _d;
+
     // 물리 계산을 위해 선언
     private Rigidbody rb;
+
     // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
     public GameObject bullet;
+    // 총구 위치
+    public GameObject bulPos;
 
     // 속도, 점프 힘
     public float speed = 8f;
     public float jumpForce = 8f;
 
-    // 총구 위치
-    public GameObject bulPos;
 
     private void Start()
     {
@@ -60,7 +63,7 @@ public class Player_Character : Default_Character
         if (Input.GetMouseButtonDown(0))
         {
             if (this.name.Split('_')[0] != "Chariot")
-                _d.Attack(bulPos.transform.position, 40f);
+                Attack(bulPos.transform.position, bulletSpeed);
         }
 
         // 스킬 사용
@@ -156,7 +159,6 @@ public class Player_Character : Default_Character
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
-            //go.tag = this.gameObject.tag;
 
             Vector3 direction = (hit.point - go.transform.position).normalized;
             Rigidbody rb = go.GetComponent<Rigidbody>();
