@@ -7,12 +7,13 @@ public class Enemy_Character : Default_Character
     private AlKKAGIManager am;
     private FPSManager fm;
 
-    Default_Character _d;
+    public Default_Character _d;
 
     private GameObject bullet;
+    private Vector3 bulPos;
 
-    private float cooldown = 0f;
-    private float dcd;
+    public float eCoolDown;
+
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
@@ -20,19 +21,8 @@ public class Enemy_Character : Default_Character
         fm = FPSManager.Instance;
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
-        dcd = _d.GetCoolDown();
-    }
 
-    private void Update()
-    {
-        cooldown += Time.deltaTime;
-
-        if (cooldown >= dcd)
-        {
-            UseSkill();
-
-            cooldown = 0f;
-        }
+        eCoolDown = _d.GetCoolDown();
     }
 
     public void Hitted(int damage)
@@ -48,9 +38,19 @@ public class Enemy_Character : Default_Character
         }
     }
 
+    public void EAttack()
+    {
+        Attack(bulPos, 60f);
+    }
+
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void EUseSkill()
+    {
+        UseSkill();
     }
 
     private void UseSkill()
@@ -61,9 +61,15 @@ public class Enemy_Character : Default_Character
             Debug.Log("Not Decorator");
     }
 
+    public void EJump()
+    {
+        Jump();
+    }
+
+
     protected override void Jump()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Jump");
     }
 
     protected override void Move()

@@ -2,36 +2,29 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI3 : Default_Character
+public class EnemyAI3 : MonoBehaviour
 {
     public float detectionRange = 40f;
     public float attackRange = 3f;
     public float attackCooldown = 2f;
 
-    public GameObject projectilePrefab;
     public Transform player;
     private NavMeshAgent agent;
     private float lastAttackTime;
 
-    private Default_Character _d;
-    private FPSManager fm;
-    public GameObject bullet;
-
-    public GameObject bullpos;
+    private Enemy_Character ec;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        fm = FPSManager.Instance;
-
-        fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
-        if (this.name.Split('_')[0] == "Chariot")
-            bullet.GetComponent<Bullet>().damage = _d.GetDamage();
+        ec = this.GetComponent<Enemy_Character>();
         //player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
+        //ec.EJump();
+
         // 장애물이 없고 감지 범위 안에 있다면
         if (IsPlayerVisible())
         {
@@ -45,7 +38,7 @@ public class EnemyAI3 : Default_Character
             if (IsPlayerWithinAttackRange() && Time.time - lastAttackTime > attackCooldown)
             {
                 // Attack the player
-                Attack(transform.position, 3f);
+                ec.EAttack();
                 lastAttackTime = Time.time;
             }
         }
@@ -92,31 +85,11 @@ public class EnemyAI3 : Default_Character
     {
         // Perform long-range attack, e.g., shoot projectile
         // Your attack logic goes here
+        ec.EAttack();
     }
 
     void PatrollingBehavior()
     {
         // Perform patrolling or other behavior when player is not visible
-    }
-
-    protected override void Move()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void Jump()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Attack(Vector3 boolpos, float shootPower)
-    {
-        _d.Attack(boolpos, shootPower); // 부모 클래스(Default_Character)의 공통적인 공격 로직 호출
-    }
-
-    public override IEnumerator Skill(GameObject go)
-    {
-        throw new System.NotImplementedException();
-        // yield return StartCoroutine(base.Skill(go)); // Default_Character의 공통 스킬 로직 호출
     }
 }

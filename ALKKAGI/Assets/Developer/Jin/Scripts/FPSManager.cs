@@ -97,8 +97,8 @@ public class FPSManager : Singleton<FPSManager>
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
         enemyP.AddComponent<Enemy_Character>();
         // FPS Àû AI Ãß°¡
-        EnemyAI2 ea = enemyP.AddComponent<EnemyAI2>();
-        ea.Target = myP.transform;
+        EnemyAI3 ea = enemyP.AddComponent<EnemyAI3>();
+        ea.player = myP.transform;
 
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
@@ -108,7 +108,7 @@ public class FPSManager : Singleton<FPSManager>
         EPbulPoint.name = "bulpos";
         EPbulPoint.transform.SetParent(enemyP.transform);
         EPbulPoint.transform.SetAsFirstSibling();
-        ea.firePoint = EPbulPoint.transform;
+        ea.bullpos = EPbulPoint;
 
         GameObject bullet = Resources.Load<GameObject>("Bullets\\Stone");
         ea.projectilePrefab = bullet;
