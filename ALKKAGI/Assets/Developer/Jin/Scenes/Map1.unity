@@ -4829,8 +4829,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -2241125635643036416, guid: 10b0fef477247e64fbaa1d77d915c0a6, type: 3}
   m_PrefabInstance: {fileID: 558857422}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &815134732
-MeshCollider:
+--- !u!65 &815134732
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4839,10 +4839,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3616541805266706194, guid: 10b0fef477247e64fbaa1d77d915c0a6, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &817255340 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3557840051735370520, guid: a0aa2f16d3f7fa7449c2841f3506f75b, type: 3}
@@ -14883,7 +14882,9 @@ MonoBehaviour:
   - {fileID: 727354824}
   - {fileID: 1960702820}
   - {fileID: 527524072}
-  mapNum: 3
+  mapNum: 0
+  p: Chariot
+  e: Solider
 --- !u!1 &2002889116 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6867285850789189447, guid: 10b0fef477247e64fbaa1d77d915c0a6, type: 3}

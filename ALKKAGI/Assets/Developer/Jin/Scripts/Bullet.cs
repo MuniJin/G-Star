@@ -5,21 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage;
-    private bool hasCollided = false; // 충돌 여부를 추적
-
-    private void CheckTag(Collider other)
-    {
-        if (other.tag == "Enemy")
-        {
-            GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Enemy_Character>().Hitted(damage);
-        }
-        else if (other.tag == "Player")
-        {
-            GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Player_Character>().Hitted(damage);
-        }
-    }
+    //private bool hasCollided = false; // 충돌 여부를 추적
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,39 +17,27 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        if(this.name.Split('(')[0] == "Dynamite")
-        {
+        CheckTag(other);
+
+        if (this.name.Split('(')[0] == "Dynamite")
             this.GetComponent<Explode>().Explosion();
-        }
+        else
+            Destroy(this.gameObject);
+    }
 
-        if (hasCollided) // 이미 충돌한 경우
+    private void CheckTag(Collider other)
+    {
+        if (other.tag == "Player")
         {
-            Destroy(gameObject); // 총알 오브젝트를 파괴
-
-            return;
+            GameObject go = other.transform.parent.gameObject;
+            go.GetComponent<Player_Character>().Hitted(damage);
         }
-
-        if (this.gameObject.tag != other.tag)
+        else if (other.tag == "Enemy")
         {
-            if (other.tag != "Bullet")
-            {
-                CheckTag(other);
-
-                // 법선 벡터 계산
-                Vector3 normal = other.transform.position - this.transform.position;
-                normal.Normalize();
-
-                // 입사각 계산
-                float angleOfIncidence = Vector3.Angle(normal, GetComponent<Rigidbody>().velocity.normalized);
-
-                // 반사각 계산
-                float angleOfReflection = 180 - angleOfIncidence;
-
-                // 총알의 속도를 반사 방향으로 수정
-                GetComponent<Rigidbody>().velocity = Vector3.Reflect(GetComponent<Rigidbody>().velocity, normal);
-
-                hasCollided = true;
-            }
+            GameObject go = other.transform.parent.gameObject;
+            go.GetComponent<Enemy_Character>().Hitted(damage);
         }
+        else
+            Debug.Log("지형지물 맞음");
     }
 }

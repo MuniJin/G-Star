@@ -17,6 +17,9 @@ public class FPSManager : Singleton<FPSManager>
     private GameObject mySpawnPoint;
     private GameObject enemySpawnPoint;
 
+    public string p;
+    public string e;
+
     private void Awake()
     {
         ShowCursor();
@@ -51,7 +54,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Solider", "Solider");
+            Init(p, e);
         else
         {
             am = AlKKAGIManager.Instance;
