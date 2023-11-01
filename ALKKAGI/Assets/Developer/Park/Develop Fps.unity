@@ -3226,7 +3226,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 470dfc5f87cab8947abfe5b4b83cc63d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3283,7 +3283,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -3314,7 +3314,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 150
-  m_StoppingDistance: 1
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -3329,7 +3329,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921616249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20281d6274ee25c45b1cbc66c9a472db, type: 3}
   m_Name: 
@@ -3352,7 +3352,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921616249}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ba8080f23fde024a95a1d5b6572efb1, type: 3}
   m_Name: 
@@ -3360,7 +3360,6 @@ MonoBehaviour:
   detectionRange: 10
   attackRange: 3
   attackCooldown: 2
-  projectilePrefab: {fileID: 7488709789570476846, guid: 0dd8435b773c95f40820a83060806b0f, type: 3}
   player: {fileID: 1420819554}
 --- !u!1001 &933357387
 PrefabInstance:
@@ -8426,6 +8425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Maps:
   - {fileID: 629628860}
+  mapNum: 0
 --- !u!1 &7084173663367279026
 GameObject:
   m_ObjectHideFlags: 0

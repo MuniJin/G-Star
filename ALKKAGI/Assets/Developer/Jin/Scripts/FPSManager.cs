@@ -108,10 +108,10 @@ public class FPSManager : Singleton<FPSManager>
         EPbulPoint.name = "bulpos";
         EPbulPoint.transform.SetParent(enemyP.transform);
         EPbulPoint.transform.SetAsFirstSibling();
-        ea.bullpos = EPbulPoint;
+        //ea.bullpos = EPbulPoint;
 
         GameObject bullet = Resources.Load<GameObject>("Bullets\\Stone");
-        ea.projectilePrefab = bullet;
+        //ea.projectilePrefab = bullet;
 
         enemyP.transform.GetChild(1).tag = "Enemy";
     }
