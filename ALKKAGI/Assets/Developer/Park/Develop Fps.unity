@@ -3171,6 +3171,7 @@ GameObject:
   - component: {fileID: 921616255}
   - component: {fileID: 921616256}
   - component: {fileID: 921616258}
+  - component: {fileID: 921616259}
   - component: {fileID: 921616257}
   m_Layer: 0
   m_Name: Enemy
@@ -3293,7 +3294,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921616249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4936bd018a39c654bbd15cd17d2719c9, type: 3}
   m_Name: 
@@ -3328,7 +3329,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921616249}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20281d6274ee25c45b1cbc66c9a472db, type: 3}
   m_Name: 
@@ -3344,6 +3345,23 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7488709789570476846, guid: 0dd8435b773c95f40820a83060806b0f, type: 3}
   firePoint: {fileID: 1359802934}
   fireRate: 2
+--- !u!114 &921616259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921616249}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba8080f23fde024a95a1d5b6572efb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRange: 10
+  attackRange: 3
+  attackCooldown: 2
+  projectilePrefab: {fileID: 7488709789570476846, guid: 0dd8435b773c95f40820a83060806b0f, type: 3}
+  player: {fileID: 1420819554}
 --- !u!1001 &933357387
 PrefabInstance:
   m_ObjectHideFlags: 0
