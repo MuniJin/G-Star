@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8392,7 +8392,7 @@ GameObject:
   - component: {fileID: 6785769304958205402}
   m_Layer: 0
   m_Name: PlayerSpawnPoint
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8426,6 +8426,8 @@ MonoBehaviour:
   Maps:
   - {fileID: 629628860}
   mapNum: 0
+  p: 
+  e: 
 --- !u!1 &7084173663367279026
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,18 +7,19 @@ public class EnemyAI3 : MonoBehaviour
     public float detectionRange = 100f;  // 플레이어를 감지하는 범위
     public float attackRange = 100f;    // 플레이어를 공격하는 범위
     public float attackCooldown = 2f;   // 공격 쿨다운
+    public float maxHeightDifference = 3f; // 플레이어와 적 캐릭터 사이의 최대 높이 차이
 
     public Transform player;            // 플레이어의 위치
     private NavMeshAgent agent;         // NavMesh 에이전트
     private float lastAttackTime;       // 마지막으로 공격한 시간
 
-    private Enemy_Character ec;         
+    private Enemy_Character ec;
 
+    private bool isSkillReady = false; // 스킬 사용 준비 상태
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();  // NavMesh 에이전트 설정
         ec = this.GetComponent<Enemy_Character>();  // Enemy_Character 스크립트 참조
-
         // 에이전트 속도를 플레이어 캐릭터의 속도로 설정
         // agent.speed = ec.speed;
 
@@ -39,9 +40,19 @@ public class EnemyAI3 : MonoBehaviour
             // 공격 범위 내에 있고, 공격 쿨다운이 지났는지 확인
             if (IsPlayerWithinAttackRange() && Time.time - lastAttackTime > attackCooldown)
             {
+                
                 // 플레이어를 공격
                 AttackPlayer();
                 lastAttackTime = Time.time;
+                UseSkillAfterDelay();
+            }
+
+            float heightDifference = player.position.y - transform.position.y;
+
+            // 만약 플레이어가 적 캐릭터보다 maxHeightDifference 이상 높이에 있으면
+            if (heightDifference > maxHeightDifference)
+            {
+                ec.EJump();
             }
         }
         else
@@ -51,6 +62,30 @@ public class EnemyAI3 : MonoBehaviour
         }
     }
 
+    // 플레이어가 보이고 5초 후에 스킬을 사용하는 함수
+    IEnumerator UseSkillAfterDelay()
+    {
+        isSkillReady = true; // 스킬 사용 준비됨
+        yield return new WaitForSeconds(5f); // 5초 대기
+
+        // 5초가 지난 후에 플레이어가 보일 경우 스킬 사용
+        if (IsPlayerVisible())
+        {
+            PerformSkill(); // 스킬 사용하는 함수
+        }
+
+        isSkillReady = false; // 스킬 사용이 끝남
+    }
+
+    // 스킬을 사용하는 함수
+    void PerformSkill()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+            // 스킬을 사용하는 코드를 여기에 추가
+            ec.EUseSkill(); // Enemy_Character 스크립트의 스킬 사용 함수 호출
+    }
+
+   
     // 플레이어가 보이는지 확인하는 함수
     bool IsPlayerVisible()
     {
