@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    private float throwSpeed = 80f;
+    private float throwSpeed = 120f;
     private bool isThrown = false;
 
     private Quaternion originalRotation;

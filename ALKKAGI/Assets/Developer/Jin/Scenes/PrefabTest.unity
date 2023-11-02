@@ -435,10 +435,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3812328598778229437, guid: 3f6e91330d8fd3746b0f865a38b24caf, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5233063977626174021, guid: 3f6e91330d8fd3746b0f865a38b24caf, type: 3}
       propertyPath: m_Name
       value: Dynamite
@@ -453,7 +449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5233063977626174026, guid: 3f6e91330d8fd3746b0f865a38b24caf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.742
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5233063977626174026, guid: 3f6e91330d8fd3746b0f865a38b24caf, type: 3}
       propertyPath: m_LocalPosition.z

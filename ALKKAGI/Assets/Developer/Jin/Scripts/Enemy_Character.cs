@@ -7,12 +7,18 @@ public class Enemy_Character : Default_Character
     private AlKKAGIManager am;
     private FPSManager fm;
 
-    public Default_Character _d;
+    private Default_Character _d;
 
-    private GameObject bullet;
-    private Vector3 bulPos;
+    public GameObject bullet;
+    public GameObject bulPos;
 
     public float eCoolDown;
+
+    private Rigidbody rb;
+
+    // ¼Óµµ, Á¡ÇÁ Èû
+    public float speed = 8f;
+    public float jumpForce = 8f;
 
     private void Start()
     {
@@ -20,9 +26,19 @@ public class Enemy_Character : Default_Character
             am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
 
+        bulPos = this.gameObject.transform.GetChild(0).gameObject;
+
+        rb = this.gameObject.GetComponent<Rigidbody>();
+
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
         eCoolDown = _d.GetCoolDown();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+            EAttack();
     }
 
     public void Hitted(int damage)
@@ -40,20 +56,10 @@ public class Enemy_Character : Default_Character
 
     public void EAttack()
     {
-        Attack(bulPos, 60f);
-    }
-
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        throw new System.NotImplementedException();
+        Attack(bulPos.transform.position, bulletSpeed);
     }
 
     public void EUseSkill()
-    {
-        UseSkill();
-    }
-
-    private void UseSkill()
     {
         if (_d != null)
             StartCoroutine(_d.Skill(this.gameObject));
@@ -66,11 +72,30 @@ public class Enemy_Character : Default_Character
         Jump();
     }
 
+    private float bulletSpeed = 80f;
+    private float angle = 0f;
 
-    protected override void Jump()
+    public override void Attack(Vector3 bulpos, float shootPower)
     {
-        Debug.Log("Jump");
+        GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
+
+        Vector3 direction = (GameObject.FindWithTag("Player").transform.position - bulpos).normalized;
+
+        float r1, r2, r3;
+        r1 = Random.Range(-0.2f, 0.2f);
+        r2 = Random.Range(-0.2f, 0.2f);
+        r3 = Random.Range(-0.2f, 0.2f);
+
+        direction = new Vector3(direction.x + r1, direction.y + r2, direction.z + r3);
+
+        Rigidbody rb2 = go.GetComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb2.velocity = direction * bulletSpeed;
+
+        go.GetComponent<Bullet>().damage = _d.GetDamage();
     }
+
+    protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     protected override void Move()
     {

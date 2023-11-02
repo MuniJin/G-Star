@@ -17,6 +17,9 @@ public class FPSManager : Singleton<FPSManager>
     private GameObject mySpawnPoint;
     private GameObject enemySpawnPoint;
 
+    public string p;
+    public string e;
+
     private void Awake()
     {
         ShowCursor();
@@ -51,7 +54,7 @@ public class FPSManager : Singleton<FPSManager>
 
         // 테스트 씬과 메인 게임 씬 분리
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init("Cannon", "King");
+            Init(p, e);
         else
         {
             am = AlKKAGIManager.Instance;
@@ -78,7 +81,7 @@ public class FPSManager : Singleton<FPSManager>
 
         GameObject myPbulPoint = new GameObject();
         myPbulPoint.transform.position = myP.transform.position + (Vector3.forward * 2);
-        myPbulPoint.name = "bulpos";
+        myPbulPoint.name = "bulPos";
         myPbulPoint.transform.SetParent(myP.transform);
         myPbulPoint.transform.SetAsFirstSibling();
 
@@ -95,23 +98,21 @@ public class FPSManager : Singleton<FPSManager>
     {
         GameObject enemyP = Instantiate(Resources.Load<GameObject>(e), enemySpawnPoint.transform.position, Quaternion.identity);
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
-        enemyP.AddComponent<Enemy_Character>();
+
+        Enemy_Character ec = enemyP.AddComponent<Enemy_Character>();
+
+        GameObject bulPos = new GameObject();
+        bulPos.transform.position = enemyP.transform.position - (Vector3.forward * 2);
+        bulPos.name = "bulPos";
+        bulPos.transform.SetParent(enemyP.transform);
+        bulPos.transform.SetAsFirstSibling();
+
         // FPS 적 AI 추가
         EnemyAI3 ea = enemyP.AddComponent<EnemyAI3>();
         ea.player = myP.transform;
 
         enemyP.AddComponent<NavMeshAgent>();
-        enemyP.GetComponent<NavMeshAgent>().baseOffset = 1;
-
-        GameObject EPbulPoint = new GameObject();
-        EPbulPoint.transform.position = enemyP.transform.position - (Vector3.forward * 2);
-        EPbulPoint.name = "bulpos";
-        EPbulPoint.transform.SetParent(enemyP.transform);
-        EPbulPoint.transform.SetAsFirstSibling();
-        //ea.bullpos = EPbulPoint;
-
-        GameObject bullet = Resources.Load<GameObject>("Bullets\\Stone");
-        //ea.projectilePrefab = bullet;
+        enemyP.GetComponent<NavMeshAgent>().baseOffset = 1.5f;
 
         enemyP.transform.GetChild(1).tag = "Enemy";
     }
@@ -128,7 +129,7 @@ public class FPSManager : Singleton<FPSManager>
                 case "Solider":
                     _d = go.gameObject.AddComponent<Pawn>();
                     bullet = Resources.Load<GameObject>("Bullets\\Stone");
-                    _d.SetStatus(100, 10f, 10);
+                    _d.SetStatus(100, 10f, 5);
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Rook>();
@@ -163,7 +164,7 @@ public class FPSManager : Singleton<FPSManager>
             }
         }
 
-        if(bullet == null)
+        if (bullet == null)
             bullet = Resources.Load<GameObject>("Bullets\\Stone");
     }
 
