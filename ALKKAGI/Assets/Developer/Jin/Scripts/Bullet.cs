@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     {
         if (this.gameObject.tag == "Hammer")
         {
-            if (other.tag != "Bullet")
+            if (other.tag != "Bullet")  
                 CheckTag(other);
 
             return;

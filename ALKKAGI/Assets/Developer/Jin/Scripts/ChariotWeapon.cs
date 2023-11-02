@@ -5,7 +5,6 @@ using UnityEngine;
 public class ChariotWeapon : MonoBehaviour
 {
     public Hammer hammer;
-    public Shield shield;
 
     private bool isZoom;
     private Camera cam;
@@ -55,7 +54,7 @@ public class ChariotWeapon : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    shield.ShieldSlam();
+                    
                 }
             }
             if (isZoom)
