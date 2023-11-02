@@ -27,6 +27,7 @@ public class Player_Character : Default_Character
     public float speed = 8f;
     public float jumpForce = 8f;
 
+    private GameObject kbul;
 
     private void Start()
     {
@@ -41,8 +42,12 @@ public class Player_Character : Default_Character
         rb = this.gameObject.GetComponent<Rigidbody>();
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
-        if (bullet.GetComponent<Bullet>() == false)
-            bullet.AddComponent<Bullet>();
+
+        if (this.gameObject.name.Split('_')[0] == "King")
+            kbul = Resources.Load<GameObject>("Bullets\\KingBullets");
+
+        //if (bullet.GetComponent<Bullet>() == false)
+        //    bullet.AddComponent<Bullet>();
 
         if (this.name.Split('_')[0] == "Chariot")
             bullet.GetComponent<Bullet>().damage = _d.GetDamage();
@@ -67,8 +72,12 @@ public class Player_Character : Default_Character
 
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
+        {
+            KingBulletSelect();
+
             if (this.name.Split('_')[0] != "Chariot")
                 Attack(bulPos.transform.position, bulletSpeed);
+        }
 
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
@@ -143,6 +152,17 @@ public class Player_Character : Default_Character
 
     // 공격
     private float bulletSpeed = 80f;
+
+    private void KingBulletSelect()
+    {
+        if (this.gameObject.name.Split('_')[0] == "King")
+        {
+            int rand = Random.Range(0, 6);
+            bullet = kbul.transform.GetChild(rand).gameObject;
+            Debug.Log(bullet.name);
+            bullet.transform.rotation = this.transform.rotation;
+        }
+    }
 
     public override void Attack(Vector3 bulpos, float shootPower)
     {

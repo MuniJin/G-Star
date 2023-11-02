@@ -21,33 +21,18 @@ public class Hammer : MonoBehaviour
         bc = this.GetComponent<BoxCollider>();
     }
 
-    private void Update()
-    {
-        if(isThrown)
-        {
-            Vector3 show = this.gameObject.GetComponent<Rigidbody>().velocity * -1f;
-            Quaternion target = Quaternion.LookRotation(show);
-            this.gameObject.transform.rotation = target;
-        }
-    }
 
     public void ThrowHammer(Vector3 direction)
     { 
         isThrown = true;
 
-        //Vector3 dist = (direction - this.transform.position).normalized;
-        //Quaternion rota = Quaternion.FromToRotation(dist, direction);
-        //
-        //this.transform.rotation = rota;
-        
+        this.transform.LookAt(direction * -1);
 
         this.transform.parent = null;
         
         Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         rb.AddForce((direction  - this.gameObject.transform.position).normalized * throwSpeed, ForceMode.Impulse);
-
-        
 
         bc.isTrigger = true;
     }

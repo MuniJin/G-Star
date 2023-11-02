@@ -138,6 +138,7 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "Horse":
                     _d = go.gameObject.AddComponent<Knight>();
+                    bullet = Resources.Load<GameObject>("Bullets\\Arrow");
                     _d.SetStatus(100, 10f, 10);
                     break;
                 case "Elephant":
@@ -156,6 +157,7 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "King":
                     _d = go.gameObject.AddComponent<King>();
+                    bullet = Resources.Load<GameObject>("Bullets\\KingBullets");
                     _d.SetStatus(100, 10f, 10);
                     break;
                 default:
