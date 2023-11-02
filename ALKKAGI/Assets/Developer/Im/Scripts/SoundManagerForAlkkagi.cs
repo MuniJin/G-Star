@@ -48,4 +48,17 @@ public class SoundManagerForAlkkagi : MonoBehaviour
         SFXSlider.value = PlayerPrefs.GetFloat("SFXVol");
         SetBGM();
     }
+    public void SoundOptionTrue()
+    {
+        this.gameObject.SetActive(true);
+        StartCoroutine(ActivateSoundManager());
+    }
+
+    private IEnumerator ActivateSoundManager()
+    {
+        yield return null; // 다음 프레임을 기다립니다.
+        DB = GameObject.Find("SoundSource");
+        BGMSlider.value = PlayerPrefs.GetFloat("BGMVol");
+        SFXSlider.value = PlayerPrefs.GetFloat("SFXVol");
+    }
 }

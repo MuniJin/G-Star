@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 8457818602199057557}
   - component: {fileID: 5131445401375086395}
   - component: {fileID: 2295159692991378832}
+  - component: {fileID: 3936357133467780574}
   m_Layer: 0
   m_Name: Cannon_red
   m_TagString: Untagged
@@ -292,6 +293,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3936357133467780574
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716930165320153197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 6df02ae19f778eb4ba72e5a8113f38af, type: 3}
 --- !u!1 &3051151658120689058
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,8 +398,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7530297377675028973}
   - component: {fileID: 1794538584}
-  - component: {fileID: 1794538583}
   - component: {fileID: 1794538582}
+  - component: {fileID: 158897307666638560}
   m_Layer: 0
   m_Name: Cannon_Red
   m_TagString: RedPiece
@@ -426,19 +441,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!65 &1794538583
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3584774535828398785}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.3, z: 1.2}
-  m_Center: {x: 0, y: 0.15, z: 0.015}
 --- !u!114 &1794538582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +455,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 1802652749}
   Arrow: {x: 0, y: 0, z: 0}
+--- !u!65 &158897307666638560
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584774535828398785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.3, z: 1.5}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &5419600215988464429
 GameObject:
   m_ObjectHideFlags: 0

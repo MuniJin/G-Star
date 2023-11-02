@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 5652190804398039735}
   - component: {fileID: 8945880340209987865}
   - component: {fileID: 2651110785661555634}
+  - component: {fileID: 6994733236643425174}
   m_Layer: 0
   m_Name: Guard_red
   m_TagString: Untagged
@@ -373,6 +374,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6994733236643425174
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3225538587748769359}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: c5364b89bc5d7aa40a98bcda9166acdb, type: 3}
 --- !u!1 &5159643002196298658
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,8 +398,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2319745950619577250}
   - component: {fileID: 352006046}
-  - component: {fileID: 352006045}
   - component: {fileID: 352006044}
+  - component: {fileID: 8085688500308522800}
   m_Layer: 0
   m_Name: Guard_Red
   m_TagString: RedPiece
@@ -426,19 +441,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!65 &352006045
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5159643002196298658}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.3, z: 1.2}
-  m_Center: {x: 0, y: 0.15, z: 0.015}
 --- !u!114 &352006044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +455,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 2018122355}
   Arrow: {x: 0, y: 0, z: 0}
+--- !u!65 &8085688500308522800
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159643002196298658}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.3, z: 1.5}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &6414115784380314699
 GameObject:
   m_ObjectHideFlags: 0

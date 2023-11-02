@@ -28,18 +28,15 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public bool IsMove; //이동 체크
     public bool IsFirstCrash;
     public bool blueCrash;
-    private int CheatMode; //테스트용 치트모드
+    public bool RedCrash;
 
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
     public GameObject TurnObj;
     [SerializeField] private TMP_Text TurnText;
-    [SerializeField] private RawImage CrashRedImage;
-    [SerializeField] private RawImage CrashBlueImage;
+    [SerializeField] private GameObject GameOverObj;
 
-    private GameObject GameOverObj;
-    private Texture[] CrashImg;
     private float timer = 0f;
     private bool forBlueTurn;
     private bool GOver;
@@ -55,10 +52,15 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public void Crash() //충돌
     {
         timer = 0;
-        //CrashEffect();
+        CrashEffect();
         myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
-        Invoke("CrashSceneChange", 1.5f);
+        Invoke("CrashSceneChange", 0.5f);
+    }
+
+    private void CrashEffect()
+    {
+
     }
 
     private void CrashSceneChange()
@@ -112,6 +114,22 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             }
         }
     }
+    public IEnumerator NotCrash()
+    {
+        yield return new WaitForSeconds(1.0f); // 1초 기다림
+
+        if (!RedCrash)
+        {
+            CrashObjB = null;
+            CrashObjR = null;
+            if (!blueT)
+                StartCoroutine(BlueTurn());
+        }
+        else
+        {
+            Debug.Log("충돌!");
+        }
+    }
 
     private void BlueSelect()
     {
@@ -162,9 +180,11 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             yield return null; // 다음 프레임까지 대기
         }
         //Debug.Log("파랑턴으로 넘어감...");
-        BlueStart();
+        StartCoroutine(BlueStart());
+        
     }
-    private void BlueStart()
+
+    private IEnumerator BlueStart()
     {
         blueCrash = false;
         TurnObj.SetActive(true);
@@ -178,14 +198,19 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                     LeftBluePiece[i].GetComponent<BlueMovement>().redTurnCrash = false;
 
             BlueSelect();
-            Invoke("RedTurn", 3f);
+            yield return new WaitForSeconds(3f);
+
+            RedTurn();
         }
     }
+
     private void RedTurn()
     {
         blueT = false;
         IsMove = true;
+        RedCrash = false;
     }
+
     private void repick()
     {
         if (randomChildObject == null)//선택된 대상이 null값일때
@@ -297,19 +322,15 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         }
     }
 
-    public void RedTurnChange()
+    public IEnumerator RedTurnChange()
     {
         TurnObj.SetActive(true);
         TurnText.text = "<color=red>My Turn";
 
-        Invoke("falseTurnObj", 1f);
-    }
+        yield return new WaitForSeconds(1f);
 
-    private void falseTurnObj()
-    {
         TurnObj.SetActive(false);
     }
-
     public void GameOver(int who)
     {
         if (who == 0)

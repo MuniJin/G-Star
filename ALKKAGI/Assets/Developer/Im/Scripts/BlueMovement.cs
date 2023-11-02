@@ -16,7 +16,6 @@ public class BlueMovement : MonoBehaviour
     public Vector3 SaveSpeed;
     private Vector3 dir;
     private float totalSpeed;
-    private bool IsCrash;
     public bool redTurnCrash;
 
     private List<GameObject> redObjects = new List<GameObject>();
@@ -24,6 +23,8 @@ public class BlueMovement : MonoBehaviour
     private float dieTime;
     GameObject[] uniqueRedPieces;
     public GameObject ArrowObj;
+
+    public bool isdead;
 
     private void Start()
     {
@@ -44,21 +45,7 @@ public class BlueMovement : MonoBehaviour
 
     public void MoveStart() //기물 이동
     {
-        //Invoke("LocateRed", 1f);
         startRay();
-    }
-    private void NotCrash() //헛스윙 체크
-    {
-        if (!GM.GetComponent<AlKKAGIManager>().blueCrash)
-        {
-            //Debug.Log("파랑 헛스윙");
-            Destroy(GameObject.Find("ArrowBlue(Clone)"));
-            IFC();
-        }
-        else
-        {
-            Debug.Log("충돌!");
-        }
     }
 
     private void MoveMath()
@@ -83,6 +70,18 @@ public class BlueMovement : MonoBehaviour
 
         Invoke("NotCrash", 1f);
     }
+    private void NotCrash() 
+    {
+        if (!GM.GetComponent<AlKKAGIManager>().blueCrash)
+        {
+            Destroy(GameObject.Find("ArrowBlue(Clone)"));
+            IFC();
+        }
+        else
+        {
+            Debug.Log("충돌!");
+        }
+    }
 
     private void startRay()
     {
@@ -94,7 +93,6 @@ public class BlueMovement : MonoBehaviour
         if (collision.gameObject.tag == "RedPiece" && this.gameObject.tag == "BluePiece" && GM.GetComponent<AlKKAGIManager>().CrashObjR != collision.gameObject
                 && !GM.GetComponent<AlKKAGIManager>().IsMyTurn && GM.GetComponent<AlKKAGIManager>().IsFirstCrash)
         {
-            IsCrash = true;
             GM.GetComponent<AlKKAGIManager>().blueCrash = true;
 
             GameObject collidedObject = collision.gameObject;
@@ -106,7 +104,7 @@ public class BlueMovement : MonoBehaviour
             SaveSpeed = this.gameObject.GetComponent<Rigidbody>().velocity;
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
-
+            dir.y = 0;
             //Debug.Log("totals - blue : " + totalSpeed);
             if (totalSpeed < 1f)
             {
@@ -128,10 +126,10 @@ public class BlueMovement : MonoBehaviour
     private IEnumerator GetRedPiecesCoroutine() //적 탐색
     {
         // 360도의 레이를 발사하는 루프
-        for (float angle = 0f; angle < 360f; angle += 2f)
+        for (float angle = 0f; angle < 360f; angle += 3f)
         {
             float radians = angle * Mathf.Deg2Rad;
-            Vector3 direction = new Vector3(Mathf.Sin(radians), 0 , Mathf.Cos(radians));
+            Vector3 direction = new Vector3(Mathf.Sin(radians), 0, Mathf.Cos(radians));
             Vector3 rayOrigin = transform.position;
 
             // 디버그 레이를 그리기 위한 코드
@@ -149,9 +147,9 @@ public class BlueMovement : MonoBehaviour
                 {
                     redObjects.Add(hit.collider.gameObject);
                 }
-            }
 
-            yield return null;
+                yield return null;
+            }
         }
 
         if (redObjects.Count == 0) //감지 실패시 다른 오브젝트로 이동 후 감지
@@ -172,9 +170,12 @@ public class BlueMovement : MonoBehaviour
 
             BlueShootEffect(Target);
 
-            Invoke("MoveMath", 0.5f);
+            yield return new WaitForSeconds(0.5f);
+
+            MoveMath();
         }
     }
+
     private void BlueShootEffect(GameObject target)
     {
         GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position)/2+new Vector3(0,0.5f,0), Quaternion.identity);
@@ -186,50 +187,22 @@ public class BlueMovement : MonoBehaviour
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.4f, ForceMode.Impulse);
-        this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.7f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir*totalSpeed* 0.4f, ForceMode.Impulse);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.6f, ForceMode.Impulse);
         Invoke("IFC", 1f);
     }
     public void Redlose() //FPS 패배시
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
         this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(SaveSpeed * 0.7f, ForceMode.Impulse);
-        this.gameObject.GetComponent<Rigidbody>().AddForce(-SaveSpeed * 0.4f, ForceMode.Impulse);
+        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.6f, ForceMode.Impulse);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
         Invoke("IFC", 1f);
     }
     private void IFC()
     {
-        GM.GetComponent<AlKKAGIManager>().RedTurnChange();
+        StartCoroutine(GM.GetComponent<AlKKAGIManager>().RedTurnChange());
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }
-}   
-
-//private void attack()
-     //{
-     //    Invoke("NotCrash", 2.5f);
-     //    if (redObjects.Count == 0) //RAY가 감지한 오브젝트가 없을때
-     //    {
-     //        GameObject Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
-     //        if (Target == null)
-     //        {
-     //            Target = GM.GetComponent<AlKKAGIManager>().LeftRedPiece[UnityEngine.Random.Range(0, 15)];
-     //        }
-     //        else
-     //        {
-     //            targetlocal = Target.transform.localPosition;
-     //            DisX = targetlocal.x / 100;
-     //            DisZ = targetlocal.z / 100;
-     //            MoveMath();
-     //        }
-     //    }
-     //    else
-     //    {
-     //        GameObject target = redObjects[UnityEngine.Random.Range(0, redObjects.Count)];
-     //        targetlocal = target.transform.localPosition;
-     //        DisX = targetlocal.x / 100;
-     //        DisZ = targetlocal.z / 100;
-     //        MoveMath();
-     //    }
-     //}
+}

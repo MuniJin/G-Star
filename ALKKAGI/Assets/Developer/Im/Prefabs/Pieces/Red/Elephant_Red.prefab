@@ -301,8 +301,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5786444173696502575}
   - component: {fileID: 582858564}
-  - component: {fileID: 582858563}
   - component: {fileID: 582858562}
+  - component: {fileID: 7828335801758720166}
   m_Layer: 0
   m_Name: Elephant_Red
   m_TagString: RedPiece
@@ -344,19 +344,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!65 &582858563
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080436369278987209}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.3, z: 1.2}
-  m_Center: {x: 0, y: 0.15, z: 0.015}
 --- !u!114 &582858562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +358,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 1532653390}
   Arrow: {x: 0, y: 0, z: 0}
+--- !u!65 &7828335801758720166
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080436369278987209}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.3, z: 1.5}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &2751632355591242020
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 4943884606110154204}
   - component: {fileID: 8559811857629949554}
   - component: {fileID: 3325356900018031833}
+  - component: {fileID: 8561875605512495678}
   m_Layer: 0
   m_Name: Elephant_red
   m_TagString: Untagged
@@ -453,6 +454,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8561875605512495678
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2751632355591242020}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 3532fab9baef3f44b92b8569c4caa68f, type: 3}
 --- !u!1 &6413193171451054182
 GameObject:
   m_ObjectHideFlags: 0

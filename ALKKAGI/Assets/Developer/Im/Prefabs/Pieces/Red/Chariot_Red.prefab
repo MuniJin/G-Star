@@ -220,8 +220,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1848582939962212885}
   - component: {fileID: 6299834679370077868}
-  - component: {fileID: 6299834679370077869}
   - component: {fileID: 6299834679370077870}
+  - component: {fileID: 2289216828029337519}
   m_Layer: 0
   m_Name: Chariot_Red
   m_TagString: RedPiece
@@ -263,19 +263,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!65 &6299834679370077869
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5020712865624674994}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.3, z: 1.2}
-  m_Center: {x: 0, y: 0.15, z: 0.014999986}
 --- !u!114 &6299834679370077870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +277,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 249105403}
   Arrow: {x: 0, y: 0, z: 0}
+--- !u!65 &2289216828029337519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020712865624674994}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.3, z: 1.5}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &7995066621916294805
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 1356042868140620763}
   - component: {fileID: 2343871403087571061}
   - component: {fileID: 8677204394790783710}
+  - component: {fileID: 7270348737748430049}
   m_Layer: 0
   m_Name: Chariot_red
   m_TagString: Untagged
@@ -453,6 +454,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7270348737748430049
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8098129755027687203}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 3c2eecb1a08e15f4d9e6bd4b55bea65c, type: 3}
 --- !u!1 &8507309372056498902
 GameObject:
   m_ObjectHideFlags: 0

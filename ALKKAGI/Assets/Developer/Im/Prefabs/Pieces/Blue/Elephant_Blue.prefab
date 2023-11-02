@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 5080840350718227078}
   - component: {fileID: 8418492363294761256}
   - component: {fileID: 3186573541575771011}
+  - component: {fileID: 6234247089745537524}
   m_Layer: 0
   m_Name: Elephant_blue
   m_TagString: Untagged
@@ -163,6 +164,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6234247089745537524
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2607921423599832702}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 01935e193fe112b4ca0c390dd2efa8a4, type: 3}
 --- !u!1 &3467353537309941059
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +188,6 @@ GameObject:
   m_Component:
   - component: {fileID: 939471286398147991}
   - component: {fileID: 7284099355866872572}
-  - component: {fileID: 7377559720114916029}
   - component: {fileID: 1511882890031106724}
   m_Layer: 0
   m_Name: Elephant_Blue
@@ -213,19 +227,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7377559720114916029
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3467353537309941059}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.27, z: 1.2}
-  m_Center: {x: 0, y: 0.135, z: 0}
 --- !u!114 &1511882890031106724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SaveSpeed: {x: 0, y: 0, z: 0}
+  redTurnCrash: 0
   ArrowObj: {fileID: 4477682972425548831, guid: 81e146eb1487cb244b243447f71d8962, type: 3}
   rayLength: 20
   interval: 0.1

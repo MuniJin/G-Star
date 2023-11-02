@@ -332,8 +332,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4238298491034957354}
   - component: {fileID: 467719350}
-  - component: {fileID: 467719349}
   - component: {fileID: 467719348}
+  - component: {fileID: 4188014637075932649}
   m_Layer: 0
   m_Name: King_Red
   m_TagString: RedPiece
@@ -375,19 +375,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!65 &467719349
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3372283315209472969}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.3, z: 1.2}
-  m_Center: {x: 0, y: 0.15, z: 0.015}
 --- !u!114 &467719348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +389,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 194375910501274963}
   Arrow: {x: 0, y: 0, z: 0}
+--- !u!65 &4188014637075932649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3372283315209472969}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.4, z: 1.5}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1 &7078550392203282526
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 1081338917347076939}
   - component: {fileID: 4420014025459710181}
   - component: {fileID: 7330609660867156558}
+  - component: {fileID: 7174860931418615175}
   m_Layer: 0
   m_Name: King_red
   m_TagString: Untagged
@@ -565,3 +566,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7174860931418615175
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904459266152224691}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: a9141b374c83ab24da6f045eb3ffa273, type: 3}

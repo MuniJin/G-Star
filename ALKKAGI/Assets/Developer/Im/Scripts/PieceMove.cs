@@ -12,10 +12,11 @@ public class PieceMove : MonoBehaviour
     public Vector3 Arrow; //이동방향
     private float MoveSpeed; //이동속도
     private Vector3 SaveSpeed; //저장된 속도
-    private bool IsCrash; //충돌체크
     private Vector3 dir; //충돌방향
     float totalSpeed; //충돌속도
     float dieTime;
+
+    public bool isdead;
 
     private void Start()
     {
@@ -41,24 +42,10 @@ public class PieceMove : MonoBehaviour
 
     public void MoveStart() //기물 이동
     {
-        IsCrash = false;
+        GM.GetComponent<AlKKAGIManager>().RedCrash = false;
         MoveSpeed = DragObj.GetComponent<AlggagiDrag>().ShootPower;
         rb.AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
-        Invoke("NotCrash", 1f); //매니저로 뺴야함
-    }
-    private void NotCrash() //헛스윙 체크
-    {
-        if (!IsCrash)
-        {
-            GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-            GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
-            if (!GM.GetComponent<AlKKAGIManager>().blueT)
-                StartCoroutine(GM.GetComponent<AlKKAGIManager>().BlueTurn());
-        }
-        else
-        {
-            Debug.Log("충돌!");
-        }
+        StartCoroutine(GM.GetComponent<AlKKAGIManager>().NotCrash());
     }
 
 
@@ -67,24 +54,26 @@ public class PieceMove : MonoBehaviour
         if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject
             && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
+            GM.GetComponent<AlKKAGIManager>().RedCrash = true;
             GameObject collidedObject = collision.gameObject;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
-            IsCrash = true;
+
             if (GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash == false)
             {
                 GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash = true;
 
                 SaveSpeed = rb.velocity;
-                totalSpeed = SaveSpeed.magnitude/2;
+                totalSpeed = SaveSpeed.magnitude / 2;
                 dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-                Debug.Log("totals - red : " + totalSpeed);
-                if (totalSpeed < 1f)
-                {
-                    Debug.Log("제발 R");
-                    totalSpeed = 20f;
-                }
+                //Debug.Log("totals - red : " + totalSpeed);
+                //if (totalSpeed < 1f)
+                //{
+                //    Debug.Log("제발 R");
+                //    totalSpeed = 20f;
+                //}
+
                 rb.isKinematic = true;
                 GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
 

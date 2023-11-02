@@ -7,27 +7,46 @@ public class PosSelect : MonoBehaviour
 {
     [SerializeField] private GameObject PosObj;
     [SerializeField] private GameObject errorbox;
+    [SerializeField] private GameObject[] SelectedBox;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_Text InsText;
+    [SerializeField] private Material BlackWood;
+    [SerializeField] private Material Wood;
     int seltype = 0;
 
-    private void Update()
+    public void ShowSelected()
     {
         if (seltype == 1)
         {
             InsText.text = "왼상차림";
+            SelectedBox[0].GetComponent<MeshRenderer>().material = BlackWood;
+            SelectedBox[1].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[2].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[3].GetComponent<MeshRenderer>().material = Wood;
         }
-        if (seltype == 2)
+        else if (seltype == 2)
         {
             InsText.text = "오른상차림";
+            SelectedBox[0].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[1].GetComponent<MeshRenderer>().material = BlackWood;
+            SelectedBox[2].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[3].GetComponent<MeshRenderer>().material = Wood;
         }
-        if (seltype == 3)
+        else if (seltype == 3)
         {
             InsText.text = "안상차림";
+            SelectedBox[0].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[1].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[2].GetComponent<MeshRenderer>().material = BlackWood;
+            SelectedBox[3].GetComponent<MeshRenderer>().material = Wood;
         }
-        if (seltype == 4)
+        else if (seltype == 4)
         {
             InsText.text = "바깥상차림";
+            SelectedBox[0].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[1].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[2].GetComponent<MeshRenderer>().material = Wood;
+            SelectedBox[3].GetComponent<MeshRenderer>().material = BlackWood;
         }
     }
 
