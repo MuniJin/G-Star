@@ -5,9 +5,9 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     //사용법//
-    //DB.GetComponent<AudioManager>().SFXSource.clip = DB.GetComponent<AudioManager>().TestSound;
-    //DB.GetComponent<AudioManager>().SFXSource.Play();
-     
+    //audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().TestSound;
+    //audioManager.GetComponent<AudioManager>().SFXSource.Play();
+
     public AudioSource bgmSource;
     public AudioSource SFXSource;
 
@@ -18,10 +18,17 @@ public class AudioManager : MonoBehaviour
 
     [Header(" ----------- Alkkagi Clip -----------")]
     public AudioClip ShootSound; //발사 효과음
+    public AudioClip StartSound; //시작 효과음
     public AudioClip CrashSound; //충돌 효과음
-    public AudioClip DeathSound; //사망 효과음
-    public AudioClip PositionSound; //배치 효과음
+    public AudioClip DeathSound; //사망 효과음 O
+    public AudioClip PositionSound; //배치 효과음 O
+    public AudioClip GameOverSound; //end 효과음 
 
-    [Header(" ----------- FPS Clip -----------")]
+    [Header(" ----------- FPS Clip -----------")] //여기서 불러올 시 3D 효과 없음
     public AudioClip FPSBGM; //FPS bgm
+
+    public AudioClip[] Skills;
+    public AudioClip HitSound;
+    public AudioClip BulletSound;
+
 }

@@ -52,19 +52,21 @@ public class BlueMovement : MonoBehaviour
     {
         GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
         GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
+        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(1));
 
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //이 기물과 상대 기물의 거리값
-        MoveSpeed = ((float)Math.Floor(Pita)); //속도값
-        Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
+        Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, targetlocal.y, DisZ * 100 - this.gameObject.transform.localPosition.z);
         Arrow = direction;
-
-        if (MoveSpeed < 2f)
+        MoveSpeed = Arrow.magnitude;
+        Debug.Log("원본 " + MoveSpeed);
+        if (MoveSpeed < 9f)
         {
-            Debug.Log("2이하");
-            MoveSpeed = 5f;
+            Pita = Pita* 2;
+            Debug.Log("진화 " + MoveSpeed);
         }
 
-        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
+
+        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * Pita, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
 
@@ -104,8 +106,9 @@ public class BlueMovement : MonoBehaviour
             SaveSpeed = this.gameObject.GetComponent<Rigidbody>().velocity;
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
-            dir.y = 0;
+           
             //Debug.Log("totals - blue : " + totalSpeed);
+
             if (totalSpeed < 1f)
             {
                 Debug.Log("제발");
@@ -116,7 +119,8 @@ public class BlueMovement : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = true;
 
             GM.GetComponent<AlKKAGIManager>().IsFirstCrash = false;
-            GM.GetComponent<AlKKAGIManager>().Crash();
+            StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
+
         }
     }
 

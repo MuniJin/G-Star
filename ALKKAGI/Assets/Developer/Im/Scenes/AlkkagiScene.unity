@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.172768, g: 0.21589167, b: 0.29782546, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589245, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -135,6 +135,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 418057543878291183, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
+    - target: {fileID: 418057544013228376, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
+    - target: {fileID: 418057544187172748, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
     - target: {fileID: 418057544424039296, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -183,5 +195,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: Base
       objectReference: {fileID: 0}
+    - target: {fileID: 418057544625515554, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
+    - target: {fileID: 418057544720893434, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
+    - target: {fileID: 418057545301885376, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 418057545380629481, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
+    - target: {fileID: 418057545820384083, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: GM
+      value: 
+      objectReference: {fileID: 418057544288461256}
+    - target: {fileID: 1392652605413056218, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392652606192564624, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392652606988576380, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392652606988576381, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392652607137159875, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392652607230708307, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+--- !u!1 &418057544288461256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 418057544286296678, guid: 6953b6dd3e161d843a5c3a38716e492a, type: 3}
+  m_PrefabInstance: {fileID: 418057544288461255}
+  m_PrefabAsset: {fileID: 0}

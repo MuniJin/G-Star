@@ -43,6 +43,8 @@ public class PieceMove : MonoBehaviour
     public void MoveStart() //기물 이동
     {
         GM.GetComponent<AlKKAGIManager>().RedCrash = false;
+
+        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(1));
         MoveSpeed = DragObj.GetComponent<AlggagiDrag>().ShootPower;
         rb.AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
         StartCoroutine(GM.GetComponent<AlKKAGIManager>().NotCrash());
@@ -76,8 +78,7 @@ public class PieceMove : MonoBehaviour
 
                 rb.isKinematic = true;
                 GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-                GM.GetComponent<AlKKAGIManager>().Crash();
+                StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
             }
         }
     }

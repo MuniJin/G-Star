@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532653390}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1532653395
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33bd466a9e094e04d95e9390b9bfc516, type: 2}
+  - {fileID: 2100000, guid: a18dd4e092f0d18459a5fc3890f61fcc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -188,7 +188,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b178fcad6be662649a37f60076f382e0, type: 2}
+  - {fileID: 2100000, guid: 957520084d492334fb8651d17f80905b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -358,6 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 1532653390}
   Arrow: {x: 0, y: 0, z: 0}
+  isdead: 0
 --- !u!65 &7828335801758720166
 BoxCollider:
   m_ObjectHideFlags: 0

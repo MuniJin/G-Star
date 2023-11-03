@@ -115,7 +115,7 @@ public class AlggagiDrag : MonoBehaviour
     {
         if (IsPieceSelected)
         {
-            ConCircle.transform.localScale = new Vector3(0.125f, 0.125f, 0.125f);
+            ConCircle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             MainObj.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
             GM.GetComponent<AlKKAGIManager>().CrashObjR = null;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1693,6 +1693,22 @@ PrefabInstance:
       propertyPath: bgmSource
       value: 
       objectReference: {fileID: 1438103794}
+    - target: {fileID: 8265579257169016039, guid: 6b0cb4b3c614c5d4fad5a98533d3b573, type: 3}
+      propertyPath: CrashSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a14a2c79e49cea54b9f7abb0a55d8810, type: 3}
+    - target: {fileID: 8265579257169016039, guid: 6b0cb4b3c614c5d4fad5a98533d3b573, type: 3}
+      propertyPath: DeathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 69a8c35d82f61b6478e03680e5dba027, type: 3}
+    - target: {fileID: 8265579257169016039, guid: 6b0cb4b3c614c5d4fad5a98533d3b573, type: 3}
+      propertyPath: ShootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a14a2c79e49cea54b9f7abb0a55d8810, type: 3}
+    - target: {fileID: 8265579257169016039, guid: 6b0cb4b3c614c5d4fad5a98533d3b573, type: 3}
+      propertyPath: PositionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 883d1787414171049bcbc3791f5915bc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b0cb4b3c614c5d4fad5a98533d3b573, type: 3}
 --- !u!1 &923625463 stripped
