@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 39136263}
   m_Layer: 6
   m_Name: Forward
-  m_TagString: Untagged
+  m_TagString: LimitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1937,7 +1937,7 @@ GameObject:
   - component: {fileID: 363930986}
   m_Layer: 6
   m_Name: Up
-  m_TagString: Untagged
+  m_TagString: LimitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2450,7 +2450,7 @@ GameObject:
   - component: {fileID: 442473140}
   m_Layer: 6
   m_Name: Back
-  m_TagString: Untagged
+  m_TagString: LimitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5943,7 +5943,7 @@ GameObject:
   - component: {fileID: 886888731}
   m_Layer: 6
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: LimitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7939,7 +7939,7 @@ GameObject:
   - component: {fileID: 1316958546}
   m_Layer: 0
   m_Name: MapLimit
-  m_TagString: Untagged
+  m_TagString: LimitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8227,7 +8227,7 @@ GameObject:
   - component: {fileID: 1353024597}
   m_Layer: 6
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: LimitArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15109,7 +15109,7 @@ MonoBehaviour:
   - {fileID: 1960702820}
   - {fileID: 527524072}
   mapNum: 0
-  p: Solider
+  p: King
   e: Solider
 --- !u!1 &2002889116 stripped
 GameObject:

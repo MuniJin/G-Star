@@ -10,7 +10,7 @@ public class Explode : MonoBehaviour
     private void Start()
     {
         sc = this.GetComponent<SphereCollider>();
-        //ps = Resources.Load<GameObject>("Particles\\TinyFire");
+        ps = Resources.Load<GameObject>("Particles\\TinyFire");
     }
 
     public void Explosion()
@@ -29,9 +29,4 @@ public class Explode : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-    }
-
 }

@@ -118,7 +118,7 @@ public class FPSManager : Singleton<FPSManager>
     }
 
     // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
-    public void ChooseCharacter(ref Default_Character _d, ref GameObject bullet, ref GameObject particle, GameObject go)
+    public void ChooseCharacter(ref Decorator_Character _d, ref GameObject bullet, GameObject go)
     {
         string str = go.gameObject.name.Split('_')[0];
 
@@ -127,41 +127,39 @@ public class FPSManager : Singleton<FPSManager>
             switch (str)
             {
                 case "Solider":
-                    _d = go.gameObject.AddComponent<Pawn>();
+                    _d = go.gameObject.AddComponent<Solider>();
                     bullet = Resources.Load<GameObject>("Bullets\\Stone");
-                    particle = Resources.Load<GameObject>("Particles\\StoneHit");
-                    _d.SetStatus(100, 10f, 5);
+                    _d.SetStatus(100, 1f, 10);
                     break;
                 case "Chariot":
-                    _d = go.gameObject.AddComponent<Rook>();
+                    _d = go.gameObject.AddComponent<Chariot>();
                     bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
-                    _d.SetStatus(100, 1.5f, 30);
+                    _d.SetStatus(110, 1f, 11);
                     break;
                 case "Horse":
-                    _d = go.gameObject.AddComponent<Knight>();
+                    _d = go.gameObject.AddComponent<Horse>();
                     bullet = Resources.Load<GameObject>("Bullets\\Arrow");
-                    _d.SetStatus(100, 10f, 10);
+                    _d.SetStatus(120, 1f, 12);
                     break;
                 case "Elephant":
                     _d = go.gameObject.AddComponent<Elephant>();
                     bullet = Resources.Load<GameObject>("Bullets\\Ivory");
-                    _d.SetStatus(100, 10f, 10);
+                    _d.SetStatus(130, 1f, 13);
                     break;
                 case "Cannon":
                     _d = go.gameObject.AddComponent<Cannon>();
                     bullet = Resources.Load<GameObject>("Bullets\\Dynamite");
-                    particle = Resources.Load<GameObject>("Particles\\Teleportation");
-                    _d.SetStatus(150, 3f, 15);
+                    _d.SetStatus(140, 1f, 14);
                     break;
                 case "Guard":
-                    _d = go.gameObject.AddComponent<Guards>();
+                    _d = go.gameObject.AddComponent<Guard>();
                     bullet = Resources.Load<GameObject>("Bullets\\Book");
-                    _d.SetStatus(100, 10f, 10);
+                    _d.SetStatus(150, 1f, 15);
                     break;
                 case "King":
                     _d = go.gameObject.AddComponent<King>();
                     bullet = Resources.Load<GameObject>("Bullets\\KingBullets");
-                    _d.SetStatus(100, 10f, 10);
+                    _d.SetStatus(160, 1f, 16);
                     break;
                 default:
                     Debug.Log("it does not exist");

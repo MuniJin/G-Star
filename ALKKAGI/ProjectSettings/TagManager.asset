@@ -11,6 +11,8 @@ TagManager:
   - ts
   - Bullet
   - Hammer
+  - FxTemporaire
+  - LimitArea
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hammer : MonoBehaviour
 {
     private float throwSpeed = 120f;
-    private bool isThrown = false;
+    private bool isThrown;
 
     private Quaternion originalRotation;
     private Vector3 attackingRotation;
@@ -19,6 +19,7 @@ public class Hammer : MonoBehaviour
         originalRotation = transform.rotation;
         originPosition = transform.localPosition;
         bc = this.GetComponent<BoxCollider>();
+        isThrown = false;
     }
 
 

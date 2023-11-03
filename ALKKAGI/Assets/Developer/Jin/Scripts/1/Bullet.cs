@@ -5,24 +5,28 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage;
-    //private bool hasCollided = false; // 충돌 여부를 추적
+    public Transform bulPos;
+
+    private Quaternion originRot;
+
+    void Start()
+    {
+        originRot = this.transform.rotation;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (this.gameObject.tag == "Hammer")
+        if (other.tag == "LimitArea")
         {
-            if (other.tag != "Bullet")  
-                CheckTag(other);
+            Invoke("ReturnBulPos", 1.5f);
+            Debug.Log("LimitArea");
 
             return;
         }
 
         CheckTag(other);
 
-        if (this.name.Split('(')[0] == "Dynamite" || this.name.Split('(')[0] == "Solider")
-            this.GetComponent<Explode>().Explosion();
-        else
-            Destroy(this.gameObject);
+        ReturnBulPos();
     }
 
     private void CheckTag(Collider other)
@@ -37,7 +41,19 @@ public class Bullet : MonoBehaviour
             GameObject go = other.transform.parent.gameObject;
             go.GetComponent<Enemy_Character>().Hitted(damage);
         }
+        else if (other.tag == "Bullet")
+            Debug.Log("Bullet Hit");
         else
             Debug.Log("지형지물 맞음");
+    }
+
+    private void ReturnBulPos()
+    {
+        this.transform.parent = bulPos.transform;
+        this.transform.position = bulPos.transform.position;
+        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.transform.rotation = originRot;
+
+        this.gameObject.SetActive(false);
     }
 }

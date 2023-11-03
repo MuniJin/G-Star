@@ -13,7 +13,7 @@ public class Player_Character : Default_Character
     private FPSManager fm;
 
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
-    private Default_Character _d;
+    private Decorator_Character _d;
 
     // 물리 계산을 위해 선언
     private Rigidbody rb;
@@ -23,13 +23,7 @@ public class Player_Character : Default_Character
     // 총구 위치
     public GameObject bulPos;
 
-    // 속도, 점프 힘
-    public float speed = 8f;
-    public float jumpForce = 8f;
-
-    private GameObject kbul;
-
-    public GameObject particle;
+    public float pCoolDown;
 
     private void Start()
     {
@@ -43,18 +37,14 @@ public class Player_Character : Default_Character
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
 
-        fm.ChooseCharacter(ref _d, ref bullet, ref particle, this.gameObject);
+        this.speed = 8f;
+        this.jumpForce = 8f;
 
-        if (this.gameObject.name.Split('_')[0] == "King")
-            kbul = Resources.Load<GameObject>("Bullets\\KingBullets");
+        fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
-        //if (bullet.GetComponent<Bullet>() == false)
-        //    bullet.AddComponent<Bullet>();
+        pCoolDown = _d.GetCoolDown();
 
-        if (this.name.Split('_')[0] == "Chariot")
-        {
-            bullet.GetComponent<Bullet>().damage = _d.GetDamage();
-        }
+        ObjPullingBullet();
     }
 
     private void Update()
@@ -77,36 +67,85 @@ public class Player_Character : Default_Character
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
         {
-            KingBulletSelect();
-
             if (this.name.Split('_')[0] != "Chariot")
                 Attack(bulPos.transform.position, bulletSpeed);
         }
 
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
-        {
-            MakeSkillParticle(particle);
             UseSkill();
+    }
+
+    [SerializeField]
+    private List<GameObject> bullets = new List<GameObject>();
+
+    private void ObjPullingBullet()
+    {
+        if (this.name.Split('_')[0] == "King")
+        {
+            for (int i = 0; i < 6; ++i)
+            {
+                GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
+
+                for (int j = 0; j < 6; ++j)
+                {
+                    GameObject go2 = go.transform.GetChild(0).gameObject;
+
+                    go2.transform.SetParent(bulPos.transform);
+                    go2.AddComponent<Bullet>();
+                    go2.GetComponent<Bullet>().damage = _d.GetDamage();
+                    go2.GetComponent<Bullet>().bulPos = bulPos.transform;
+
+                    bullets.Add(go2);
+                    go2.SetActive(false);
+                }
+
+                Destroy(go);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 36; ++i)
+            {
+                GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
+
+                go.transform.parent = bulPos.transform;
+
+                go.GetComponent<Bullet>().damage = _d.GetDamage();
+                go.GetComponent<Bullet>().bulPos = bulPos.transform;
+
+                bullets.Add(go);
+                go.SetActive(false);
+            }
         }
     }
 
-    private void MakeSkillParticle(GameObject particle)
+    private int AttackingBulletSelect()
     {
-        _d.MakeParticle(particle);
+        int rand = Random.Range(0, 36);
+
+        while (true)
+        {
+            if (bullets[rand].activeInHierarchy == false)
+            {
+                bullets[rand].SetActive(true);
+
+                break;
+            }
+            else
+                rand = Random.Range(0, 36);
+        }
+
+        return rand;
     }
 
     public void Hitted(int damage)
     {
         _d.Attacked(damage);
-
         _d.GetStatus();
 
         if (_d.GetHp() <= 0f)
-        {
-            Debug.Log("Game Over");
             fm.Lose();
-        }
     }
 
     float h, v;
@@ -165,17 +204,6 @@ public class Player_Character : Default_Character
     // 공격
     private float bulletSpeed = 80f;
 
-    private void KingBulletSelect()
-    {
-        if (this.gameObject.name.Split('_')[0] == "King")
-        {
-            int rand = Random.Range(0, 6);
-            bullet = kbul.transform.GetChild(rand).gameObject;
-            Debug.Log(bullet.name);
-            //bullet.transform.rotation = this.transform.rotation;
-        }
-    }
-
     public override void Attack(Vector3 bulpos, float shootPower)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -184,14 +212,13 @@ public class Player_Character : Default_Character
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            GameObject go = Instantiate(bullet, bulpos, this.transform.rotation);
+            int temp = AttackingBulletSelect();
+            bullets[temp].transform.parent = null;
 
-            Vector3 direction = (hit.point - go.transform.position).normalized;
-            Rigidbody rb = go.GetComponent<Rigidbody>();
-            rb.interpolation = RigidbodyInterpolation.Interpolate;
-            rb.velocity = direction * bulletSpeed;
-
-            go.GetComponent<Bullet>().damage = _d.GetDamage();
+            Vector3 direction = (hit.point - bullets[temp].transform.position).normalized;
+            Rigidbody brb = bullets[temp].GetComponent<Rigidbody>();
+            brb.interpolation = RigidbodyInterpolation.Interpolate;
+            brb.velocity = direction * bulletSpeed;
         }
     }
 

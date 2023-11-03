@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  bulPos: {fileID: 0}
 --- !u!135 &4131852347305537037
 SphereCollider:
   m_ObjectHideFlags: 0
