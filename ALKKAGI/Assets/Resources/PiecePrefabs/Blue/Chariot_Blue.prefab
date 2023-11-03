@@ -358,7 +358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hammer: {fileID: 5331208945631722848}
-  shield: {fileID: 5331208946307055941}
 --- !u!1 &5505480824832943055
 GameObject:
   m_ObjectHideFlags: 0
