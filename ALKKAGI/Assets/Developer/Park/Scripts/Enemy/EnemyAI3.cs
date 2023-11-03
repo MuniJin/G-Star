@@ -6,7 +6,7 @@ public class EnemyAI3 : MonoBehaviour
 {
     public float detectionRange = 100f;  // 플레이어를 감지하는 범위
     public float attackRange = 100f;    // 플레이어를 공격하는 범위
-    public float attackCooldown = 2f;   // 공격 쿨다운
+    public float attackCooldown = 0.5f;   // 공격 쿨다운
     public float maxHeightDifference = 3f; // 플레이어와 적 캐릭터 사이의 최대 높이 차이
 
     public Transform player;            // 플레이어의 위치
@@ -60,6 +60,7 @@ public class EnemyAI3 : MonoBehaviour
             // 플레이어가 보이지 않거나 범위를 벗어나면 다른 동작 수행 (예: 순찰)
             PatrollingBehavior();
         }
+        //ec.EUseSkill();
     }
 
     // 플레이어가 보이고 5초 후에 스킬을 사용하는 함수
@@ -97,8 +98,8 @@ public class EnemyAI3 : MonoBehaviour
         {
             if (Physics.Raycast(transform.position, direction, out hit, detectionRange))
             {
-                //return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
-                return hit.transform == player;
+                return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
+                //return hit.transform == player;
             }
         }
 

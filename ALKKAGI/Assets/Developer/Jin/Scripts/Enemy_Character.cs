@@ -65,6 +65,7 @@ public class Enemy_Character : Default_Character
             StartCoroutine(_d.Skill(this.gameObject));
         else
             Debug.Log("Not Decorator");
+        Debug.Log("Not skill");
     }
 
     public void EJump()
@@ -96,6 +97,7 @@ public class Enemy_Character : Default_Character
     }
 
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
 
     protected override void Move()
     {
