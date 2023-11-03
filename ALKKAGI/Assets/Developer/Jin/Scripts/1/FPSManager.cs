@@ -98,7 +98,7 @@ public class FPSManager : Singleton<FPSManager>
     {
         GameObject enemyP = Instantiate(Resources.Load<GameObject>(e), enemySpawnPoint.transform.position, Quaternion.identity);
         enemyP.transform.Rotate(new Vector3(0f, 180f, 0f));
-        
+
         Enemy_Character ec = enemyP.AddComponent<Enemy_Character>();
 
         GameObject bulPos = new GameObject();
@@ -169,7 +169,7 @@ public class FPSManager : Singleton<FPSManager>
             }
         }
 
-        if(bullet == null)
+        if (bullet == null)
             bullet = Resources.Load<GameObject>("Bullets\\Stone");
     }
 
