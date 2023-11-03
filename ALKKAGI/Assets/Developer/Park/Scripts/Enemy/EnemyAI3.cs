@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class EnemyAI3 : MonoBehaviour
 {
-    public float detectionRange = 100f;  // 플레이어를 감지하는 범위
+    public float detectionRange = 60f;  // 플레이어를 감지하는 범위
     public float attackRange = 100f;    // 플레이어를 공격하는 범위
     public float attackCooldown = 0.5f;   // 공격 쿨다운
     public float maxHeightDifference = 3f; // 플레이어와 적 캐릭터 사이의 최대 높이 차이
@@ -92,12 +92,13 @@ public class EnemyAI3 : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 direction = player.position - transform.position;
-
         // 플레이어와 적 사이에 장애물이 없는지 확인
         if (player != null)
         {
+            Debug.DrawRay(transform.position, direction, Color.red);
             if (Physics.Raycast(transform.position, direction, out hit, detectionRange))
             {
+                Debug.Log(hit.transform.CompareTag("Player"));
                 return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
                 //return hit.transform == player;
             }
@@ -138,5 +139,6 @@ public class EnemyAI3 : MonoBehaviour
     void PatrollingBehavior()
     {
         // 플레이어가 보이지 않을 때의 동작을 추가하세요
+        // 점프 mass값 통일
     }
 }
