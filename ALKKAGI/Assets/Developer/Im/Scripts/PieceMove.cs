@@ -12,10 +12,11 @@ public class PieceMove : MonoBehaviour
     public Vector3 Arrow; //이동방향
     private float MoveSpeed; //이동속도
     private Vector3 SaveSpeed; //저장된 속도
-    private bool IsCrash; //충돌체크
     private Vector3 dir; //충돌방향
     float totalSpeed; //충돌속도
     float dieTime;
+
+    public bool isdead;
 
     private void Start()
     {
@@ -41,50 +42,44 @@ public class PieceMove : MonoBehaviour
 
     public void MoveStart() //기물 이동
     {
-        IsCrash = false;
+        GM.GetComponent<AlKKAGIManager>().RedCrash = false;
+
+        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(1));
         MoveSpeed = DragObj.GetComponent<AlggagiDrag>().ShootPower;
         rb.AddForce(Arrow * MoveSpeed, ForceMode.Impulse);
-        Invoke("NotCrash", 1f); //매니저로 뺴야함
+        StartCoroutine(GM.GetComponent<AlKKAGIManager>().NotCrash());
     }
-    private void NotCrash() //헛스윙 체크
-    {
-        if (!IsCrash)
-        {
-            GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
-            GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
-            if (!GM.GetComponent<AlKKAGIManager>().blueT)
-                StartCoroutine(GM.GetComponent<AlKKAGIManager>().BlueTurn());
-        }
-        else
-        {
-            Debug.Log("충돌!");
-        }
-    }
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject
             && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
         {
-            IsCrash = true;
+            GM.GetComponent<AlKKAGIManager>().RedCrash = true;
             GameObject collidedObject = collision.gameObject;
-
             GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
             GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
 
-            SaveSpeed = rb.velocity;
-            totalSpeed = SaveSpeed.magnitude;
-            dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
-
-            Debug.Log("totals - red : " + totalSpeed);
-            if (totalSpeed < 1f)
+            if (GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash == false)
             {
-                Debug.Log("제발 R");
-                totalSpeed = 20f;
-            }
-            rb.isKinematic = true;
-            GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash = true;
 
-            GM.GetComponent<AlKKAGIManager>().Crash();
+                SaveSpeed = rb.velocity;
+                totalSpeed = SaveSpeed.magnitude / 2;
+                dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
+
+                //Debug.Log("totals - red : " + totalSpeed);
+                //if (totalSpeed < 1f)
+                //{
+                //    Debug.Log("제발 R");
+                //    totalSpeed = 20f;
+                //}
+
+                rb.isKinematic = true;
+                GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
+            }
         }
     }
 

@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802652749}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1802652754
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33bd466a9e094e04d95e9390b9bfc516, type: 2}
+  - {fileID: 2100000, guid: a18dd4e092f0d18459a5fc3890f61fcc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,7 +156,7 @@ Transform:
   m_GameObject: {fileID: 1906317228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.2, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.12499998, z: 0.125}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 7530297377675028973}
   m_RootOrder: 3
@@ -188,7 +188,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b178fcad6be662649a37f60076f382e0, type: 2}
+  - {fileID: 2100000, guid: 957520084d492334fb8651d17f80905b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 8457818602199057557}
   - component: {fileID: 5131445401375086395}
   - component: {fileID: 2295159692991378832}
+  - component: {fileID: 3936357133467780574}
   m_Layer: 0
   m_Name: Cannon_red
   m_TagString: Untagged
@@ -292,6 +293,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3936357133467780574
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716930165320153197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 6df02ae19f778eb4ba72e5a8113f38af, type: 3}
 --- !u!1 &3051151658120689058
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,8 +398,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7530297377675028973}
   - component: {fileID: 1794538584}
-  - component: {fileID: 1794538583}
   - component: {fileID: 1794538582}
+  - component: {fileID: 158897307666638560}
   m_Layer: 0
   m_Name: Cannon_Red
   m_TagString: RedPiece
@@ -425,20 +440,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &1794538583
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3584774535828398785}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.2, z: 1.2}
-  m_Center: {x: 0, y: 0.1, z: 0.015}
+  m_CollisionDetection: 2
 --- !u!114 &1794538582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +455,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 1802652749}
   Arrow: {x: 0, y: 0, z: 0}
+  isdead: 0
+--- !u!65 &158897307666638560
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584774535828398785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.3, z: 1.5}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!1 &5419600215988464429
 GameObject:
   m_ObjectHideFlags: 0

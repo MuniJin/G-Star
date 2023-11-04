@@ -12,6 +12,7 @@ public class CustomPos : MonoBehaviour
     public GameObject ParentObjR;
     public GameObject ErrorBox;
     public TMP_Text ErrorLog;
+    [SerializeField] private GameObject GM;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class CustomPos : MonoBehaviour
             ErrorLog.text = "범위를 벗어났습니다";
         if (ErrorNum == 1)
             ErrorLog.text = "이미 배치된 위치입니다";
+
         Invoke("CloseErrorBox", 1f);
     }
     private void CloseErrorBox()
@@ -69,7 +71,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[0].text, out piecesNum);
                         CusManager.PiecesNum[0].text = (piecesNum - 1).ToString();
-
+                        GM.GetComponent<AlKKAGIManager>().SoundPlay(2);
                         if (CusManager.PiecesNum[0].text == "0")
                             Destroy(this.gameObject);
                         else
@@ -85,6 +87,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[1].text, out piecesNum);
                         CusManager.PiecesNum[1].text = (piecesNum - 1).ToString();
+                        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(2));
 
                         if (CusManager.PiecesNum[1].text == "0")
                             Destroy(this.gameObject);
@@ -101,7 +104,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[2].text, out piecesNum);
                         CusManager.PiecesNum[2].text = (piecesNum - 1).ToString();
-
+                        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(2));
                         if (CusManager.PiecesNum[2].text == "0")
                             Destroy(this.gameObject);
                         else
@@ -117,6 +120,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[3].text, out piecesNum);
                         CusManager.PiecesNum[3].text = (piecesNum - 1).ToString();
+                        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(2));
 
                         if (CusManager.PiecesNum[3].text == "0")
                             Destroy(this.gameObject);
@@ -133,6 +137,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[4].text, out piecesNum);
                         CusManager.PiecesNum[4].text = (piecesNum - 1).ToString();
+                        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(2));
 
                         if (CusManager.PiecesNum[4].text == "0")
                             Destroy(this.gameObject);
@@ -149,6 +154,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[5].text, out piecesNum);
                         CusManager.PiecesNum[5].text = (piecesNum - 1).ToString();
+                        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(2));
 
                         if (CusManager.PiecesNum[5].text == "0")
                             Destroy(this.gameObject);
@@ -166,6 +172,7 @@ public class CustomPos : MonoBehaviour
                         newPiece.transform.SetParent(ParentObjR.transform);
                         int.TryParse(CusManager.PiecesNum[6].text, out piecesNum);
                         CusManager.PiecesNum[6].text = (piecesNum - 1).ToString();
+                        StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(2));
 
                         if (CusManager.PiecesNum[6].text == "0")
                             Destroy(this.gameObject);

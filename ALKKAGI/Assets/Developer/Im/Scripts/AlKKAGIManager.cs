@@ -10,35 +10,30 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int leftBlue = 0; //파랑의 남은 기물 수
     private int BluePattern = 0; //AI 패턴
     private GameObject[] LeftBluePiece; //파랑의 남은 기물
-    private AudioSource myAudioSource;
 
-    public AudioClip ShootSound;
-    public AudioClip CrashSound;
-    public AudioClip DeathSound;
-
-    public GameObject randomChildObject; //선택된 파랑의 기물
-    public GameObject BluePieces; //파랑 기물
-    public GameObject RedPieces;  //빨강 기물
-    public GameObject[] LeftPieces; //모든 남은 기물
-    public GameObject[] LeftRedPiece; //플레이어의 남은 기물
+    [SerializeField] private GameObject randomChildObject; //선택된 파랑의 기물
+    [SerializeField] private GameObject BluePieces; //파랑 기물
+    [SerializeField] private GameObject RedPieces;  //빨강 기물
+    [SerializeField] private GameObject[] LeftPieces; //모든 남은 기물
+    [SerializeField] private GameObject[] LeftRedPiece; //플레이어의 남은 기물
 
     public bool IsWin; //FPS 승패 체크
     public bool blueT; //파랑 턴 체크
     public bool IsMyTurn; // true일경우, Red턴 // false일경우, Blue턴
     public bool IsMove; //이동 체크
     public bool IsFirstCrash;
-    public int CheatMode; //테스트용 치트모드
+    public bool blueCrash;
+    public bool RedCrash;
 
     public GameObject BoardObj;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
     public GameObject TurnObj;
-    public TMP_Text TurnText;
-    public RawImage CrashRedImage;
-    public RawImage CrashBlueImage;
+    [SerializeField] private TMP_Text TurnText;
+    [SerializeField] private GameObject GameOverObj;
+    [SerializeField] private GameObject audioManager; //SoundDataBase
 
-    public Texture[] CrashImg;
-    public float timer = 0f;
+    private float timer = 0f;
     private bool forBlueTurn;
     private bool GOver;
 
@@ -47,24 +42,21 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         IsFirstCrash = true;
         IsMyTurn = true;
         IsMove = true;
-        myAudioSource = GetComponent<AudioSource>();
+        audioManager = GameObject.Find("SoundSource");
     }
 
-    public void Crash() //충돌
+    public IEnumerator Crash() //충돌
     {
         timer = 0;
-        //CrashEffect();
-        myAudioSource.PlayOneShot(CrashSound); //충돌음 재생
 
-        Invoke("CrashSceneChange", 1.5f);
-    }
+        audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().CrashSound;
+        audioManager.GetComponent<AudioManager>().SFXSource.Play();
 
-    void CrashSceneChange()
-    {
+        yield return new WaitForSeconds(0.5f);
+
         SceneManager.LoadScene("cinemachintest");  //fps 씬 변환
 
         BoardObj.SetActive(false);
-
     }
 
     public void FPSResult() //FPS종료
@@ -76,6 +68,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                 CrashObjR.GetComponent<PieceMove>().Win();
                 if (!blueT && !forBlueTurn)
                 {
+                    CrashObjB = null;
+                    CrashObjR = null;
                     StartCoroutine(BlueTurn());
                 }
             }
@@ -84,6 +78,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                 CrashObjR.GetComponent<PieceMove>().lose();
                 if (!blueT && !forBlueTurn)
                 {
+                    CrashObjB = null;
+                    CrashObjR = null;
                     StartCoroutine(BlueTurn());
                 }
             }
@@ -94,14 +90,33 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             {
                 //Debug.Log("FPS 승리 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().RedWin();
+                CrashObjB = null;
+                CrashObjR = null;
             }
             else //패배했을신
             {
                 //Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
+                CrashObjB = null;
+                CrashObjR = null;
             }
         }
+    }
+    public IEnumerator NotCrash()
+    {
+        yield return new WaitForSeconds(1.0f); // 1초 기다림
 
+        if (!RedCrash)
+        {
+            CrashObjB = null;
+            CrashObjR = null;
+            if (!blueT)
+                StartCoroutine(BlueTurn());
+        }
+        else
+        {
+            Debug.Log("충돌!");
+        }
     }
 
     private void BlueSelect()
@@ -152,27 +167,38 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             }
             yield return null; // 다음 프레임까지 대기
         }
-        TurnObj.SetActive(true);
-        TurnText.text = "Blue Turn";
+        //Debug.Log("파랑턴으로 넘어감...");
+        StartCoroutine(BlueStart());
 
-        Debug.Log("파랑턴으로 넘어감...");
-        BlueStart();
     }
-    private void BlueStart()
+
+    private IEnumerator BlueStart()
     {
+        blueCrash = false;
+        TurnObj.SetActive(true);
+        TurnText.text = "<#6000FF>Blue Turn";
         if (!GOver)
         {
             IsMyTurn = false;
             forBlueTurn = false;
+            for (int i = 0; i < LeftBluePiece.Length; i++)
+                if (LeftBluePiece[i] != null)
+                    LeftBluePiece[i].GetComponent<BlueMovement>().redTurnCrash = false;
+
             BlueSelect();
-            Invoke("RedTurn", 3f);
+            yield return new WaitForSeconds(3f);
+
+            RedTurn();
         }
     }
+
     private void RedTurn()
     {
         blueT = false;
         IsMove = true;
+        RedCrash = false;
     }
+
     private void repick()
     {
         if (randomChildObject == null)//선택된 대상이 null값일때
@@ -214,10 +240,9 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     private int a, b, c, d, e, f, g, h, i, j, k, l;
     public void Death(int deathPiece)
     {
-        CrashObjB = null;
-        CrashObjR = null;
         //데스 사운드 재생
-        myAudioSource.PlayOneShot(DeathSound);
+        audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().DeathSound;
+        audioManager.GetComponent<AudioManager>().SFXSource.Play();
 
         //죽은 유닛 setactive false;
         if (deathPiece == 1)
@@ -286,31 +311,53 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         }
     }
 
-    public void RedTurnChange()
+    public IEnumerator RedTurnChange()
     {
         TurnObj.SetActive(true);
-        TurnText.text = "My Turn";
+        TurnText.text = "<color=red>My Turn";
 
-        Invoke("falseTurnObj", 1f);
-    }
+        yield return new WaitForSeconds(1f);
 
-    private void falseTurnObj()
-    {
         TurnObj.SetActive(false);
     }
-
     public void GameOver(int who)
     {
         if (who == 0)
         {
             //Blue Is Win
             GOver = true;
+            Time.timeScale = 0;
+            GameOverObj.SetActive(true);
+            GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=blue>패배!";
         }
 
         if (who == 1)
         {
             //Red Is Win player win
             GOver = true;
+            Time.timeScale = 0;
+            GameOverObj.SetActive(true);
+            GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=red>승리!";
         }
+    }
+
+    public IEnumerator SoundPlay(int soundType) // 1 = shoot  2 = position 3 = button
+    {
+        if (soundType == 1)
+        {
+            audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().ShootSound;
+            audioManager.GetComponent<AudioManager>().SFXSource.Play();
+        }
+        if (soundType == 2)
+        {
+            audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().PositionSound;
+            audioManager.GetComponent<AudioManager>().SFXSource.Play();
+        }
+        if (soundType == 3)
+        {
+            audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().ButtonSound;
+            audioManager.GetComponent<AudioManager>().SFXSource.Play();
+        }
+        yield return null;
     }
 }

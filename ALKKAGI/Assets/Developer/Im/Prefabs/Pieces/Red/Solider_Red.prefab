@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390184631}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1390184636
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33bd466a9e094e04d95e9390b9bfc516, type: 2}
+  - {fileID: 2100000, guid: a18dd4e092f0d18459a5fc3890f61fcc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,7 +156,7 @@ Transform:
   m_GameObject: {fileID: 1577389767}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.2, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.12499998, z: 0.125}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 7821019760604491674}
   m_RootOrder: 3
@@ -188,7 +188,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b178fcad6be662649a37f60076f382e0, type: 2}
+  - {fileID: 2100000, guid: 957520084d492334fb8651d17f80905b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 2880764861280417450}
   - component: {fileID: 1561679462738289924}
   - component: {fileID: 5566650080737642415}
+  - component: {fileID: 6059303175654691003}
   m_Layer: 0
   m_Name: Solider_red
   m_TagString: Untagged
@@ -292,6 +293,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6059303175654691003
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992662082932476498}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 0c1eeb208e8e368409b808a49b030b8b, type: 3}
 --- !u!1 &6193845568656638860
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,8 +479,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7821019760604491674}
   - component: {fileID: 2106909775}
-  - component: {fileID: 2106909774}
   - component: {fileID: 2106909773}
+  - component: {fileID: 6601102030529125798}
   m_Layer: 0
   m_Name: Solider_Red
   m_TagString: RedPiece
@@ -506,20 +521,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &2106909774
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8978417355329512652}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.3, z: 1.2}
-  m_Center: {x: 0, y: 0.15, z: 0.015}
+  m_CollisionDetection: 2
 --- !u!114 &2106909773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,3 +536,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DragObj: {fileID: 1390184631}
   Arrow: {x: 0, y: 0, z: 0}
+  isdead: 0
+--- !u!65 &6601102030529125798
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8978417355329512652}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 0.5, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}

@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 4295707291639992305}
   - component: {fileID: 705886838874954847}
   - component: {fileID: 5847736805034458868}
+  - component: {fileID: 2417423487896918115}
   m_Layer: 0
   m_Name: Chariot_blue
   m_TagString: Untagged
@@ -163,6 +164,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2417423487896918115
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6426246149019710217}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4394420077881190621, guid: 16277d77306be5c41bfe82cdfdf5095d, type: 3}
 --- !u!1 &6870431371745587212
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +188,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7553214602471029467}
   - component: {fileID: 1474679829154542408}
-  - component: {fileID: 253683018885884126}
   - component: {fileID: 7094683375250220343}
   m_Layer: 0
   m_Name: Chariot_Blue
@@ -213,19 +227,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &253683018885884126
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6870431371745587212}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.2, z: 1.2}
-  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &7094683375250220343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,3 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SaveSpeed: {x: 0, y: 0, z: 0}
+  redTurnCrash: 0
+  ArrowObj: {fileID: 4477682972425548831, guid: 81e146eb1487cb244b243447f71d8962, type: 3}
+  rayLength: 20
+  interval: 0.1
