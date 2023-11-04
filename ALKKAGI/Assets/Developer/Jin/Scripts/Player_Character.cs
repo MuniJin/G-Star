@@ -11,19 +11,22 @@ public class Player_Character : Default_Character
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
     private AlKKAGIManager am;
     private FPSManager fm;
+
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Default_Character _d;
+
     // 물리 계산을 위해 선언
     private Rigidbody rb;
+
     // 총알, 플레이어 오브젝트, 왕 스킬(추후 다른방식으로 프리팹 불러와서 사용할 예정)
     public GameObject bullet;
+    // 총구 위치
+    public GameObject bulPos;
 
     // 속도, 점프 힘
     public float speed = 8f;
     public float jumpForce = 8f;
 
-    // 총구 위치
-    public GameObject bulPos;
 
     private void Start()
     {
@@ -40,10 +43,19 @@ public class Player_Character : Default_Character
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
         if (bullet.GetComponent<Bullet>() == false)
             bullet.AddComponent<Bullet>();
+
+        if (this.name.Split('_')[0] == "Chariot")
+            bullet.GetComponent<Bullet>().damage = _d.GetDamage();
     }
 
     private void Update()
     {
+        // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
+        if (Input.GetKeyDown(KeyCode.O))
+            fm.Win();
+        if (Input.GetKeyDown(KeyCode.P))
+            fm.Lose();
+        
         // 플레이어 움직임
         Move();
         // 마우스 움직임에 따른 카메라 회전값 변경
@@ -52,27 +64,20 @@ public class Player_Character : Default_Character
         // 점프, velocity가 없을때 점프 가능하게
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
             Jump();
+
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-            _d.Attack(bulPos.transform.position, 40f);
+            if (this.name.Split('_')[0] != "Chariot")
+                Attack(bulPos.transform.position, bulletSpeed);
+
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
-
-        // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
-        if (Input.GetKeyDown(KeyCode.O))
-            fm.Win();
-        if (Input.GetKeyDown(KeyCode.P))
-            fm.Lose();
-
-        if (Input.GetKeyDown(KeyCode.Z))
-            _d.GetStatus();
     }
 
     public void Hitted(int damage)
     {
-        _d.Attacked(18);
-        //_d.Attacked(damage);
+        _d.Attacked(damage);
 
         _d.GetStatus();
 
@@ -137,18 +142,25 @@ public class Player_Character : Default_Character
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     // 공격
+    private float bulletSpeed = 80f;
+
     public override void Attack(Vector3 bulpos, float shootPower)
     {
-        GameObject go = Instantiate(bullet, bulpos, Quaternion.identity);
-        go.GetComponent<Bullet>().damage = _d.GetDamage();
-        
-        go.GetComponent<Rigidbody>().AddForce(cam.transform.forward * shootPower, ForceMode.Impulse);
-    }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    // 스킬(Default_Character를 상속받아서 존재하나 필요없어서 예외처리로 해둠)
-    public override IEnumerator Skill(GameObject go)
-    {
-        throw new System.NotImplementedException();
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            GameObject go = Instantiate(bullet, bulpos, bullet.transform.rotation);
+
+            Vector3 direction = (hit.point - go.transform.position).normalized;
+            Rigidbody rb = go.GetComponent<Rigidbody>();
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.velocity = direction * bulletSpeed;
+
+            go.GetComponent<Bullet>().damage = _d.GetDamage();
+        }
     }
 
     // 스킬 사용
@@ -158,5 +170,11 @@ public class Player_Character : Default_Character
             StartCoroutine(_d.Skill(this.gameObject));
         else
             Debug.Log("Not Decorator");
+    }
+
+    // 스킬(Default_Character를 상속받아서 존재하나 필요없어서 예외처리로 해둠)
+    public override IEnumerator Skill(GameObject go)
+    {
+        throw new System.NotImplementedException();
     }
 }

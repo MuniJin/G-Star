@@ -4,51 +4,54 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    public bool isAttack;
-    private Quaternion originVector;
-    private Quaternion attackingVector;
-    private Vector3 targetPos;
-    private Vector3 originPos;
-    private void Start()
+    private float throwSpeed = 120f;
+    private bool isThrown = false;
+
+    private Quaternion originalRotation;
+    private Vector3 originPosition;
+
+    public GameObject player;
+    private BoxCollider bc;
+
+    void Start()
     {
-        isAttack = false;
-        originVector = this.transform.rotation;
-        attackingVector = new Quaternion(0f, 90f, 90f, 1);
-        originPos = this.transform.position;
+        originalRotation = transform.rotation;
+        originPosition = transform.localPosition;
+        bc = this.GetComponent<BoxCollider>();
     }
 
-    private void Update()
-    {
-        if(isAttack)
-        {
-            Debug.Log("Start Hammer Attack");
-            if (this.GetComponent<MeshCollider>().isTrigger == false)
-                this.GetComponent<MeshCollider>().isTrigger = true;
+    public void ThrowHammer(Vector3 direction)
+    { 
+        isThrown = true;
+        
+        this.transform.parent = null;
+        
+        Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.AddForce((direction  - this.gameObject.transform.position).normalized * throwSpeed, ForceMode.Impulse);
 
-            this.transform.position = Vector3.MoveTowards(originPos, targetPos, 0.1f);
-        }
+        bc.isTrigger = true;
     }
 
-    public void Attack()
+    public void ReturnHammer()
     {
-        isAttack = true;
+        isThrown = false;
+        bc.isTrigger = false;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        this.transform.rotation = originalRotation;
+        this.transform.parent = player.transform.GetChild(2);
+        this.transform.rotation = player.transform.rotation * originalRotation;
+        this.transform.position = player.transform.position;
+        this.transform.localPosition = originPosition;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-        {
-            targetPos = hit.point;
-            Debug.Log(hit.point);
-        }
+        Rigidbody rb =  GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        Destroy(rb);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null)
-        {
-            Debug.Log(other.name);
-            this.GetComponent<MeshCollider>().isTrigger = false;
-        }
+        if (other != null)
+            ReturnHammer();
     }
 }

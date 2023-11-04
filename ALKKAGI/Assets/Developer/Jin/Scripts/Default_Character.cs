@@ -29,7 +29,7 @@ public abstract class Default_Character : MonoBehaviour
         _damage = damage;
     }
 
-    public void GetStatus() { Debug.Log($"Hp : {_hp} | CoolDown : {_coolDown} | Damage : {_damage}"); }
+    public void GetStatus() { Debug.Log($"Name : {this.name} | Hp : {_hp} | CoolDown : {_coolDown} | Damage : {_damage}"); }
 
     // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
@@ -73,25 +73,41 @@ public class Pawn : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
-        if (!useSkill)
+        if (go.tag == "Player")
         {
-            useSkill = true;
-            go.GetComponent<Player_Character>().speed *= 2f;
-         
-            yield return new WaitForSeconds(cooldown);
-            
-            go.GetComponent<Player_Character>().speed /= 2f;
-            useSkill = false;
+            if (!useSkill)
+            {
+                useSkill = true;
+                go.GetComponent<Player_Character>().speed *= 2f;
+
+                yield return new WaitForSeconds(cooldown);
+
+                go.GetComponent<Player_Character>().speed /= 2f;
+                useSkill = false;
+            }
+        }
+        else if(go.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
+                //go.GetComponent<EnemyAI2>().moveSpeed *= 2f;
+
+                yield return new WaitForSeconds(cooldown);
+
+                //go.GetComponent<EnemyAI2>().moveSpeed /= 2f;
+                useSkill = false;
+            }
         }
     }
 }
@@ -120,26 +136,34 @@ public class Rook : Decorator_Character
             eScript = basePlayer.GetComponent<Enemy_Character>();
             Destroy(pScript);
         }
+
+        cooldown = this.GetCoolDown();
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
         if (!useSkill)
         {
+            Debug.Log("UseSkill");
             useSkill = true;
-            
-            Vector3 forwardDirection = Camera.main.transform.forward;
+            Vector3 forwardDirection = Vector3.zero;
+            if (go.tag == "Player")
+                forwardDirection = Camera.main.transform.forward;
+            else if(go.tag == "Enemy")
+                forwardDirection = go.transform.forward;
+
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 30f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
+            Debug.Log("EndSkill");
             useSkill = false;
         }
     }
@@ -171,13 +195,13 @@ public class Elephant : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -217,37 +241,59 @@ public class Knight : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
         Vector3 b1, b2;
-        Player_Character g = go.GetComponent<Player_Character>();
 
-        if (!useSkill)
+        if (go.tag == "Player")
         {
-            useSkill = true;
-
-            for (int i = 0; i < 3; i++)
+            if (!useSkill)
             {
-                b1 = g.bulPos.transform.position + go.transform.right * -0.5f;
-                b2 = g.bulPos.transform.position + go.transform.right * 0.5f;
+                useSkill = true;
 
-                g.Attack(b1, 60f);
-                g.Attack(b2, 60f);
+                for (int i = 0; i < 3; i++)
+                {
+                    b1 = pScript.bulPos.transform.position + go.transform.right * -0.5f;
+                    b2 = pScript.bulPos.transform.position + go.transform.right * 0.5f;
 
-                yield return new WaitForSeconds(0.2f);
+                    pScript.Attack(b1, 60f);
+                    pScript.Attack(b2, 60f);
+
+                    yield return new WaitForSeconds(0.2f);
+                }
             }
-
-            yield return new WaitForSeconds(cooldown - 0.6f);
-            useSkill = false;
         }
+        else if(go.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    b1 = go.transform.GetChild(0).transform.position + go.transform.right * -0.5f;
+                    b2 = go.transform.GetChild(0).transform.position + go.transform.right * 0.5f;
+
+                    go.GetComponent<EnemyAI2>().Attack(b1, 60f);
+                    go.GetComponent<EnemyAI2>().Attack(b2, 60f);
+                    //eScript.Attack(b1, 60f);
+                    //eScript.Attack(b2, 60f);
+
+                    yield return new WaitForSeconds(0.2f);
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(cooldown - 0.6f);
+        useSkill = false;
     }
 }
 
@@ -273,7 +319,6 @@ public class Cannon : Decorator_Character
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
-            cooldown = this.GetCoolDown();
             damage = this.GetDamage();
 
             Destroy(eScript);
@@ -284,55 +329,79 @@ public class Cannon : Decorator_Character
 
             Destroy(pScript);
         }
+
+        cooldown = this.GetCoolDown();
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
-        if (!useSkill)
+        if (basePlayer.tag == "Player")
         {
-            useSkill = true;
-
-            while (true)
+            if (!useSkill)
             {
-                Cursor.lockState = CursorLockMode.None; // 마우스를 중앙에 고정
-                Cursor.visible = true; // 마우스를 보이지 않게 설정
-             
-                if (Input.GetMouseButtonDown(1))
+                useSkill = true;
+                while (true)
                 {
-                    // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
+                    Cursor.lockState = CursorLockMode.None; // 마우스를 중앙에 고정
+                    Cursor.visible = true; // 마우스를 보이지 않게 설정
 
-                    // 레이캐스트를 발사하여 충돌한 객체를 감지합니다.
-                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+                    if (Input.GetMouseButtonDown(1))
                     {
-                        // 충돌한 지점의 벡터3 값을 얻습니다.
-                        Vector3 hitPoint = hit.point;
+                        // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환합니다.
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
 
-                        // hitPoint 변수를 사용하여 원하는 작업을 수행할 수 있습니다.
-                        go.transform.position = hitPoint + Vector3.up;
+                        // 레이캐스트를 발사하여 충돌한 객체를 감지합니다.
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+                        {
+                            // 충돌한 지점의 벡터3 값을 얻습니다.
+                            Vector3 hitPoint = hit.point;
 
-                        Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
-                        Cursor.visible = false; // 마우스를 보이지 않게 설정
+                            // hitPoint 변수를 사용하여 원하는 작업을 수행할 수 있습니다.
+                            go.transform.position = hitPoint + Vector3.up;
+
+                            Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
+                            Cursor.visible = false; // 마우스를 보이지 않게 설정
+                        }
+
+                        break;
                     }
 
-                    break;
+                    yield return null;
                 }
-
-                yield return null;
             }
-
-            yield return new WaitForSeconds(cooldown);
-            useSkill = false;
         }
+        if (basePlayer.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
+                float rayLength = 100f;
+
+                Vector3 randomDirection = Random.onUnitSphere;
+
+                Ray ray = new Ray(transform.position, randomDirection);
+                
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, rayLength, groundLayer))
+                {
+                    Vector3 hitPoint = hit.point;
+
+                    go.transform.position = hitPoint + Vector3.up;
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(cooldown);
+        useSkill = false;
     }
 }
 
@@ -341,8 +410,6 @@ public class Guards : Decorator_Character
 {
     private float cooldown = 2f;
     private bool useSkill = false;
-
-    public GameObject bang;
 
     private GameObject basePlayer;
 
@@ -366,13 +433,13 @@ public class Guards : Decorator_Character
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
@@ -380,9 +447,6 @@ public class Guards : Decorator_Character
         {
             useSkill = true;
             
-            GameObject b = Instantiate(bang, go.GetComponent<Player_Character>().bulPos.transform.position, Quaternion.identity);
-            b.AddComponent<Rigidbody>();
-            //b.AddComponent<Rigidbody>().AddForce(go.GetComponent<PlayerMovement1>().playerCam.transform.forward * 20f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
             useSkill = false;
@@ -401,45 +465,58 @@ public class King : Decorator_Character
     private Player_Character pScript;
     private Enemy_Character eScript;
 
+    private GameObject ks;
+
     private void Start()
     {
         basePlayer = base.gameObject;
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
+            ks = Resources.Load<GameObject>("KingSkill_Red");
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
+            ks = Resources.Load<GameObject>("KingSkill_Red");
             Destroy(pScript);
         }
     }
 
-    public override void Attack(Vector3 bulpos, float shootPower)
-    {
-        if (basePlayer.CompareTag("Player"))
-            pScript.Attack(bulpos, shootPower);
-        else if (basePlayer.CompareTag("Enemy"))
-            eScript.Attack(bulpos, shootPower);
-    }
+    //public override void Attack(Vector3 bulpos, float shootPower)
+    //{
+    //    if (basePlayer.CompareTag("Player"))
+    //        pScript.Attack(bulpos, shootPower);
+    //    else if (basePlayer.CompareTag("Enemy"))
+    //        eScript.Attack(bulpos, shootPower);
+    //}
 
     public override IEnumerator Skill(GameObject go)
     {
-        Player_Character g = go.GetComponent<Player_Character>();
-
-        if (!useSkill)
+        if (go.tag == "Player")
         {
-            useSkill = true;
+            if (!useSkill)
+            {
+                useSkill = true;
 
-            GameObject p = go.transform.GetChild(0).gameObject;
-            Vector3 forwardDirection = Camera.main.transform.forward;
+                Instantiate(ks, go.transform.position, Quaternion.identity);
 
-            Vector3 ksPos = p.transform.position + (Camera.main.transform.forward * 2f);
-            //GameObject ks = Instantiate(g.kingSkill, ksPos, Camera.main.transform.rotation);
+                yield return new WaitForSeconds(cooldown);
+                useSkill = false;
+            }
+        }
+        else if(go.tag == "Enemy")
+        {
+            if (!useSkill)
+            {
+                useSkill = true;
 
-            yield return new WaitForSeconds(cooldown);
-            useSkill = false;
+                Instantiate(ks, go.transform.position, Quaternion.identity);
+
+                yield return new WaitForSeconds(cooldown);
+                useSkill = false;
+            }
         }
     }
 }
