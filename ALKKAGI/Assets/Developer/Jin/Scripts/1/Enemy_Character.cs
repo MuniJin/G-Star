@@ -49,8 +49,9 @@ public class Enemy_Character : Default_Character
         _d.Attacked(damage);
         _d.GetStatus();
 
-        if (_d.GetHp() <= 0f)
-            fm.Win();
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
+            if (_d.GetHp() <= 0f)
+                fm.Lose();
     }
 
     public void EAttack()

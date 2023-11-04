@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class FPSManager : Singleton<FPSManager>
 {
@@ -20,10 +21,15 @@ public class FPSManager : Singleton<FPSManager>
     public string p;
     public string e;
 
+    public Image ScopeImg;
+
     private void Awake()
     {
         ShowCursor();
         MapInit();
+
+        if (ScopeImg.gameObject.activeInHierarchy == true)
+            ScopeImg.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -212,5 +218,13 @@ public class FPSManager : Singleton<FPSManager>
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Board");
         am.FPSResult();
+    }
+
+    public void ScopeOnOff()
+    {
+        if (ScopeImg.gameObject.activeInHierarchy == false)
+            ScopeImg.gameObject.SetActive(true);
+        else
+            ScopeImg.gameObject.SetActive(false);
     }
 }

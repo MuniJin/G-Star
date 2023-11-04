@@ -144,8 +144,9 @@ public class Player_Character : Default_Character
         _d.Attacked(damage);
         _d.GetStatus();
 
-        if (_d.GetHp() <= 0f)
-            fm.Lose();
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
+            if (_d.GetHp() <= 0f)
+                fm.Lose();
     }
 
     float h, v;

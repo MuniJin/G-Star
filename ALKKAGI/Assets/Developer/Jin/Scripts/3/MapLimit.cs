@@ -10,7 +10,8 @@ public class MapLimit : MonoBehaviour
 
     private void Start()
     {
-        LimitText.gameObject.SetActive(false);
+        if (LimitText.gameObject.activeInHierarchy == true)
+            LimitText.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)

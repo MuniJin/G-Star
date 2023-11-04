@@ -61,8 +61,7 @@ public class ChariotWeapon : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    isZoom = false;
-                    cam.fieldOfView *= 3;
+                    HammerAttack();
 
                     Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                     Vector3 throwDir = Vector3.zero;
@@ -89,5 +88,7 @@ public class ChariotWeapon : MonoBehaviour
             isZoom = false;
             cam.fieldOfView *= 3;
         }
+
+        FPSManager.Instance.ScopeOnOff();
     }
 }
