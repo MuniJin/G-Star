@@ -16,7 +16,7 @@ public class Cannon : Decorator_Character
     private Player_Character pScript;
     private Enemy_Character eScript;
 
-    private GameObject particle;
+    private GameObject AtferCastingSkillParticle;
 
     private void Start()
     {
@@ -36,7 +36,7 @@ public class Cannon : Decorator_Character
 
             Destroy(pScript);
         }
-
+        AtferCastingSkillParticle = Resources.Load<GameObject>("Particles\\Teleportation");
         cooldown = this.GetCoolDown();
     }
 
@@ -67,7 +67,7 @@ public class Cannon : Decorator_Character
                             // hitPoint 변수를 사용하여 원하는 작업을 수행할 수 있습니다.
                             go.transform.position = hitPoint + Vector3.up;
 
-                            GameObject p = Instantiate(particle, go.transform.position + (Vector3.down * 0.75f), particle.transform.rotation);
+                            GameObject p = Instantiate(AtferCastingSkillParticle, go.transform.position + (Vector3.down * 0.75f), AtferCastingSkillParticle.transform.rotation);
 
                             Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
                             Cursor.visible = false; // 마우스를 보이지 않게 설정
@@ -98,7 +98,7 @@ public class Cannon : Decorator_Character
 
                     go.transform.position = hitPoint + Vector3.up;
 
-                    GameObject p = Instantiate(particle, go.transform.position + (Vector3.down * 0.75f), particle.transform.rotation);
+                    GameObject p = Instantiate(AtferCastingSkillParticle, go.transform.position + (Vector3.down * 0.75f), AtferCastingSkillParticle.transform.rotation);
                 }
             }
         }
@@ -106,6 +106,4 @@ public class Cannon : Decorator_Character
         yield return new WaitForSeconds(cooldown);
         useSkill = false;
     }
-
-    public override void MakeParticle(GameObject p) => particle = p;
 }

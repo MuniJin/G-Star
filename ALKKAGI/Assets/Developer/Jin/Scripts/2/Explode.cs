@@ -4,29 +4,14 @@ using UnityEngine;
 
 public class Explode : MonoBehaviour
 {
-    private SphereCollider sc;
     public GameObject ps;
 
-    private void Start()
-    {
-        sc = this.GetComponent<SphereCollider>();
-        ps = Resources.Load<GameObject>("Particles\\TinyFire");
-    }
-
-    public void Explosion()
+    public void Explosion(Vector3 boom)
     {
         Vector3 p = GameObject.FindWithTag("Player").transform.position;
-        Vector3 dist = (p - this.transform.position).normalized;
+        Vector3 dist = (boom - p).normalized;
         
-        this.GetComponent<Rigidbody>().isKinematic = true;
-        GameObject go = Instantiate(ps, this.transform.position + dist * 2, Quaternion.identity);
-        this.transform.GetChild(0).gameObject.SetActive(false);
-        go.transform.parent = this.gameObject.transform;
-        Invoke("Des", 0.3f);
-    }
-
-    private void Des()
-    {
-        Destroy(this.gameObject);
+        GameObject go = Instantiate(ps, boom - dist * 2, Quaternion.identity);
+        go.transform.parent = null;
     }
 }

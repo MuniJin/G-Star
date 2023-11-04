@@ -34,8 +34,6 @@ public abstract class Default_Character : MonoBehaviour
 
     public void GetStatus() { Debug.Log($"Name : {this.name} | Hp : {_hp} | CoolDown : {_coolDown} | Damage : {_damage}"); }
 
-    public virtual void MakeParticle(GameObject p) { }
-
     // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
     protected abstract void Jump();

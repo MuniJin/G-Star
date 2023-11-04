@@ -16,14 +16,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "LimitArea")
+        if(this.gameObject.name.Split('(')[0] == "Arrow")
         {
-            Invoke("ReturnBulPos", 1.5f);
-            Debug.Log("LimitArea");
-
-            return;
+            GameObject go = Instantiate(Resources.Load<GameObject>("Bullets\\ArrowStuck"), this.transform.position, this.transform.rotation);
         }
-
+        
         CheckTag(other);
 
         ReturnBulPos();
@@ -31,6 +28,9 @@ public class Bullet : MonoBehaviour
 
     private void CheckTag(Collider other)
     {
+        if (other.tag == "LimitArea")
+            return;
+
         if (other.tag == "Player")
         {
             GameObject go = other.transform.parent.gameObject;
@@ -49,6 +49,9 @@ public class Bullet : MonoBehaviour
 
     private void ReturnBulPos()
     {
+        if (this.GetComponent<Explode>() != null)
+            this.GetComponent<Explode>().Explosion(this.transform.position);
+
         this.transform.parent = bulPos.transform;
         this.transform.position = bulPos.transform.position;
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;

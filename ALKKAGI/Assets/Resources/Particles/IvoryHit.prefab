@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 199403377841047146}
   - component: {fileID: 114338152808881736}
   m_Layer: 0
-  m_Name: StoneHit
+  m_Name: IvoryHit
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

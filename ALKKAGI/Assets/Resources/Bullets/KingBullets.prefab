@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5301796079850139859}
   - component: {fileID: 1864023092950731960}
   - component: {fileID: 7770141648293605056}
+  - component: {fileID: 1952438891882639647}
   m_Layer: 0
   m_Name: Elephant_Red
   m_TagString: Bullet
@@ -158,6 +159,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1952438891882639647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360682670543654965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &477878325369238199
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +442,7 @@ GameObject:
   - component: {fileID: 6301876872147889461}
   - component: {fileID: 4608376700710533248}
   - component: {fileID: 4616973840201486555}
+  - component: {fileID: 9093320094627222300}
   m_Layer: 0
   m_Name: Cannon_Red
   m_TagString: Bullet
@@ -478,6 +493,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9093320094627222300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030078857905251865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &1249398920929951419
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,6 +857,7 @@ GameObject:
   - component: {fileID: 7385942392296232137}
   - component: {fileID: 2564316011256866591}
   - component: {fileID: 6028663629797863187}
+  - component: {fileID: 367915358331370629}
   m_Layer: 0
   m_Name: Guard_Blue
   m_TagString: Enemy
@@ -879,6 +908,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &367915358331370629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850012380783050400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &2562297775070373151
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,6 +932,7 @@ GameObject:
   - component: {fileID: 4910264034902590751}
   - component: {fileID: 7211854791827341603}
   - component: {fileID: 3894837084877840798}
+  - component: {fileID: 1197075881117458350}
   m_Layer: 0
   m_Name: Guard_Red
   m_TagString: Bullet
@@ -940,6 +983,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1197075881117458350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562297775070373151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &2576445274902936664
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,6 +1007,7 @@ GameObject:
   - component: {fileID: 3590339025520983417}
   - component: {fileID: 6136454211628970082}
   - component: {fileID: 797285980258049523}
+  - component: {fileID: 9136607397982930187}
   m_Layer: 0
   m_Name: Horse_Red
   m_TagString: Bullet
@@ -1001,6 +1058,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9136607397982930187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576445274902936664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &2671145140253370008
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,6 +1470,7 @@ GameObject:
   - component: {fileID: 162756449080564493}
   - component: {fileID: 9144365480188662430}
   - component: {fileID: 1896031860352408144}
+  - component: {fileID: 6117346588545514412}
   m_Layer: 0
   m_Name: Chariot_Blue
   m_TagString: Enemy
@@ -1450,6 +1521,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6117346588545514412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875627198598975962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &4051985170524215803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,6 +1545,7 @@ GameObject:
   - component: {fileID: 2894666671963050669}
   - component: {fileID: 4945572554001996152}
   - component: {fileID: 7605515973470773564}
+  - component: {fileID: 5177627353682327432}
   m_Layer: 0
   m_Name: Solider_Red
   m_TagString: Bullet
@@ -1511,6 +1596,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5177627353682327432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4051985170524215803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &4401745180279741174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,6 +1798,7 @@ GameObject:
   - component: {fileID: 8655277466531962028}
   - component: {fileID: 1153560401132977095}
   - component: {fileID: 663233167912594977}
+  - component: {fileID: 9030056258823112470}
   m_Layer: 0
   m_Name: Elephant_Blue
   m_TagString: Enemy
@@ -1750,6 +1849,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9030056258823112470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4974955297642241144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &5248608883173159154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,6 +2423,7 @@ GameObject:
   - component: {fileID: 6121421095516419219}
   - component: {fileID: 8922723910172777895}
   - component: {fileID: 8894343142817718822}
+  - component: {fileID: 3282938685727207847}
   m_Layer: 0
   m_Name: Cannon_Blue
   m_TagString: Enemy
@@ -2361,6 +2474,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3282938685727207847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6596321680955652679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &6749970764817165614
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,6 +2717,7 @@ GameObject:
   - component: {fileID: 4194178106989581244}
   - component: {fileID: 4460728353716761890}
   - component: {fileID: 6022920136754214241}
+  - component: {fileID: 8031834985359057506}
   m_Layer: 0
   m_Name: Solider_Blue
   m_TagString: Enemy
@@ -2641,6 +2768,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8031834985359057506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7716575644739986629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &8581755889462369474
 GameObject:
   m_ObjectHideFlags: 0
@@ -2652,6 +2792,7 @@ GameObject:
   - component: {fileID: 2723682539300858940}
   - component: {fileID: 6650547140709158329}
   - component: {fileID: 4060797987496688110}
+  - component: {fileID: 4919968650698988418}
   m_Layer: 0
   m_Name: Horse_Blue
   m_TagString: Enemy
@@ -2702,6 +2843,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4919968650698988418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581755889462369474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}
 --- !u!1 &8980629499939988343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,6 +3029,7 @@ GameObject:
   - component: {fileID: 2571044431643468735}
   - component: {fileID: 7882655498520704774}
   - component: {fileID: 6634586504592651029}
+  - component: {fileID: 644681318842211738}
   m_Layer: 3
   m_Name: Chariot_Red
   m_TagString: Bullet
@@ -2925,3 +3080,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d49a09075af3b143935807301c29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &644681318842211738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197604888330875672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: ddffccdaf9693a740b8565e1efb4f3d3, type: 3}

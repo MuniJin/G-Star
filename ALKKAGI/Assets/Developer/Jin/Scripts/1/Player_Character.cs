@@ -37,8 +37,8 @@ public class Player_Character : Default_Character
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
 
-        this.speed = 8f;
-        this.jumpForce = 8f;
+        this.speed = 15f;
+        this.jumpForce = 10f;
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 

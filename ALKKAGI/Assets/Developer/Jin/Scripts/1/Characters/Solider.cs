@@ -20,14 +20,12 @@ public class Solider : Decorator_Character
         {
             pScript = basePlayer.GetComponent<Player_Character>();
             cooldown = pScript.pCoolDown;
-            Debug.Log(cooldown);
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
             cooldown = eScript.eCoolDown;
-            Debug.Log(cooldown);
             Destroy(pScript);
         }
     }

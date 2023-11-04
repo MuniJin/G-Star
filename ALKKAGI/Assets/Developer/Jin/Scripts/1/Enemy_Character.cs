@@ -26,8 +26,8 @@ public class Enemy_Character : Default_Character
 
         rb = this.gameObject.GetComponent<Rigidbody>();
 
-        this.speed = 8f;
-        this.jumpForce = 8f;
+        this.speed = 15f;
+        this.jumpForce = 10f;
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
