@@ -68,7 +68,7 @@ public class Player_Character : Default_Character
         if (Input.GetMouseButtonDown(0))
         {
             if (this.name.Split('_')[0] != "Chariot")
-                Attack(bulPos.transform.position, bulletSpeed);
+                Attack(bulPos.transform.position);
         }
 
         // 스킬 사용
@@ -81,7 +81,9 @@ public class Player_Character : Default_Character
 
     private void ObjPullingBullet()
     {
-        if (this.name.Split('_')[0] == "King")
+        if (this.name.Split('_')[0] == "Chariot")
+            return;
+        else if (this.name.Split('_')[0] == "King")
         {
             for (int i = 0; i < 6; ++i)
             {
@@ -95,6 +97,7 @@ public class Player_Character : Default_Character
                     go2.AddComponent<Bullet>();
                     go2.GetComponent<Bullet>().damage = _d.GetDamage();
                     go2.GetComponent<Bullet>().bulPos = bulPos.transform;
+                    go2.GetComponent<Bullet>().parentTag = this.tag;
 
                     bullets.Add(go2);
                     go2.SetActive(false);
@@ -113,6 +116,7 @@ public class Player_Character : Default_Character
 
                 go.GetComponent<Bullet>().damage = _d.GetDamage();
                 go.GetComponent<Bullet>().bulPos = bulPos.transform;
+                go.GetComponent<Bullet>().parentTag = this.tag;
 
                 bullets.Add(go);
                 go.SetActive(false);
@@ -205,7 +209,7 @@ public class Player_Character : Default_Character
     // 공격
     private float bulletSpeed = 80f;
 
-    public override void Attack(Vector3 bulpos, float shootPower)
+    public override void Attack(Vector3 bulpos)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -215,6 +219,7 @@ public class Player_Character : Default_Character
         {
             int temp = AttackingBulletSelect();
             bullets[temp].transform.parent = null;
+            bullets[temp].transform.position = bulpos;
 
             Vector3 direction = (hit.point - bullets[temp].transform.position).normalized;
             Rigidbody brb = bullets[temp].GetComponent<Rigidbody>();

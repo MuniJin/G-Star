@@ -28,7 +28,7 @@ public class King : Decorator_Character
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
-            ks = Resources.Load<GameObject>("KingSkill_Red");
+            ks = Resources.Load<GameObject>("KingSkill_Blue");
             Destroy(pScript);
         }
     }

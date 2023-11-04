@@ -42,11 +42,8 @@ public class Horse : Decorator_Character
 
                 for (int i = 0; i < 3; i++)
                 {
-                    b1 = pScript.bulPos.transform.position + go.transform.right * -0.5f;
-                    b2 = pScript.bulPos.transform.position + go.transform.right * 0.5f;
-
-                    pScript.Attack(b1, 60f);
-                    pScript.Attack(b2, 60f);
+                    pScript.Attack(go.transform.GetChild(2).position);
+                    pScript.Attack(go.transform.GetChild(3).position);
 
                     yield return new WaitForSeconds(0.2f);
                 }
@@ -60,13 +57,11 @@ public class Horse : Decorator_Character
 
                 for (int i = 0; i < 3; i++)
                 {
-                    b1 = go.transform.GetChild(0).transform.position + go.transform.right * -0.5f;
-                    b2 = go.transform.GetChild(0).transform.position + go.transform.right * 0.5f;
+                    b1 = go.transform.GetChild(0).transform.position + go.transform.right * -1f;
+                    b2 = go.transform.GetChild(0).transform.position + go.transform.right * 1f;
 
-                    go.GetComponent<EnemyAI2>().Attack(b1, 60f);
-                    go.GetComponent<EnemyAI2>().Attack(b2, 60f);
-                    //eScript.Attack(b1, 60f);
-                    //eScript.Attack(b2, 60f);
+                    eScript.Attack(b1);
+                    eScript.Attack(b2);
 
                     yield return new WaitForSeconds(0.2f);
                 }

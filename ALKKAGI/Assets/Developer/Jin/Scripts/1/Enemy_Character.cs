@@ -56,7 +56,7 @@ public class Enemy_Character : Default_Character
 
     public void EAttack()
     {
-        Attack(bulPos.transform.position, bulletSpeed);
+        Attack(bulPos.transform.position);
     }
 
     [SerializeField]
@@ -78,6 +78,7 @@ public class Enemy_Character : Default_Character
                     go2.AddComponent<Bullet>();
                     go2.GetComponent<Bullet>().damage = _d.GetDamage();
                     go2.GetComponent<Bullet>().bulPos = bulPos.transform;
+                    go2.GetComponent<Bullet>().parentTag = this.tag;
 
                     bullets.Add(go2);
                     go2.SetActive(false);
@@ -96,6 +97,7 @@ public class Enemy_Character : Default_Character
 
                 go.GetComponent<Bullet>().damage = _d.GetDamage();
                 go.GetComponent<Bullet>().bulPos = bulPos.transform;
+                go.GetComponent<Bullet>().parentTag = this.tag;
 
                 bullets.Add(go);
                 go.SetActive(false);
@@ -137,7 +139,7 @@ public class Enemy_Character : Default_Character
 
     private float bulletSpeed = 80f;
 
-    public override void Attack(Vector3 bulpos, float shootPower)
+    public override void Attack(Vector3 bulpos)
     {
         int temp = AttackingBulletSelect();
         bullets[temp].transform.parent = null;

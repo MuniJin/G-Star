@@ -144,7 +144,7 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "Horse":
                     _d = go.gameObject.AddComponent<Horse>();
-                    bullet = Resources.Load<GameObject>("Bullets\\Arrow");
+                    bullet = Resources.Load<GameObject>("Bullets\\HorseShoe");
                     _d.SetStatus(120, 1f, 12);
                     break;
                 case "Elephant":

@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
 
     private Quaternion originRot;
 
+    public string parentTag;
+
     void Start()
     {
         originRot = this.transform.rotation;
@@ -16,11 +18,9 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(this.gameObject.name.Split('(')[0] == "Arrow")
-        {
-            GameObject go = Instantiate(Resources.Load<GameObject>("Bullets\\ArrowStuck"), this.transform.position, this.transform.rotation);
-        }
-        
+        if (other.tag == parentTag)
+            return;
+
         CheckTag(other);
 
         ReturnBulPos();
