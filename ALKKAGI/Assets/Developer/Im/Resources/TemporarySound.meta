@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ALKKAGI/Assets/Developer/Im/Resources/TemporarySound.meta
 guid: aa90204aa3dd13e479b59f7af017e460
 folderAsset: yes
 DefaultImporter:
+========
+guid: 466abb466137d7847ab853851ee11f83
+PrefabImporter:
+>>>>>>>> 7d341d44323db4f4fc024473cc535e8067f3cd95:ALKKAGI/Assets/Developer/Song/SYS/Ui prefab/NewAlkkagi.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
