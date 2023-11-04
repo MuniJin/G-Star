@@ -55,22 +55,27 @@ public class BlueMovement : MonoBehaviour
         StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(1));
 
         Pita = (float)Math.Sqrt(DisX * DisX + DisZ * DisZ); //이 기물과 상대 기물의 거리값
-        Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, targetlocal.y, DisZ * 100 - this.gameObject.transform.localPosition.z);
+        Vector3 direction = new Vector3(DisX * 100 - this.gameObject.transform.localPosition.x, 0, DisZ * 100 - this.gameObject.transform.localPosition.z);
         Arrow = direction;
+
         MoveSpeed = Arrow.magnitude;
         Debug.Log("원본 " + MoveSpeed);
-        if (MoveSpeed < 9f)
+
+        if (MoveSpeed < 6f)
         {
             Pita = Pita* 2;
-            Debug.Log("진화 " + MoveSpeed);
+            Debug.Log("진화 " + Pita);
         }
+        Vector3 blueSPD = Arrow * Pita;
+        //blueSPD.y = 0;
+        Debug.Log("총 이동량" + blueSPD);
+        //this.gameObject.transform.localRotation = Quaternion.identity; 
 
-
-        this.gameObject.GetComponent<Rigidbody>().AddForce(Arrow * Pita, ForceMode.Impulse);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(blueSPD, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
 
-        Invoke("NotCrash", 1f);
+        Invoke("NotCrash", 1.5f);
     }
     private void NotCrash() 
     {
@@ -109,12 +114,6 @@ public class BlueMovement : MonoBehaviour
            
             //Debug.Log("totals - blue : " + totalSpeed);
 
-            if (totalSpeed < 1f)
-            {
-                Debug.Log("제발");
-                totalSpeed = 20f;
-            }
-
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -126,9 +125,18 @@ public class BlueMovement : MonoBehaviour
 
     public float rayLength = 20f;
     public float interval = 0.1f; // 레이를 발사하는 간격
+    private bool isGetRedPiecesCoroutineRunning;
 
     private IEnumerator GetRedPiecesCoroutine() //적 탐색
     {
+        if (isGetRedPiecesCoroutineRunning)
+        {
+            Debug.Log("지워");
+            yield break; // 이미 실행 중이면 중복 실행 방지
+        }
+        isGetRedPiecesCoroutineRunning = true;
+
+
         // 360도의 레이를 발사하는 루프
         for (float angle = 0f; angle < 360f; angle += 3f)
         {
@@ -178,6 +186,7 @@ public class BlueMovement : MonoBehaviour
 
             MoveMath();
         }
+        isGetRedPiecesCoroutineRunning = false;
     }
 
     private void BlueShootEffect(GameObject target)

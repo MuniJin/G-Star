@@ -50,9 +50,9 @@ public class PosSelect : MonoBehaviour
         }
     }
 
-    public void InsertType()
+    private void InsertType()
     {
-        if (seltype > 0 || seltype < 5)
+        if (seltype >= 1 && seltype < 5)
         {       PosObj.GetComponent<Position>().SetType = seltype;
         PosObj.GetComponent<Position>().SelPannel.SetActive(false);
         PosObj.GetComponent<Position>().GAS();
@@ -61,9 +61,16 @@ public class PosSelect : MonoBehaviour
         {
             errorbox.SetActive(true);
             errorText.text = "상차림을 선택하여 주십시오.";
+
+            StartCoroutine(ErrorFalse());
         }
     }
+    IEnumerator ErrorFalse()
+    {
+        yield return new WaitForSeconds(0.7f);
 
+        errorbox.SetActive(false);
+    }
     public void Select1() //왼상
     {
         seltype = 1;
