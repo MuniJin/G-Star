@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-// ¸¶ : ¿¬»ç
 public class Horse : Decorator_Character
 {
     private float cooldown = 5f;
@@ -32,21 +30,16 @@ public class Horse : Decorator_Character
 
     public override IEnumerator Skill(GameObject go)
     {
-        Vector3 b1, b2;
-
         if (go.tag == "Player")
         {
             if (!useSkill)
             {
                 useSkill = true;
 
-                for (int i = 0; i < 3; i++)
-                {
-                    pScript.Attack(go.transform.GetChild(2).position);
-                    pScript.Attack(go.transform.GetChild(3).position);
+                FPSManager.Instance.ScopeImg.gameObject.SetActive(true);
+                Camera.main.fieldOfView /= 3;
 
-                    yield return new WaitForSeconds(0.2f);
-                }
+                pScript.damagebuff = true;
             }
         }
         else if (go.tag == "Enemy")
@@ -54,21 +47,10 @@ public class Horse : Decorator_Character
             if (!useSkill)
             {
                 useSkill = true;
-
-                for (int i = 0; i < 3; i++)
-                {
-                    b1 = go.transform.GetChild(0).transform.position + go.transform.right * -1f;
-                    b2 = go.transform.GetChild(0).transform.position + go.transform.right * 1f;
-
-                    eScript.Attack(b1);
-                    eScript.Attack(b2);
-
-                    yield return new WaitForSeconds(0.2f);
-                }
             }
         }
 
-        yield return new WaitForSeconds(cooldown - 0.6f);
+        yield return new WaitForSeconds(cooldown);
         useSkill = false;
     }
 }

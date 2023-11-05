@@ -110,6 +110,7 @@ public class FPSManager : Singleton<FPSManager>
         GameObject bulPos = new GameObject();
         bulPos.transform.position = enemyP.transform.position - (Vector3.forward * 2);
         bulPos.name = "bulPos";
+        bulPos.tag = enemyP.tag;
         bulPos.transform.SetParent(enemyP.transform);
         bulPos.transform.SetAsFirstSibling();
 
@@ -139,7 +140,7 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Chariot>();
-                    bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
+                    //bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
                     _d.SetStatus(110, 1f, 11);
                     break;
                 case "Horse":

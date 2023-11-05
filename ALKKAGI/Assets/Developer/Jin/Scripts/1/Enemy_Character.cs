@@ -78,7 +78,8 @@ public class Enemy_Character : Default_Character
                     go2.AddComponent<Bullet>();
                     go2.GetComponent<Bullet>().damage = _d.GetDamage();
                     go2.GetComponent<Bullet>().bulPos = bulPos.transform;
-                    go2.GetComponent<Bullet>().parentTag = this.tag;
+
+                    go2.GetComponent<Bullet>().parentPlayer = this.tag;
 
                     bullets.Add(go2);
                     go2.SetActive(false);
@@ -97,7 +98,8 @@ public class Enemy_Character : Default_Character
 
                 go.GetComponent<Bullet>().damage = _d.GetDamage();
                 go.GetComponent<Bullet>().bulPos = bulPos.transform;
-                go.GetComponent<Bullet>().parentTag = this.tag;
+
+                go.GetComponent<Bullet>().parentPlayer = this.tag;
 
                 bullets.Add(go);
                 go.SetActive(false);
