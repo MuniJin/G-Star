@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class DestroyParticle : MonoBehaviour
 {
+    public float destroyTime;
+
     private void Start()
     {
-        Invoke("Des", 0.5f);
+        Invoke("Des", destroyTime);
     }
 
     private void Des()

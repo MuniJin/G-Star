@@ -121,6 +121,9 @@ public class FPSManager : Singleton<FPSManager>
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1.5f;
 
+        foreach (Transform t in enemyP.transform)
+            t.gameObject.layer = 7;
+
         enemyP.transform.GetChild(1).tag = "Enemy";
     }
 
@@ -140,7 +143,7 @@ public class FPSManager : Singleton<FPSManager>
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Chariot>();
-                    //bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
+
                     _d.SetStatus(110, 1f, 11);
                     break;
                 case "Horse":

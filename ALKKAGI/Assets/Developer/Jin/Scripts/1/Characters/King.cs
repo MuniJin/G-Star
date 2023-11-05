@@ -22,13 +22,13 @@ public class King : Decorator_Character
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
-            ks = Resources.Load<GameObject>("KingSkill_Red");
+            ks = Resources.Load<GameObject>("Skills\\KingSkill_Red");
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
-            ks = Resources.Load<GameObject>("KingSkill_Blue");
+            ks = Resources.Load<GameObject>("Skills\\KingSkill_Blue");
             Destroy(pScript);
         }
     }

@@ -9,8 +9,6 @@ public class Bullet : MonoBehaviour
 
     private Quaternion originRot;
 
-    public int damagebuff;
-
     public string parentPlayer;
 
     void Start()
@@ -20,6 +18,9 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "Bullet")
+            return;
+
         CheckTag(other);
 
         ReturnBulPos();
@@ -30,20 +31,17 @@ public class Bullet : MonoBehaviour
         if (other.tag == "LimitArea")
             return;
         if (other.tag == parentPlayer)
-        {
-            Debug.Log("Parent HIt");
             return;
-        }
 
         if (other.tag == "Player")
         {
             GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Player_Character>().Hitted(damage + damagebuff);
+            go.GetComponent<Player_Character>().Hitted(damage);
         }
         else if (other.tag == "Enemy")
         {
             GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Enemy_Character>().Hitted(damage + damagebuff);
+            go.GetComponent<Enemy_Character>().Hitted(damage);
         }
         else
             Debug.Log("지형지물 맞음");

@@ -69,10 +69,7 @@ public class Player_Character : Default_Character
 
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-        {
-            if (this.name.Split('_')[0] != "Chariot")
                 Attack(bulPos.transform.position);
-        }
 
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
@@ -147,9 +144,7 @@ public class Player_Character : Default_Character
 
     private void ObjPullingBullet()
     {
-        if (this.name.Split('_')[0] == "Chariot")
-            return;
-        else if (this.name.Split('_')[0] == "King")
+        if (this.name.Split('_')[0] == "King")
         {
             for (int i = 0; i < 6; ++i)
             {
@@ -193,6 +188,7 @@ public class Player_Character : Default_Character
 
         if (this.name.Split('_')[0] == "Horse")
         {
+            bullet = Resources.Load<GameObject>("Bullets\\HorseShoe2");
             GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
 
             go.transform.parent = bulPos.transform;
