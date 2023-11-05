@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 451560}
   - component: {fileID: 3308840}
   - component: {fileID: 2380810}
-  - component: {fileID: -3408592731706721164}
   - component: {fileID: 7426771217651404299}
   - component: {fileID: 9027702762988081302}
   - component: {fileID: 7445634378029104564}
+  - component: {fileID: 4131852347305537037}
+  - component: {fileID: 5909258236895036552}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Bullet
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 119512}
   m_LocalRotation: {x: -0.030843586, y: -0.7064338, z: 0.7064338, w: -0.030843586}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,20 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-3408592731706721164
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119512}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 19497d68b37d2594fb3e269601d333be, type: 3}
 --- !u!54 &7426771217651404299
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -114,7 +101,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &9027702762988081302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +126,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68443b40ba7f754fb71b8310e176b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  bulPos: {fileID: 0}
+--- !u!135 &4131852347305537037
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.2, z: 0}
+--- !u!114 &5909258236895036552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 1040608886635896, guid: 7fe21920b2b3ebe49ab5a474c7140927, type: 3}

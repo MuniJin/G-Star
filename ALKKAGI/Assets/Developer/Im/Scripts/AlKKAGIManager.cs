@@ -203,13 +203,13 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     {
         if (randomChildObject == null)//선택된 대상이 null값일때
         {
-            Debug.Log("repick");
+            //Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
         else if (randomChildObject.transform.localPosition.z > -177f || randomChildObject.transform.localPosition.z < -200f ||
             randomChildObject.transform.localPosition.x > 162f || randomChildObject.transform.localPosition.x < 142f)
         {
-            Debug.Log("repick");
+            //Debug.Log("repick");
             BlueSelect();//다시 고른다
         }
     }

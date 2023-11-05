@@ -10,6 +10,9 @@ TagManager:
   - Enemy
   - ts
   - Bullet
+  - Hammer
+  - FxTemporaire
+  - LimitArea
   layers:
   - Default
   - TransparentFX
@@ -19,7 +22,7 @@ TagManager:
   - UI
   - Ground
   - Enemy
-  - 
+  - Hammer
   - 
   - 
   - 

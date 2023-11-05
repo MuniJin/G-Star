@@ -28,6 +28,8 @@ public class Position : MonoBehaviour
     }
     public void Classic()
     {
+        AutoPos();
+        AutoPosBlue();
         ClassicButton.SetActive(true);
         SetButtons[0].SetActive(false);
         SetButtons[1].SetActive(false);
@@ -41,20 +43,9 @@ public class Position : MonoBehaviour
     }
     private void GameStart()
     {
+        SelPannel.SetActive(true);
+        DeathRange.SetActive(true);
         BST = Random.Range(1, 5);
-        if (Auto == 0) //오토세팅
-        {
-            AutoPos();
-            SelPannel.SetActive(true);
-            DeathRange.SetActive(true);
-        }
-        else //플레이어가 직접 세팅
-        {
-            AutoPosBlue();
-            BlueSettingSelect();
-            PosSetting();
-            DeathRange.SetActive(true);
-        }
     }
 
     public void GAS()
@@ -99,40 +90,6 @@ public class Position : MonoBehaviour
         }
         GM.GetComponent<AlKKAGIManager>().PieceSet();
     }
-    public void BlueSettingSelect()
-    {
-        //Blue Elephant[11] && Horse[12]
-        if (BST == 1)  //상마상마
-        {
-            LocalPos[0, 1] = 11;
-            LocalPos[0, 2] = 12;
-            LocalPos[0, 6] = 11;
-            LocalPos[0, 7] = 12;
-        }
-        if (BST == 2) //마상마상
-        {
-            LocalPos[0, 1] = 12;
-            LocalPos[0, 2] = 11;
-            LocalPos[0, 6] = 12;
-            LocalPos[0, 7] = 11;
-        }
-        if (BST == 3) //상마마상
-        {
-            LocalPos[0, 1] = 12;
-            LocalPos[0, 2] = 11;
-            LocalPos[0, 6] = 11;
-            LocalPos[0, 7] = 12;
-
-        }
-        if (BST == 4) //마상상마
-        {
-            LocalPos[0, 1] = 11;
-            LocalPos[0, 2] = 12;
-            LocalPos[0, 6] = 12;
-            LocalPos[0, 7] = 11;
-
-        }
-    }
 
     private void SettingSelect()//상차림 버튼 활성화 1, 2, 3, 4 {상마상마 / 마상마상 / 마상상마 / 상마마상}
     {
@@ -171,8 +128,6 @@ public class Position : MonoBehaviour
 
     private void AutoPos()
     {
-        AutoPosBlue();
-
         //red Solider
         LocalPos[6, 0] = 1;
         LocalPos[6, 2] = 1;
@@ -191,7 +146,40 @@ public class Position : MonoBehaviour
         LocalPos[9, 0] = 3;
         LocalPos[9, 8] = 3;
     }
+    public void BlueSettingSelect()
+    {
+        //Blue Elephant[11] && Horse[12]
+        if (BST == 1)  //상마상마
+        {
+            LocalPos[0, 1] = 11;
+            LocalPos[0, 2] = 12;
+            LocalPos[0, 6] = 11;
+            LocalPos[0, 7] = 12;
+        }
+        if (BST == 2) //마상마상
+        {
+            LocalPos[0, 1] = 12;
+            LocalPos[0, 2] = 11;
+            LocalPos[0, 6] = 12;
+            LocalPos[0, 7] = 11;
+        }
+        if (BST == 3) //상마마상
+        {
+            LocalPos[0, 1] = 12;
+            LocalPos[0, 2] = 11;
+            LocalPos[0, 6] = 11;
+            LocalPos[0, 7] = 12;
 
+        }
+        if (BST == 4) //마상상마
+        {
+            LocalPos[0, 1] = 11;
+            LocalPos[0, 2] = 12;
+            LocalPos[0, 6] = 12;
+            LocalPos[0, 7] = 11;
+
+        }
+    }
     public void AutoPosBlue()
     {
         //blue Chariot
@@ -212,6 +200,29 @@ public class Position : MonoBehaviour
         LocalPos[3, 6] = 8;
         LocalPos[3, 8] = 8;
         LocalPos[3, 8] = 8;
+    }
 
+    public void CustomPosBlue(int type) //11 상 12 마 10 차 13사 14왕 9포 8졸
+    {
+        LocalPos[1, 3] = 13;
+        LocalPos[1, 5] = 13;
+        LocalPos[1, 4] = 14;
+
+        LocalPos[2, 1] = 9;
+        LocalPos[2, 7] = 9;
+
+        LocalPos[2, 3] = 8;
+        LocalPos[2, 4] = 8;
+        LocalPos[2, 5] = 8;
+
+        LocalPos[3, 2] = 10;
+        LocalPos[3, 3] = 11;
+        LocalPos[3, 4] = 8;
+        LocalPos[3, 5] = 11;
+        LocalPos[3, 6] = 10;
+        LocalPos[3, 8] = 8;
+        
+        LocalPos[4, 0] = 12;
+        LocalPos[4, 8] = 12;
     }
 }
