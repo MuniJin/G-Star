@@ -233,13 +233,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 4760383783270337664}
   m_HandleRect: {fileID: 4760383782159144062}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.01
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.041
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1611186592}
+        m_TargetAssemblyTypeName: SoundManagerForAlkkagi, Assembly-CSharp
+        m_MethodName: SetSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4760383782388338459
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,14 +390,14 @@ RectTransform:
   m_GameObject: {fileID: 4760383782609392900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 2, z: 0}
   m_Children: []
   m_Father: {fileID: 4760383783493889246}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 28, y: 43.45001}
+  m_AnchoredPosition: {x: 27.999878, y: 43.449615}
   m_SizeDelta: {x: 744.44, y: 148.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4760383782609392903
@@ -464,7 +476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -53}
+  m_AnchoredPosition: {x: 0, y: -33.8}
   m_SizeDelta: {x: 300, y: 112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4760383782902720505
@@ -553,6 +565,7 @@ GameObject:
   - component: {fileID: 4760383782972958266}
   - component: {fileID: 4760383782972958265}
   - component: {fileID: 4760383782972958264}
+  - component: {fileID: 1611186592}
   m_Layer: 5
   m_Name: NewAlkkagi
   m_TagString: Untagged
@@ -645,6 +658,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1611186592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4760383782972958271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e33e95a1bf403e4aa7ae6f75fbbf66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMixer: {fileID: 24100000, guid: a5883dbc006830342a08da11b6259710, type: 2}
+  BGMSlider: {fileID: 4760383783409137746}
+  SFXSlider: {fileID: 4760383782368918532}
+  DB: {fileID: 0}
 --- !u!1 &4760383782986898561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,13 +1054,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 4760383783851303368}
   m_HandleRect: {fileID: 4760383782065908727}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.01
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.041
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1611186592}
+        m_TargetAssemblyTypeName: SoundManagerForAlkkagi, Assembly-CSharp
+        m_MethodName: SetBGM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4760383783493889245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,7 +1163,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7809648342312028854}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: BackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4760383783634640224
 GameObject:
   m_ObjectHideFlags: 0
