@@ -61,12 +61,12 @@ public class BlueMovement : MonoBehaviour
         Arrow = direction;
 
         MoveSpeed = Arrow.magnitude;
-      //  Debug.Log("원본 " + MoveSpeed);
+        //  Debug.Log("원본 " + MoveSpeed);
 
         if (MoveSpeed < 6f)
         {
-            Pita = Pita* 2;
-           // Debug.Log("진화 " + Pita);
+            Pita = Pita * 2;
+            // Debug.Log("진화 " + Pita);
         }
 
         Vector3 blueSPD = Arrow * Pita;
@@ -80,7 +80,7 @@ public class BlueMovement : MonoBehaviour
 
         Invoke("NotCrash", 1.5f);
     }
-    private void NotCrash() 
+    private void NotCrash()
     {
         if (!GM.GetComponent<AlKKAGIManager>().blueCrash)
         {
@@ -114,7 +114,7 @@ public class BlueMovement : MonoBehaviour
             SaveSpeed = this.gameObject.GetComponent<Rigidbody>().velocity;
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
-           
+
             //Debug.Log("totals - blue : " + totalSpeed);
 
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -149,9 +149,6 @@ public class BlueMovement : MonoBehaviour
 
             RaycastHit hit;
 
-            if (angle >= 180)
-                GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
-
             if (Physics.Raycast(rayOrigin, direction, out hit, rayLength))
             {
                 // 충돌한 오브젝트의 태그가 "RedPiece"인지 확인
@@ -180,9 +177,10 @@ public class BlueMovement : MonoBehaviour
             DisX = targetlocal.x / 100;
             DisZ = targetlocal.z / 100;
 
-            BlueShootEffect(Target);
 
             yield return new WaitForSeconds(0.5f);
+            BlueShootEffect(Target);
+            yield return new WaitForSeconds(0.3f);
 
             MoveMath();
         }
@@ -192,8 +190,8 @@ public class BlueMovement : MonoBehaviour
     private void BlueShootEffect(GameObject target)
     {
         GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
-        GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position)/2+new Vector3(0,0.5f,0), Quaternion.identity);
-        
+        GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position) / 2 + new Vector3(0, 0.5f, 0), Quaternion.identity);
+
         newPiece.transform.LookAt(target.transform);
     }
 

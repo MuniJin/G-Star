@@ -21,6 +21,10 @@ public class SoundManagerForAlkkagi : MonoBehaviour
         {
             Invoke("LoadVol", 0.3f);
         }
+        if (PlayerPrefs.HasKey("SFXVol"))
+        {
+            Invoke("LoadVol", 0.3f);
+        }
         else
         {
             SetBGM();
@@ -40,6 +44,7 @@ public class SoundManagerForAlkkagi : MonoBehaviour
         myMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("SFXVol", volume);
         DB.GetComponent<SoundDB>().SFXDB = SFXSlider.value;
+
         DB.GetComponent<AudioManager>().SFXSource.PlayOneShot(DB.GetComponent<AudioManager>().TestSound);
     }
 

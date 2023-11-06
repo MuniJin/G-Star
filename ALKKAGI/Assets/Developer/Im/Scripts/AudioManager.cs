@@ -43,13 +43,6 @@ public class AudioManager : MonoBehaviour
         bgmSource.Play();
     }
 
-    //private void Update()
-    //{
-    //    if(SceneManager.GetActiveScene().name == "Map1")
-    //    {
-
-    //    }
-    //}
 
     public void PauseBGM()
     {   // BGM 일시 정지

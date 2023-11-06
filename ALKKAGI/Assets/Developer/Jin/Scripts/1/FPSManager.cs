@@ -59,13 +59,13 @@ public class FPSManager : Singleton<FPSManager>
         }
 
         // 테스트 씬과 메인 게임 씬 분리
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init(p, e);
-        else
-        {
+        //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
+        //    Init(p, e);
+        //else
+        //{
             am = AlKKAGIManager.Instance;
             Init(am.CrashObjR.name, am.CrashObjB.name);
-        }
+        //}
     }
 
     // 기본 초기화 작업
