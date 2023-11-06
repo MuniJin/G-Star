@@ -191,6 +191,7 @@ public class BlueMovement : MonoBehaviour
 
     private void BlueShootEffect(GameObject target)
     {
+        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
         GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position)/2+new Vector3(0,0.5f,0), Quaternion.identity);
         
         newPiece.transform.LookAt(target.transform);
