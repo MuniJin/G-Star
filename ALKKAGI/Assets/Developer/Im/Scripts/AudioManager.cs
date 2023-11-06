@@ -9,8 +9,12 @@ public class AudioManager : MonoBehaviour
     //audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().TestSound;
     //audioManager.GetComponent<AudioManager>().SFXSource.Play();
 
+    //audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().TestSound);
+    //GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().ShootSound);
+
     public AudioSource bgmSource;
     public AudioSource SFXSource;
+    //public AudioSource EnemySource;
 
     [Header(" ----------- Common Clip -----------")]
     public AudioClip MainBGM;     //메인메뉴 bgm O
@@ -32,33 +36,28 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] BulletSound;
     public AudioClip HitSound;
 
-    private bool isPaused;
-
     private void Start()
     {
         bgmSource.clip = MainBGM;
         bgmSource.loop = true;
         bgmSource.Play();
     }
-    void Update()
-    {
-        if (isPaused)      
-            ResumeBGM();        
-        else
-            PauseBGM();
-    }
+
+    //private void Update()
+    //{
+    //    if(SceneManager.GetActiveScene().name == "Map1")
+    //    {
+
+    //    }
+    //}
 
     public void PauseBGM()
-    {
-        // BGM 일시 정지
+    {   // BGM 일시 정지
         bgmSource.Pause();
-        isPaused = true;
     }
 
     public void ResumeBGM()
-    {
-        // BGM 다시 재생
+    {   // BGM 다시 재생
         bgmSource.UnPause();
-        isPaused = false;
     }
 }

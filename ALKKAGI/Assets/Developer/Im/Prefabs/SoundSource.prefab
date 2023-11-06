@@ -60,6 +60,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d14e882ccedb64d889570a81a62253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgmSource: {fileID: 253199456626950815}
+  SFXSource: {fileID: 253199456020277013}
+  MainBGM: {fileID: 8300000, guid: be7b6bb11509751448ecc8b5991ff5ab, type: 3}
+  ButtonSound: {fileID: 8300000, guid: a14a2c79e49cea54b9f7abb0a55d8810, type: 3}
+  TestSound: {fileID: 8300000, guid: bb2e8ee5966a7144a844bf5ea64bc555, type: 3}
+  ShootSound: {fileID: 8300000, guid: e75bfe9125dea1347b9c06ba0b41ca61, type: 3}
+  StartSound: {fileID: 8300000, guid: 7ed8408ae0e519c48a5fdfc0c9694cfa, type: 3}
+  CrashSound: {fileID: 8300000, guid: 27ab69a78584cf641b85b9268c4266dc, type: 3}
+  DeathSound: {fileID: 8300000, guid: 69a8c35d82f61b6478e03680e5dba027, type: 3}
+  PositionSound: {fileID: 8300000, guid: 883d1787414171049bcbc3791f5915bc, type: 3}
+  GameOverSound: {fileID: 0}
+  FPSBGM: {fileID: 0}
+  Skills: []
+  BulletSound: []
+  HitSound: {fileID: 0}
 --- !u!1 &253199456020277011
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,11 +243,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 499974397544473487, guid: a5883dbc006830342a08da11b6259710, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: be7b6bb11509751448ecc8b5991ff5ab, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

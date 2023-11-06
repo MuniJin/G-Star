@@ -20,10 +20,4 @@ public class SoundDB : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void SetSlider()
-    {
-        GameObject.Find("Alkagisoundctr").GetComponent<SoundManagerForAlkkagi>().BGMSlider.value = BGMDB;
-        GameObject.Find("Alkagisoundctr").GetComponent<SoundManagerForAlkkagi>().SFXSlider.value = SFXDB;
-    }
 }

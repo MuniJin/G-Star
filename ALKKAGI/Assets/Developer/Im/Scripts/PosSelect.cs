@@ -12,6 +12,7 @@ public class PosSelect : MonoBehaviour
     [SerializeField] private TMP_Text InsText;
     [SerializeField] private Material BlackWood;
     [SerializeField] private Material Wood;
+    [SerializeField] private GameObject GM;
     int seltype = 0;
 
     public void ShowSelected()
@@ -53,15 +54,19 @@ public class PosSelect : MonoBehaviour
     private void InsertType()
     {
         if (seltype >= 1 && seltype < 5)
-        {       PosObj.GetComponent<Position>().SetType = seltype;
-        PosObj.GetComponent<Position>().SelPannel.SetActive(false);
-        PosObj.GetComponent<Position>().GAS();
+        {
+            PosObj.GetComponent<Position>().SetType = seltype;
+            PosObj.GetComponent<Position>().SelPannel.SetActive(false);
+            PosObj.GetComponent<Position>().GAS();
+
+            GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().StartSound);
         }
         else
         {
             errorbox.SetActive(true);
             errorText.text = "상차림을 선택하여 주십시오.";
 
+            GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().ButtonSound);
             StartCoroutine(ErrorFalse());
         }
     }

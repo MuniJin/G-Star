@@ -31,7 +31,10 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public GameObject TurnObj;
     [SerializeField] private TMP_Text TurnText;
     [SerializeField] private GameObject GameOverObj;
-    [SerializeField] private GameObject audioManager; //SoundDataBase
+    public GameObject audioManager; //SoundDataBase
+    public AudioSource SFX;
+    public bool isGetRedPiecesCoroutineRunning;
+
 
     private float timer = 0f;
     private bool forBlueTurn;
@@ -43,14 +46,16 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         IsMyTurn = true;
         IsMove = true;
         audioManager = GameObject.Find("SoundSource");
+
+        SFX = audioManager.GetComponent<AudioManager>().SFXSource;
+        audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().StartSound);
     }
 
     public IEnumerator Crash() //충돌
     {
         timer = 0;
 
-        audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().CrashSound;
-        audioManager.GetComponent<AudioManager>().SFXSource.Play();
+        audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().CrashSound);
 
         audioManager.GetComponent<AudioManager>().PauseBGM();
 
@@ -96,7 +101,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                 CrashObjB = null;
                 CrashObjR = null;
             }
-            else //패배했을신
+            else //패배했을시
             {
                 //Debug.Log("FPS 패배 - 적턴");
                 CrashObjB.GetComponent<BlueMovement>().Redlose();
@@ -202,6 +207,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         RedCrash = false;
     }
 
+
     private void repick()
     {
         if (randomChildObject == null)//선택된 대상이 null값일때
@@ -244,8 +250,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     public void Death(int deathPiece)
     {
         //데스 사운드 재생
-        audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().DeathSound;
-        audioManager.GetComponent<AudioManager>().SFXSource.Play();
+        audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().DeathSound);
 
         //죽은 유닛 setactive false;
         if (deathPiece == 1)
@@ -348,18 +353,15 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
     {
         if (soundType == 1)
         {
-            audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().ShootSound;
-            audioManager.GetComponent<AudioManager>().SFXSource.Play();
+            audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().ShootSound);
         }
         if (soundType == 2)
         {
-            audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().PositionSound;
-            audioManager.GetComponent<AudioManager>().SFXSource.Play();
+            audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().PositionSound);
         }
         if (soundType == 3)
         {
-            audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().ButtonSound;
-            audioManager.GetComponent<AudioManager>().SFXSource.Play();
+            audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().ButtonSound);
         }
         yield return null;
     }
