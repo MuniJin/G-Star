@@ -156,7 +156,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(100);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\speed");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Solider");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[0], aum.BulletSound[5]);
                     break;
@@ -167,7 +167,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(150);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\guard");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Guard");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[1], aum.BulletSound[1]);
                     break;
@@ -178,7 +178,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(130);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\pvcnet");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Elephant");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[2], aum.BulletSound[2]);
                     break;
@@ -188,7 +188,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(110);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\rush");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Chariot");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[3], aum.BulletSound[3]);
                     break;
@@ -199,7 +199,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(120);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\3bullet");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Horse");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[4], aum.BulletSound[4]);
                     break;
@@ -210,7 +210,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(140);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\teleport_38805");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Cannon");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[5], aum.BulletSound[5]);
                     break;
@@ -221,7 +221,7 @@ public class FPSManager : Singleton<FPSManager>
                     if (go.tag == "Player")
                     {
                         PHPCTR.Instance.SetHpUI(160);
-                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\guard");
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\King");
                     }
                     SelectBulSound(go.tag, aum.BulletSound[6], aum.BulletSound[6]);
                     break;
