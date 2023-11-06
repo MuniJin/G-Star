@@ -50,6 +50,8 @@ public class BlueMovement : MonoBehaviour
 
     private void MoveMath()
     {
+        GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().ShootSound);
+
         GM.GetComponent<AlKKAGIManager>().CrashObjB = null;
         GM.GetComponent<AlKKAGIManager>().CrashObjR = null;
         StartCoroutine(GM.GetComponent<AlKKAGIManager>().SoundPlay(1));
@@ -59,25 +61,26 @@ public class BlueMovement : MonoBehaviour
         Arrow = direction;
 
         MoveSpeed = Arrow.magnitude;
-        Debug.Log("원본 " + MoveSpeed);
+        //  Debug.Log("원본 " + MoveSpeed);
 
         if (MoveSpeed < 6f)
         {
-            Pita = Pita* 2;
-            Debug.Log("진화 " + Pita);
+            Pita = Pita * 2;
+            // Debug.Log("진화 " + Pita);
         }
+
         Vector3 blueSPD = Arrow * Pita;
         //blueSPD.y = 0;
-        Debug.Log("총 이동량" + blueSPD);
+        //Debug.Log("총 이동량" + blueSPD);
         //this.gameObject.transform.localRotation = Quaternion.identity; 
 
-        this.gameObject.GetComponent<Rigidbody>().AddForce(blueSPD, ForceMode.Impulse);
+        this.gameObject.GetComponent<Rigidbody>().AddForce(blueSPD * this.gameObject.GetComponent<Rigidbody>().mass, ForceMode.Impulse);
 
         redObjects.Clear(); //검색한 오브젝트 초기화
 
         Invoke("NotCrash", 1.5f);
     }
-    private void NotCrash() 
+    private void NotCrash()
     {
         if (!GM.GetComponent<AlKKAGIManager>().blueCrash)
         {
@@ -111,7 +114,7 @@ public class BlueMovement : MonoBehaviour
             SaveSpeed = this.gameObject.GetComponent<Rigidbody>().velocity;
             totalSpeed = SaveSpeed.magnitude;
             dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
-           
+
             //Debug.Log("totals - blue : " + totalSpeed);
 
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -119,22 +122,19 @@ public class BlueMovement : MonoBehaviour
 
             GM.GetComponent<AlKKAGIManager>().IsFirstCrash = false;
             StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
-
         }
     }
 
     public float rayLength = 20f;
     public float interval = 0.1f; // 레이를 발사하는 간격
-    private bool isGetRedPiecesCoroutineRunning;
 
     private IEnumerator GetRedPiecesCoroutine() //적 탐색
     {
-        if (isGetRedPiecesCoroutineRunning)
+        if (GM.GetComponent<AlKKAGIManager>().isGetRedPiecesCoroutineRunning)
         {
-            Debug.Log("지워");
             yield break; // 이미 실행 중이면 중복 실행 방지
         }
-        isGetRedPiecesCoroutineRunning = true;
+        GM.GetComponent<AlKKAGIManager>().isGetRedPiecesCoroutineRunning = true;
 
 
         // 360도의 레이를 발사하는 루프
@@ -148,9 +148,6 @@ public class BlueMovement : MonoBehaviour
             Debug.DrawRay(rayOrigin, direction * rayLength, Color.red);
 
             RaycastHit hit;
-
-            if (angle >= 180)
-                GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
 
             if (Physics.Raycast(rayOrigin, direction, out hit, rayLength))
             {
@@ -180,37 +177,65 @@ public class BlueMovement : MonoBehaviour
             DisX = targetlocal.x / 100;
             DisZ = targetlocal.z / 100;
 
-            BlueShootEffect(Target);
 
             yield return new WaitForSeconds(0.5f);
+            BlueShootEffect(Target);
+            yield return new WaitForSeconds(0.3f);
 
             MoveMath();
         }
-        isGetRedPiecesCoroutineRunning = false;
+        GM.GetComponent<AlKKAGIManager>().isGetRedPiecesCoroutineRunning = false;
     }
 
     private void BlueShootEffect(GameObject target)
     {
-        GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position)/2+new Vector3(0,0.5f,0), Quaternion.identity);
-        
+        GM.GetComponent<AlKKAGIManager>().TurnObj.SetActive(false);
+        GameObject newPiece = Instantiate(ArrowObj, (this.gameObject.transform.position + target.transform.position) / 2 + new Vector3(0, 0.5f, 0), Quaternion.identity);
+
         newPiece.transform.LookAt(target.transform);
     }
-    
+
     public void RedWin() //FPS 승리시
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
-        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir*totalSpeed* 0.4f, ForceMode.Impulse);
-        this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.6f, ForceMode.Impulse);
-        Invoke("IFC", 1f);
+        GameObject redObj = GM.GetComponent<AlKKAGIManager>().CrashObjR;
+        if (redObj.transform.localPosition.x <= 160 || redObj.transform.localPosition.x >= 144 || redObj.transform.localPosition.z >= -144 || redObj.transform.localPosition.z <= -180)
+        {
+            redObj.GetComponent<Rigidbody>().isKinematic = false;
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            redObj.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.3f, ForceMode.Impulse);
+            this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
+            Invoke("IFC", 1f);
+        }
+        else
+        {
+            Debug.Log("외곽");
+            redObj.GetComponent<Rigidbody>().isKinematic = false;
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            redObj.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.3f * 1.2f, ForceMode.Impulse);
+            this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
+            Invoke("IFC", 1f);
+        }
     }
     public void Redlose() //FPS 패배시
     {
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
-        this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.6f, ForceMode.Impulse);
-        this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.4f, ForceMode.Impulse);
-        Invoke("IFC", 1f);
+        GameObject redObj = GM.GetComponent<AlKKAGIManager>().CrashObjR;
+        if (redObj.transform.localPosition.x <= 160 || redObj.transform.localPosition.x >= 144 || redObj.transform.localPosition.z >= -144 || redObj.transform.localPosition.z <= -180)
+        {
+            GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f, ForceMode.Impulse);
+            this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.3f, ForceMode.Impulse);
+            Invoke("IFC", 1f);
+        }
+        else
+        {
+            Debug.Log("외곽");
+            GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f * 1.2f, ForceMode.Impulse);
+            this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.3f, ForceMode.Impulse);
+            Invoke("IFC", 1f);
+        }
     }
     private void IFC()
     {

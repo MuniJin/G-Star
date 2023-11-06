@@ -59,13 +59,13 @@ public class FPSManager : Singleton<FPSManager>
         }
 
         // 테스트 씬과 메인 게임 씬 분리
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-            Init(p, e);
-        else
-        {
+        //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
+        //    Init(p, e);
+        //else
+        //{
             am = AlKKAGIManager.Instance;
             Init(am.CrashObjR.name, am.CrashObjB.name);
-        }
+        //}
     }
 
     // 기본 초기화 작업
@@ -110,6 +110,7 @@ public class FPSManager : Singleton<FPSManager>
         GameObject bulPos = new GameObject();
         bulPos.transform.position = enemyP.transform.position - (Vector3.forward * 2);
         bulPos.name = "bulPos";
+        bulPos.tag = enemyP.tag;
         bulPos.transform.SetParent(enemyP.transform);
         bulPos.transform.SetAsFirstSibling();
 
@@ -119,6 +120,9 @@ public class FPSManager : Singleton<FPSManager>
 
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1.5f;
+
+        foreach (Transform t in enemyP.transform)
+            t.gameObject.layer = 7;
 
         enemyP.transform.GetChild(1).tag = "Enemy";
     }
@@ -135,37 +139,37 @@ public class FPSManager : Singleton<FPSManager>
                 case "Solider":
                     _d = go.gameObject.AddComponent<Solider>();
                     bullet = Resources.Load<GameObject>("Bullets\\Stone");
-                    _d.SetStatus(100, 1f, 10);
+                    _d.SetStatus(100, 5f, 10);
                     break;
                 case "Chariot":
                     _d = go.gameObject.AddComponent<Chariot>();
-                    bullet = go.gameObject.transform.GetChild(2).GetChild(0).gameObject;
-                    _d.SetStatus(110, 1f, 11);
+
+                    _d.SetStatus(110, 5f, 11);
                     break;
                 case "Horse":
                     _d = go.gameObject.AddComponent<Horse>();
-                    bullet = Resources.Load<GameObject>("Bullets\\Arrow");
-                    _d.SetStatus(120, 1f, 12);
+                    bullet = Resources.Load<GameObject>("Bullets\\HorseShoe");
+                    _d.SetStatus(120, 5f, 12);
                     break;
                 case "Elephant":
                     _d = go.gameObject.AddComponent<Elephant>();
                     bullet = Resources.Load<GameObject>("Bullets\\Ivory");
-                    _d.SetStatus(130, 1f, 13);
+                    _d.SetStatus(130, 5f, 13);
                     break;
                 case "Cannon":
                     _d = go.gameObject.AddComponent<Cannon>();
                     bullet = Resources.Load<GameObject>("Bullets\\Dynamite");
-                    _d.SetStatus(140, 1f, 14);
+                    _d.SetStatus(140, 5f, 14);
                     break;
                 case "Guard":
                     _d = go.gameObject.AddComponent<Guard>();
                     bullet = Resources.Load<GameObject>("Bullets\\Book");
-                    _d.SetStatus(150, 1f, 15);
+                    _d.SetStatus(150, 5f, 15);
                     break;
                 case "King":
                     _d = go.gameObject.AddComponent<King>();
                     bullet = Resources.Load<GameObject>("Bullets\\KingBullets");
-                    _d.SetStatus(160, 1f, 16);
+                    _d.SetStatus(160, 5f, 16);
                     break;
                 default:
                     Debug.Log("it does not exist");

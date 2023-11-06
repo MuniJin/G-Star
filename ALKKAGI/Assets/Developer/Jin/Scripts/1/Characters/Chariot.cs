@@ -12,6 +12,8 @@ public class Chariot : Decorator_Character
     private Player_Character pScript;
     private Enemy_Character eScript;
 
+    private GameObject UseSkillParticle;
+
     private void Start()
     {
         basePlayer = base.gameObject;
@@ -26,6 +28,7 @@ public class Chariot : Decorator_Character
             Destroy(pScript);
         }
 
+        UseSkillParticle = Resources.Load<GameObject>("Particles\\Booster");
         cooldown = this.GetCoolDown();
     }
 
@@ -33,18 +36,25 @@ public class Chariot : Decorator_Character
     {
         if (!useSkill)
         {
-            Debug.Log("UseSkill");
             useSkill = true;
+
             Vector3 forwardDirection = Vector3.zero;
             if (go.tag == "Player")
                 forwardDirection = Camera.main.transform.forward;
             else if (go.tag == "Enemy")
                 forwardDirection = go.transform.forward;
 
+
+            GameObject g = Instantiate(UseSkillParticle, go.transform.position, Quaternion.identity);
+            g.transform.SetParent(go.transform);
+            g.transform.SetAsLastSibling();
+            g.transform.localPosition = new Vector3(0f, -1.5f, -1f);
+            if (go.tag == "Player")
+                g.transform.rotation = new Quaternion(0f, 180f, 0f, g.transform.rotation.w);
+
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 30f, ForceMode.Impulse);
 
             yield return new WaitForSeconds(cooldown);
-            Debug.Log("EndSkill");
             useSkill = false;
         }
     }

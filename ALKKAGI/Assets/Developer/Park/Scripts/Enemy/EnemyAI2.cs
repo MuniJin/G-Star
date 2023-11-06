@@ -79,7 +79,7 @@ public class EnemyAI2 : Default_Character
             // 플레이어와 적의 거리가 공격 범위 안에 있고 공격 쿨다운이 지났을 때
             if (distanceToPlayer <= attackRange && Time.time - lastFireTime >= 1 / fireRate)
             {
-                Attack(firePoint.position, 40f);
+                Attack(firePoint.position);
                 lastFireTime = Time.time;
             }
         }
@@ -124,14 +124,14 @@ public class EnemyAI2 : Default_Character
         throw new System.NotImplementedException();
     }
 
-    public override void Attack(Vector3 fp, float shootPower)
+    public override void Attack(Vector3 fp)
     {
         // 발사할 프로젝타일 생성
         GameObject projectile = Instantiate(projectilePrefab, fp, Quaternion.identity);
         // 프로젝타일 발사
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         Vector3 dir = -(fp - Target.transform.position).normalized;
-        rb.AddForce(dir * shootPower, ForceMode.Impulse);
+        rb.AddForce(dir * 60f, ForceMode.Impulse);
     }
 
     public override IEnumerator Skill(GameObject go)
