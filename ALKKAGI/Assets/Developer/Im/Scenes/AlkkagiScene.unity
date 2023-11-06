@@ -157,8 +157,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4760383782368918532, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1508726088}
+    - target: {fileID: 4760383782368918532, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760383782368918532, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760383782368918532, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundManagerForAlkkagi, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760383782368918532, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4760383782972958267, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
       propertyPath: m_Pivot.x
@@ -265,8 +281,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4760383783409137746, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1508726088}
+    - target: {fileID: 4760383783409137746, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760383783409137746, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetBGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760383783409137746, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundManagerForAlkkagi, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760383783409137746, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4760383783493889247, guid: 63b7295d10470cd42b14f36811aaf92e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
