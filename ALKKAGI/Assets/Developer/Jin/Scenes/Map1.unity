@@ -15437,8 +15437,8 @@ MonoBehaviour:
   - {fileID: 1960702820}
   - {fileID: 527524072}
   mapNum: 0
-  p: Cannon
-  e: Chariot
+  p: Solider
+  e: Guard
   ScopeImg: {fileID: 927618800}
 --- !u!1 &2002889116 stripped
 GameObject:

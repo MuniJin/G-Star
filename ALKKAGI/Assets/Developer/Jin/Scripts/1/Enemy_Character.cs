@@ -15,6 +15,7 @@ public class Enemy_Character : Default_Character
     public GameObject bulPos;
 
     public float eCoolDown;
+    public bool damagebuff;
 
     private void Start()
     {
@@ -32,7 +33,7 @@ public class Enemy_Character : Default_Character
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
         eCoolDown = _d.GetCoolDown();
-
+        damagebuff = false;
         ObjPullingBullet();
     }
 
@@ -101,6 +102,10 @@ public class Enemy_Character : Default_Character
 
                 go.GetComponent<Bullet>().parentPlayer = this.tag;
 
+                if (this.name.Split('_')[0] == "Guard")
+                    if (i > 26)
+                        go.GetComponent<Bullet>().guardBuffDamage = 5;
+
                 bullets.Add(go);
                 go.SetActive(false);
             }
@@ -143,7 +148,19 @@ public class Enemy_Character : Default_Character
 
     public override void Attack(Vector3 bulpos)
     {
-        int temp = AttackingBulletSelect();
+        int temp = 0;
+        if (this.gameObject.name.Split('_')[0] == "Guard")
+        {
+            if (!damagebuff)
+                temp = Random.Range(0, 27);
+            else
+                temp = Random.Range(27, bullets.Count - 1);
+            bullets[temp].SetActive(true);
+        }
+        else
+            temp = AttackingBulletSelect();
+        Debug.Log($"{temp}, {bullets[temp].GetComponent<Bullet>().guardBuffDamage}");
+
         bullets[temp].transform.parent = null;
 
         GameObject go = bullets[temp];

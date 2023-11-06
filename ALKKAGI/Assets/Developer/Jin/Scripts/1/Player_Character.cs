@@ -181,6 +181,10 @@ public class Player_Character : Default_Character
 
                 go.GetComponent<Bullet>().parentPlayer = this.tag;
 
+                if (this.name.Split('_')[0] == "Guard")
+                    if (i > 26)
+                        go.GetComponent<Bullet>().guardBuffDamage = 5;
+
                 bullets.Add(go);
                 go.SetActive(false);
             }
@@ -240,32 +244,57 @@ public class Player_Character : Default_Character
         {
             if (damagebuff)
             {
-                bullets[bullets.Count - 1].SetActive(true);
+                if (this.gameObject.name.Split('_')[0] == "Horse")
+                {
+                    bullets[bullets.Count - 1].SetActive(true);
 
-                bullets[bullets.Count - 1].transform.parent = null;
-                bullets[bullets.Count - 1].transform.position = bulpos;
+                    ShootBul(bullets.Count - 1, bulpos, hit);
 
-                Vector3 direction = (hit.point - bullets[bullets.Count - 1].transform.position).normalized;
-                Rigidbody brb = bullets[bullets.Count - 1].GetComponent<Rigidbody>();
-                brb.interpolation = RigidbodyInterpolation.Interpolate;
-                brb.velocity = direction * bulletSpeed;
+                    damagebuff = false;
+                }
+                else if (this.gameObject.name.Split('_')[0] == "Guard")
+                {
+                    int temp = 0;
+                    while (true)
+                    {
+                        temp = Random.Range(27, bullets.Count - 1);
 
-                damagebuff = false;
+                        if (temp >= 27)
+                        {
+                            bullets[temp].SetActive(true);
+                            break;
+                        }
+                    }
+
+                    ShootBul(temp, bulpos, hit);
+                }
             }
             else
             {
-                int temp = AttackingBulletSelect();
+                int temp = 0;
+                if (this.gameObject.name.Split('_')[0] == "Guard")
+                {
+                    temp = Random.Range(0, 27);
+                    bullets[temp].SetActive(true);
+                }
+                else
+                    temp = AttackingBulletSelect();
 
-                bullets[temp].transform.parent = null;
-                bullets[temp].transform.position = bulpos;
-
-
-                Vector3 direction = (hit.point - bullets[temp].transform.position).normalized;
-                Rigidbody brb = bullets[temp].GetComponent<Rigidbody>();
-                brb.interpolation = RigidbodyInterpolation.Interpolate;
-                brb.velocity = direction * bulletSpeed;
+                ShootBul(temp, bulpos, hit);
             }
         }
+    }
+
+    private void ShootBul(int bulNum, Vector3 bulpos, RaycastHit hit)
+    {
+
+        bullets[bulNum].transform.parent = null;
+        bullets[bulNum].transform.position = bulpos;
+
+        Vector3 direction = (hit.point - bullets[bulNum].transform.position).normalized;
+        Rigidbody brb = bullets[bulNum].GetComponent<Rigidbody>();
+        brb.interpolation = RigidbodyInterpolation.Interpolate;
+        brb.velocity = direction * bulletSpeed;
     }
 
     // 스킬 사용

@@ -11,10 +11,13 @@ public class Bullet : MonoBehaviour
 
     public string parentPlayer;
 
+    public int guardBuffDamage;
+
     void Start()
     {
         originRot = this.transform.rotation;
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -36,12 +39,12 @@ public class Bullet : MonoBehaviour
         if (other.tag == "Player")
         {
             GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Player_Character>().Hitted(damage);
+            go.GetComponent<Player_Character>().Hitted(damage + guardBuffDamage);
         }
         else if (other.tag == "Enemy")
         {
             GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Enemy_Character>().Hitted(damage);
+            go.GetComponent<Enemy_Character>().Hitted(damage + guardBuffDamage);
         }
         else
             Debug.Log("지형지물 맞음");
