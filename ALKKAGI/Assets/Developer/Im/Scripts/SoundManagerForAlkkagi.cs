@@ -40,6 +40,7 @@ public class SoundManagerForAlkkagi : MonoBehaviour
         myMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("SFXVol", volume);
         DB.GetComponent<SoundDB>().SFXDB = SFXSlider.value;
+        DB.GetComponent<AudioManager>().SFXSource.PlayOneShot(DB.GetComponent<AudioManager>().TestSound);
     }
 
     private void LoadVol()

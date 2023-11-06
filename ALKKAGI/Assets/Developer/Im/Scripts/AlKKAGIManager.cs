@@ -52,6 +52,8 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         audioManager.GetComponent<AudioManager>().SFXSource.clip = audioManager.GetComponent<AudioManager>().CrashSound;
         audioManager.GetComponent<AudioManager>().SFXSource.Play();
 
+        audioManager.GetComponent<AudioManager>().PauseBGM();
+
         yield return new WaitForSeconds(0.5f);
 
         SceneManager.LoadScene("cinemachintest");  //fps ¾À º¯È¯
@@ -61,6 +63,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
     public void FPSResult() //FPSÁ¾·á
     {
+        audioManager.GetComponent<AudioManager>().ResumeBGM();
         if (IsMyTurn)
         {
             if (IsWin) //½Â¸®ÇßÀ»½Ã

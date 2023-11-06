@@ -71,6 +71,7 @@ public class PosSelect : MonoBehaviour
 
         errorbox.SetActive(false);
     }
+
     public void Select1() //¿Þ»ó
     {
         seltype = 1;
