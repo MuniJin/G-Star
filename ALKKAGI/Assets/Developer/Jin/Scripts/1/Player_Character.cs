@@ -11,6 +11,7 @@ public class Player_Character : Default_Character
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
     private AlKKAGIManager am;
     private FPSManager fm;
+    private PHPCTR pc;
 
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Decorator_Character _d;
@@ -29,9 +30,9 @@ public class Player_Character : Default_Character
 
     private void Start()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            am = AlKKAGIManager.Instance;
+        am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
+        pc = PHPCTR.Instance;
 
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
@@ -46,7 +47,7 @@ public class Player_Character : Default_Character
 
         pCoolDown = _d.GetCoolDown();
         damagebuff = false;
-
+        Debug.Log(pCoolDown);
         ObjPullingBullet();
     }
 
@@ -57,7 +58,7 @@ public class Player_Character : Default_Character
             fm.Win();
         if (Input.GetKeyDown(KeyCode.P))
             fm.Lose();
-        
+
         // 플레이어 움직임
         Move();
         // 마우스 움직임에 따른 카메라 회전값 변경
@@ -69,7 +70,10 @@ public class Player_Character : Default_Character
 
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-                Attack(bulPos.transform.position);
+        {
+            Attack(bulPos.transform.position);
+            fm.BulletSoundPlay(this.tag);
+        }
 
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
@@ -80,10 +84,10 @@ public class Player_Character : Default_Character
     {
         _d.Attacked(damage);
         _d.GetStatus();
+        pc.PlayerHitted(damage);
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            if (_d.GetHp() <= 0f)
-                fm.Lose();
+        if (_d.GetHp() <= 0f)
+            fm.Lose();
     }
 
     float h, v;

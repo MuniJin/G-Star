@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Elephant : Decorator_Character
 {
-    private float cooldown = 5f;
+    private float cooldown;
     private bool useSkill = false;
 
     private GameObject basePlayer;
@@ -36,7 +36,27 @@ public class Elephant : Decorator_Character
         }
 
         UseSkillParticle = Resources.Load<GameObject>("Particles\\Gravity");
+        cooldown = this.GetCoolDown();
         duration = 3f;
+    }
+
+    float t = 0;
+    bool endOfUseSkill = false;
+
+    private void Update()
+    {
+        if (endOfUseSkill)
+        {
+            t += Time.deltaTime;
+            PHPCTR.Instance.rotBar.fillAmount = 1 - (t / cooldown);
+
+            if (t >= cooldown)
+            {
+                t = 0;
+                endOfUseSkill = false;
+                useSkill = false;
+            }
+        }
     }
 
     public override IEnumerator Skill(GameObject go)
@@ -49,7 +69,6 @@ public class Elephant : Decorator_Character
 
             if (go.tag == "Player")
             {
-
                 Collider[] colliders = Physics.OverlapSphere(go.transform.position, radius, detectionLayer);
 
                 foreach (Collider collider in colliders)
@@ -58,6 +77,9 @@ public class Elephant : Decorator_Character
                     collider.gameObject.transform.parent.GetComponent<Enemy_Character>().jumpForce = 1f;
                     StartCoroutine(RestoreSpeed(collider.gameObject.transform.parent.gameObject));
                 }
+
+                endOfUseSkill = true;
+                PHPCTR.Instance.rotBar.fillAmount = 1f;
             }
             else if (go.tag == "Enemy")
             {
