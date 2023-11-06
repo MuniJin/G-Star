@@ -22,7 +22,6 @@ public class Hammer : MonoBehaviour
         isThrown = false;
     }
 
-
     public void ThrowHammer(Vector3 direction)
     { 
         isThrown = true;

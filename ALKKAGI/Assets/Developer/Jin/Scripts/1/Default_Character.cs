@@ -37,7 +37,7 @@ public abstract class Default_Character : MonoBehaviour
     // 움직임, 점프, 공격, 스킬 추상 함수
     protected abstract void Move();
     protected abstract void Jump();
-    public abstract void Attack(Vector3 bulpos, float shootPower);
+    public abstract void Attack(Vector3 bulpos);
     public abstract IEnumerator Skill(GameObject go);
 }
 
@@ -45,7 +45,7 @@ public class Decorator_Character : Default_Character
 {
     protected override void Move() => throw new System.NotImplementedException();
     protected override void Jump() => throw new System.NotImplementedException();
-    public override void Attack(Vector3 bulpos, float shootPower) => throw new System.NotImplementedException();
+    public override void Attack(Vector3 bulpos) => throw new System.NotImplementedException();
 
     public override IEnumerator Skill(GameObject go) => throw new System.NotImplementedException();
 

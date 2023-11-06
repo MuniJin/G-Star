@@ -9,18 +9,21 @@ public class Bullet : MonoBehaviour
 
     private Quaternion originRot;
 
+    public string parentPlayer;
+
+    public int guardBuffDamage;
+
     void Start()
     {
         originRot = this.transform.rotation;
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if(this.gameObject.name.Split('(')[0] == "Arrow")
-        {
-            GameObject go = Instantiate(Resources.Load<GameObject>("Bullets\\ArrowStuck"), this.transform.position, this.transform.rotation);
-        }
-        
+        if (other.tag == "Bullet")
+            return;
+
         CheckTag(other);
 
         ReturnBulPos();
@@ -30,19 +33,19 @@ public class Bullet : MonoBehaviour
     {
         if (other.tag == "LimitArea")
             return;
+        if (other.tag == parentPlayer)
+            return;
 
         if (other.tag == "Player")
         {
             GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Player_Character>().Hitted(damage);
+            go.GetComponent<Player_Character>().Hitted(damage + guardBuffDamage);
         }
         else if (other.tag == "Enemy")
         {
             GameObject go = other.transform.parent.gameObject;
-            go.GetComponent<Enemy_Character>().Hitted(damage);
+            go.GetComponent<Enemy_Character>().Hitted(damage + guardBuffDamage);
         }
-        else if (other.tag == "Bullet")
-            Debug.Log("Bullet Hit");
         else
             Debug.Log("지형지물 맞음");
     }

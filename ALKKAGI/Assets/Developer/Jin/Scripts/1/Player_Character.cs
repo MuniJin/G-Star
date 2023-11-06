@@ -25,6 +25,8 @@ public class Player_Character : Default_Character
 
     public float pCoolDown;
 
+    public bool damagebuff;
+
     private void Start()
     {
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
@@ -43,6 +45,7 @@ public class Player_Character : Default_Character
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
 
         pCoolDown = _d.GetCoolDown();
+        damagebuff = false;
 
         ObjPullingBullet();
     }
@@ -66,77 +69,11 @@ public class Player_Character : Default_Character
 
         // 총구 위치에서 총알 발사
         if (Input.GetMouseButtonDown(0))
-        {
-            if (this.name.Split('_')[0] != "Chariot")
-                Attack(bulPos.transform.position, bulletSpeed);
-        }
+                Attack(bulPos.transform.position);
 
         // 스킬 사용
         if (Input.GetKeyDown(KeyCode.Q))
             UseSkill();
-    }
-
-    [SerializeField]
-    private List<GameObject> bullets = new List<GameObject>();
-
-    private void ObjPullingBullet()
-    {
-        if (this.name.Split('_')[0] == "King")
-        {
-            for (int i = 0; i < 6; ++i)
-            {
-                GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
-
-                for (int j = 0; j < 6; ++j)
-                {
-                    GameObject go2 = go.transform.GetChild(0).gameObject;
-
-                    go2.transform.SetParent(bulPos.transform);
-                    go2.AddComponent<Bullet>();
-                    go2.GetComponent<Bullet>().damage = _d.GetDamage();
-                    go2.GetComponent<Bullet>().bulPos = bulPos.transform;
-
-                    bullets.Add(go2);
-                    go2.SetActive(false);
-                }
-
-                Destroy(go);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < 36; ++i)
-            {
-                GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
-
-                go.transform.parent = bulPos.transform;
-
-                go.GetComponent<Bullet>().damage = _d.GetDamage();
-                go.GetComponent<Bullet>().bulPos = bulPos.transform;
-
-                bullets.Add(go);
-                go.SetActive(false);
-            }
-        }
-    }
-
-    private int AttackingBulletSelect()
-    {
-        int rand = Random.Range(0, 36);
-
-        while (true)
-        {
-            if (bullets[rand].activeInHierarchy == false)
-            {
-                bullets[rand].SetActive(true);
-
-                break;
-            }
-            else
-                rand = Random.Range(0, 36);
-        }
-
-        return rand;
     }
 
     public void Hitted(int damage)
@@ -203,24 +140,161 @@ public class Player_Character : Default_Character
     protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
     // 공격
+    public List<GameObject> bullets = new List<GameObject>();
+
+    private void ObjPullingBullet()
+    {
+        if (this.name.Split('_')[0] == "King")
+        {
+            for (int i = 0; i < 6; ++i)
+            {
+                GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
+
+                for (int j = 0; j < 6; ++j)
+                {
+                    GameObject go2 = go.transform.GetChild(0).gameObject;
+
+                    go2.transform.SetParent(bulPos.transform);
+                    go2.AddComponent<Bullet>();
+                    go2.GetComponent<Bullet>().damage = _d.GetDamage();
+                    go2.GetComponent<Bullet>().bulPos = bulPos.transform;
+
+                    go2.GetComponent<Bullet>().parentPlayer = this.tag;
+
+                    bullets.Add(go2);
+                    go2.SetActive(false);
+                }
+
+                Destroy(go);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 36; ++i)
+            {
+                GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
+
+                go.transform.parent = bulPos.transform;
+
+                go.GetComponent<Bullet>().damage = _d.GetDamage();
+                go.GetComponent<Bullet>().bulPos = bulPos.transform;
+
+                go.GetComponent<Bullet>().parentPlayer = this.tag;
+
+                if (this.name.Split('_')[0] == "Guard")
+                    if (i > 26)
+                        go.GetComponent<Bullet>().guardBuffDamage = 5;
+
+                bullets.Add(go);
+                go.SetActive(false);
+            }
+        }
+
+        if (this.name.Split('_')[0] == "Horse")
+        {
+            bullet = Resources.Load<GameObject>("Bullets\\HorseShoe2");
+            GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
+
+            go.transform.parent = bulPos.transform;
+
+            go.GetComponent<Bullet>().damage = _d.GetDamage() * 2;
+            go.GetComponent<Bullet>().bulPos = bulPos.transform;
+
+            go.GetComponent<Bullet>().parentPlayer = this.tag;
+
+            bullets.Add(go);
+            go.SetActive(false);
+        }
+    }
+
+    private int AttackingBulletSelect()
+    {
+        int rand = Random.Range(0, 36);
+
+        while (true)
+        {
+            if (bullets[rand].activeInHierarchy == false)
+            {
+                bullets[rand].SetActive(true);
+
+                break;
+            }
+            else
+                rand = Random.Range(0, 36);
+        }
+
+        return rand;
+    }
+
     private float bulletSpeed = 80f;
 
-    public override void Attack(Vector3 bulpos, float shootPower)
+    public override void Attack(Vector3 bulpos)
     {
+        if (fm.ScopeImg.gameObject.activeInHierarchy == true)
+        {
+            fm.ScopeImg.gameObject.SetActive(false);
+            cam.fieldOfView *= 3;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            int temp = AttackingBulletSelect();
-            bullets[temp].transform.parent = null;
+            if (damagebuff)
+            {
+                if (this.gameObject.name.Split('_')[0] == "Horse")
+                {
+                    bullets[bullets.Count - 1].SetActive(true);
 
-            Vector3 direction = (hit.point - bullets[temp].transform.position).normalized;
-            Rigidbody brb = bullets[temp].GetComponent<Rigidbody>();
-            brb.interpolation = RigidbodyInterpolation.Interpolate;
-            brb.velocity = direction * bulletSpeed;
+                    ShootBul(bullets.Count - 1, bulpos, hit);
+
+                    damagebuff = false;
+                }
+                else if (this.gameObject.name.Split('_')[0] == "Guard")
+                {
+                    int temp = 0;
+                    while (true)
+                    {
+                        temp = Random.Range(27, bullets.Count - 1);
+
+                        if (temp >= 27)
+                        {
+                            bullets[temp].SetActive(true);
+                            break;
+                        }
+                    }
+
+                    ShootBul(temp, bulpos, hit);
+                }
+            }
+            else
+            {
+                int temp = 0;
+                if (this.gameObject.name.Split('_')[0] == "Guard")
+                {
+                    temp = Random.Range(0, 27);
+                    bullets[temp].SetActive(true);
+                }
+                else
+                    temp = AttackingBulletSelect();
+
+                ShootBul(temp, bulpos, hit);
+            }
         }
+    }
+
+    private void ShootBul(int bulNum, Vector3 bulpos, RaycastHit hit)
+    {
+
+        bullets[bulNum].transform.parent = null;
+        bullets[bulNum].transform.position = bulpos;
+
+        Vector3 direction = (hit.point - bullets[bulNum].transform.position).normalized;
+        Rigidbody brb = bullets[bulNum].GetComponent<Rigidbody>();
+        brb.interpolation = RigidbodyInterpolation.Interpolate;
+        brb.velocity = direction * bulletSpeed;
     }
 
     // 스킬 사용
