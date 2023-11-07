@@ -38,12 +38,12 @@ public class Bullet : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            GameObject go = other.transform.parent.gameObject;
+            GameObject go = other.transform.gameObject;
             go.GetComponent<Player_Character>().Hitted(damage + guardBuffDamage);
         }
         else if (other.tag == "Enemy")
         {
-            GameObject go = other.transform.parent.gameObject;
+            GameObject go = other.transform.gameObject;
             go.GetComponent<Enemy_Character>().Hitted(damage + guardBuffDamage);
         }
         else

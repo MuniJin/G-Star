@@ -188,6 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135744574239014157}
   - component: {fileID: 7637470642939075174}
+  - component: {fileID: -660022811824410515}
   m_Layer: 0
   m_Name: Elephant_Blue
   m_TagString: Enemy
@@ -226,3 +227,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!135 &-660022811824410515
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4392537386749181401}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
