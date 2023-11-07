@@ -9,6 +9,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private GameObject help;
     [SerializeField] private GameObject soundctr;
     [SerializeField] private GameObject OptionsImg;
+    [SerializeField] private GameObject SkillExplain;
 
     private void Update()
     {
@@ -21,6 +22,12 @@ public class ButtonManager : MonoBehaviour
         audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().ButtonSound);
 
         help.gameObject.SetActive(true);
+    }
+    public void SkillButton()
+    {
+        audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().ButtonSound);
+
+        SkillExplain.gameObject.SetActive(true);
     }
     public void SoundButton()
     {
