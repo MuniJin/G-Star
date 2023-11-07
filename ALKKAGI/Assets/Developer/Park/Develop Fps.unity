@@ -3180,7 +3180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &921616250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3308,7 +3308,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921616249}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3.5
@@ -3398,7 +3398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6293933432942331506, guid: b2a62702b69482d4daaa58aa4032df6f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6293933432942331506, guid: b2a62702b69482d4daaa58aa4032df6f, type: 3}
       propertyPath: m_TagString
@@ -8523,6 +8523,12 @@ MonoBehaviour:
   p: King
   e: Solider
   ScopeImg: {fileID: 0}
+  pBul: {fileID: 0}
+  eBul: {fileID: 0}
+  pSkill: {fileID: 0}
+  eSkill: {fileID: 0}
+  pBulAS: {fileID: 0}
+  eBulAS: {fileID: 0}
 --- !u!1 &7084173663367279026
 GameObject:
   m_ObjectHideFlags: 0
@@ -8539,7 +8545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7084173663367279027
 Transform:
   m_ObjectHideFlags: 0

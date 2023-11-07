@@ -50,14 +50,14 @@ public class Enemy_Character : Default_Character
         _d.Attacked(damage);
         _d.GetStatus();
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            if (_d.GetHp() <= 0f)
-                fm.Lose();
+        if (_d.GetHp() <= 0f)
+            fm.Lose();
     }
 
     public void EAttack()
     {
         Attack(bulPos.transform.position);
+        fm.BulletSoundPlay(this.tag);
     }
 
     [SerializeField]
@@ -133,6 +133,8 @@ public class Enemy_Character : Default_Character
 
     public void EUseSkill()
     {
+        fm.SkillSoundPlay(this.tag);
+
         if (_d != null)
             StartCoroutine(_d.Skill(this.gameObject));
         else
