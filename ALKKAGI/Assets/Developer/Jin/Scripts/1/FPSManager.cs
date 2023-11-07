@@ -131,6 +131,8 @@ public class FPSManager : Singleton<FPSManager>
 
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1.5f;
+        enemyP.GetComponent<NavMeshAgent>().stoppingDistance = 1.5f;
+        enemyP.GetComponent<NavMeshAgent>().speed = 8f;
 
         foreach (Transform t in enemyP.transform)
             t.gameObject.layer = 7;

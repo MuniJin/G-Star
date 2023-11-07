@@ -99,12 +99,12 @@ public class EnemyAI3 : MonoBehaviour
     bool IsPlayerVisible()
     {
         RaycastHit hit;
-        Vector3 direction = player.position - transform.position;
+        Vector3 direction = player.position - this.GetComponent<Enemy_Character>().bulPos.transform.position;
         // 플레이어와 적 사이에 장애물이 없는지 확인
         if (player != null)
         {
             Debug.DrawRay(transform.position, direction, Color.red);
-            if (Physics.Raycast(transform.position, direction, out hit, detectionRange))
+            if (Physics.Raycast(this.GetComponent<Enemy_Character>().bulPos.transform.position, direction, out hit, detectionRange))
             {
                 Debug.Log(hit.transform.CompareTag("Player"));
                 return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
