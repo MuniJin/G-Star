@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +15,13 @@ public class EnemyAI3 : MonoBehaviour
     private float lastAttackTime;       // 마지막으로 공격한 시간
 
     private Enemy_Character ec;
+
+    private Rigidbody rb; // Rigidbody
+    private float stuckTimer = -1; // 갇힘 타이머
+    private Vector3 lastPosition; // 이전 위치
+    private int worldLayerMask; // 월드 레이어 마스크
+    private bool wiggleWaypointExixts; // 흔들림 지점 존재 여부
+    private List<Vector3> waypoints = new List<Vector3>(); // 경유지 지점 리스트
 
     private bool isSkillReady = false; // 스킬 사용 준비 상태
     void Start()
@@ -138,7 +146,51 @@ public class EnemyAI3 : MonoBehaviour
     // 플레이어가 보이지 않을 때의 동작을 수행하는 함수
     void PatrollingBehavior()
     {
-        // 플레이어가 보이지 않을 때의 동작을 추가하세요
-        // 점프 mass값 통일
+        //    if (!IsPlayerVisible())
+        //    {
+        //        if (agent.enabled)
+        //        {
+        //            agent.enabled = false; // 플레이어가 보이지 않으면 NavMeshAgent 비활성화
+        //        }
+
+        //        var distanceTravelled = Vector3.Distance(lastPosition, rb.position);
+        //        lastPosition = rb.position;
+
+        //        // 이동 거리가 매우 작다면 일정 시간 갇혀있는 것으로 판단하고 특정 범위 내에서 랜덤 위치로 이동
+        //        if (distanceTravelled < Time.fixedDeltaTime)
+        //        {
+        //            if (stuckTimer < 0) stuckTimer = Time.time;
+
+        //            if (Time.time > stuckTimer + 1)
+        //            {
+        //                // 반경 4 내에서 랜덤 위치 선정
+        //                var randomInCircle = Random.insideUnitCircle.normalized * 4;
+        //                var wigglePosition = rb.position + new Vector3(randomInCircle.x, randomInCircle.y, 0);
+
+        //                // 해당 위치에 장애물이 없으면 waypoints에 추가 또는 업데이트
+        //                if (!Physics.CheckSphere(wigglePosition, 0.5f, worldLayerMask))
+        //                {
+        //                    if (!wiggleWaypointExixts)
+        //                    {
+        //                        waypoints.Insert(0, wigglePosition);
+        //                        wiggleWaypointExixts = true;
+        //                    }
+        //                    else
+        //                    {
+        //                        waypoints[0] = wigglePosition;
+        //                    }
+        //                    stuckTimer = -1;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else // 플레이어가 감지된 경우
+        //    {
+        //        if (!agent.enabled)
+        //        {
+        //            agent.enabled = true; // 플레이어가 감지되면 NavMeshAgent 활성화
+        //        }
+        //        // 다른 동작 수행...
+        //    }
     }
 }

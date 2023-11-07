@@ -3172,6 +3172,7 @@ GameObject:
   - component: {fileID: 921616256}
   - component: {fileID: 921616258}
   - component: {fileID: 921616259}
+  - component: {fileID: 921616260}
   - component: {fileID: 921616257}
   m_Layer: 0
   m_Name: Enemy
@@ -3179,7 +3180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &921616250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3307,7 +3308,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921616249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3.5
@@ -3334,6 +3335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20281d6274ee25c45b1cbc66c9a472db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  jumpForce: 0
   Target: {fileID: 1420819554}
   Range: 10
   turningSpeed: 5
@@ -3362,6 +3365,26 @@ MonoBehaviour:
   attackCooldown: 2
   maxHeightDifference: 3
   player: {fileID: 1420819554}
+--- !u!114 &921616260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921616249}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ab10d3a74766b45b8fd56d11604b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 5
+  velocity: 9
+  acceleration: 100
+  debugMaterialOrange: {fileID: 0}
+  debugMaterialGreen: {fileID: 0}
+  debugMesh: {fileID: 0}
+  debugEnabled: 0
+  target: {fileID: 0}
 --- !u!1001 &933357387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3375,7 +3398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6293933432942331506, guid: b2a62702b69482d4daaa58aa4032df6f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6293933432942331506, guid: b2a62702b69482d4daaa58aa4032df6f, type: 3}
       propertyPath: m_TagString
@@ -5890,7 +5913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1470290370}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NavMeshBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8497,8 +8520,9 @@ MonoBehaviour:
   Maps:
   - {fileID: 629628860}
   mapNum: 0
-  p: 
-  e: 
+  p: King
+  e: Solider
+  ScopeImg: {fileID: 0}
 --- !u!1 &7084173663367279026
 GameObject:
   m_ObjectHideFlags: 0
@@ -8515,7 +8539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7084173663367279027
 Transform:
   m_ObjectHideFlags: 0
