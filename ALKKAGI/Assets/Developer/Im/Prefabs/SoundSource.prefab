@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &969781232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 969781233}
+  m_Layer: 0
+  m_Name: EnemySFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &969781233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969781232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 253199455849626251}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &253199455849626248
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,6 +61,7 @@ Transform:
   m_Children:
   - {fileID: 253199456626950812}
   - {fileID: 253199456020277010}
+  - {fileID: 969781233}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -73,7 +104,14 @@ MonoBehaviour:
   GameOverSound: {fileID: 0}
   FPSBGM: {fileID: 0}
   Skills: []
-  BulletSound: []
+  BulletSound:
+  - {fileID: 8300000, guid: 37c0e4acb7e1b014e9cc1ba2bee8ff73, type: 3}
+  - {fileID: 8300000, guid: 815a0be9bb8a91e42a95f5c3e413827b, type: 3}
+  - {fileID: 8300000, guid: 81c01facab5cce94eaac6c56fb1e6d2e, type: 3}
+  - {fileID: 8300000, guid: c05705662684f924da6ad47a2deb5a4c, type: 3}
+  - {fileID: 8300000, guid: b4f50df1b69396c47ba9fe3c36cb16e3, type: 3}
+  - {fileID: 8300000, guid: 4d67cf26ab5313145ad1904547ea1ffb, type: 3}
+  - {fileID: 8300000, guid: c3f5c341878803640aaefd01c81c33c1, type: 3}
   HitSound: {fileID: 0}
 --- !u!1 &253199456020277011
 GameObject:

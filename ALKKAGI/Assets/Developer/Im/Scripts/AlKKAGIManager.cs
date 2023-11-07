@@ -335,6 +335,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             //Blue Is Win
             GOver = true;
             Time.timeScale = 0;
+            TurnObj.SetActive(false);
             GameOverObj.SetActive(true);
             GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=blue>ÆÐ¹è!";
         }
@@ -344,6 +345,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             //Red Is Win player win
             GOver = true;
             Time.timeScale = 0;
+            TurnObj.SetActive(false);
             GameOverObj.SetActive(true);
             GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=red>½Â¸®!";
         }

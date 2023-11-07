@@ -178,7 +178,7 @@ public class BlueMovement : MonoBehaviour
             DisZ = targetlocal.z / 100;
 
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
             BlueShootEffect(Target);
             yield return new WaitForSeconds(0.3f);
 
