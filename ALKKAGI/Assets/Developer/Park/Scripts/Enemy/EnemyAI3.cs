@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyAI3 : MonoBehaviour
 {
-    public float detectionRange = 60f;  // 플레이어를 감지하는 범위
-    public float attackRange = 100f;    // 플레이어를 공격하는 범위
+    public float detectionRange = 100f;  // 플레이어를 감지하는 범위
+    public float attackRange = 110f;    // 플레이어를 공격하는 범위
     public float attackCooldown = 0.5f;   // 공격 쿨다운
     public float maxHeightDifference = 3f; // 플레이어와 적 캐릭터 사이의 최대 높이 차이
 
@@ -26,8 +26,10 @@ public class EnemyAI3 : MonoBehaviour
     private bool isSkillReady = false; // 스킬 사용 준비 상태
     void Start()
     {
+        rb = GetComponent<Rigidbody>(); // Get the Rigidbody component
         agent = GetComponent<NavMeshAgent>();  // NavMesh 에이전트 설정
         ec = this.GetComponent<Enemy_Character>();  // Enemy_Character 스크립트 참조
+        agent.enabled = true;
         // 에이전트 속도를 플레이어 캐릭터의 속도로 설정
         // agent.speed = ec.speed;
 
@@ -39,6 +41,7 @@ public class EnemyAI3 : MonoBehaviour
         // 탐지 범위 내에서 플레이어를 감지하고 있는지 확인
         if (IsPlayerVisible())
         {
+            agent.enabled = true;
             // 플레이어를 쫓기
             ChasePlayer();
 
@@ -48,27 +51,28 @@ public class EnemyAI3 : MonoBehaviour
             // 공격 범위 내에 있고, 공격 쿨다운이 지났는지 확인
             if (IsPlayerWithinAttackRange() && Time.time - lastAttackTime > attackCooldown)
             {
-                
+
                 // 플레이어를 공격
                 AttackPlayer();
                 lastAttackTime = Time.time;
-                UseSkillAfterDelay();
+                //UseSkillAfterDelay();
             }
 
-            float heightDifference = player.position.y - transform.position.y;
+            //float heightDifference = player.position.y - transform.position.y;
 
-            // 만약 플레이어가 적 캐릭터보다 maxHeightDifference 이상 높이에 있으면
-            if (heightDifference > maxHeightDifference)
+            //만약 플레이어가 적 캐릭터보다 maxHeightDifference 이상 높이에 있으면
+            //if (heightDifference > maxHeightDifference)
+            //{
+            //    ec.EJump();
+            //}
+            if (IsPlayerVisible() == false)
             {
-                ec.EJump();
+                Debug.Log("타냐?");
+                //플레이어가 보이지 않거나 범위를 벗어나면 다른 동작 수행(예: 순찰)
+                PatrollingBehavior();
             }
+            //ec.EUseSkill();
         }
-        else
-        {
-            // 플레이어가 보이지 않거나 범위를 벗어나면 다른 동작 수행 (예: 순찰)
-            PatrollingBehavior();
-        }
-        //ec.EUseSkill();
     }
 
     // 플레이어가 보이고 5초 후에 스킬을 사용하는 함수
@@ -78,7 +82,7 @@ public class EnemyAI3 : MonoBehaviour
         yield return new WaitForSeconds(5f); // 5초 대기
 
         // 5초가 지난 후에 플레이어가 보일 경우 스킬 사용
-        if (IsPlayerVisible())
+        //if (IsPlayerVisible())
         {
             PerformSkill(); // 스킬 사용하는 함수
         }
@@ -94,7 +98,7 @@ public class EnemyAI3 : MonoBehaviour
             ec.EUseSkill(); // Enemy_Character 스크립트의 스킬 사용 함수 호출
     }
 
-   
+
     // 플레이어가 보이는지 확인하는 함수
     bool IsPlayerVisible()
     {
@@ -108,7 +112,7 @@ public class EnemyAI3 : MonoBehaviour
             {
                 Debug.Log(hit.transform.CompareTag("Player"));
                 return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
-                //return hit.transform == player;
+                                                           //return hit.transform == player;
             }
         }
 
@@ -146,51 +150,44 @@ public class EnemyAI3 : MonoBehaviour
     // 플레이어가 보이지 않을 때의 동작을 수행하는 함수
     void PatrollingBehavior()
     {
-        //    if (!IsPlayerVisible())
-        //    {
-        //        if (agent.enabled)
-        //        {
-        //            agent.enabled = false; // 플레이어가 보이지 않으면 NavMeshAgent 비활성화
-        //        }
+        if (agent.enabled)
+        {
+            //agent.isStopped = true; // Stop the NavMeshAgent if it's enabled
+            //agent.velocity = Vector3.zero;
+        }
 
-        //        var distanceTravelled = Vector3.Distance(lastPosition, rb.position);
-        //        lastPosition = rb.position;
+        var distanceTravelled = Vector3.Distance(lastPosition, transform.position);
+        lastPosition = transform.position;
 
-        //        // 이동 거리가 매우 작다면 일정 시간 갇혀있는 것으로 판단하고 특정 범위 내에서 랜덤 위치로 이동
-        //        if (distanceTravelled < Time.fixedDeltaTime)
-        //        {
-        //            if (stuckTimer < 0) stuckTimer = Time.time;
+        // Check if the enemy is stuck
+        if (distanceTravelled < 0.1f)
+        {
+            if (stuckTimer < 0) stuckTimer = Time.time;
 
-        //            if (Time.time > stuckTimer + 1)
-        //            {
-        //                // 반경 4 내에서 랜덤 위치 선정
-        //                var randomInCircle = Random.insideUnitCircle.normalized * 4;
-        //                var wigglePosition = rb.position + new Vector3(randomInCircle.x, randomInCircle.y, 0);
+            if (Time.time > stuckTimer + 1)
+            {
+                // Generate a random point to move
+                Vector3 randomDirection = Random.insideUnitSphere * 4;
+                randomDirection += transform.position;
+                NavMeshHit hit;
+                NavMesh.SamplePosition(randomDirection, out hit, 4, NavMesh.AllAreas);
 
-        //                // 해당 위치에 장애물이 없으면 waypoints에 추가 또는 업데이트
-        //                if (!Physics.CheckSphere(wigglePosition, 0.5f, worldLayerMask))
-        //                {
-        //                    if (!wiggleWaypointExixts)
-        //                    {
-        //                        waypoints.Insert(0, wigglePosition);
-        //                        wiggleWaypointExixts = true;
-        //                    }
-        //                    else
-        //                    {
-        //                        waypoints[0] = wigglePosition;
-        //                    }
-        //                    stuckTimer = -1;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    else // 플레이어가 감지된 경우
-        //    {
-        //        if (!agent.enabled)
-        //        {
-        //            agent.enabled = true; // 플레이어가 감지되면 NavMeshAgent 활성화
-        //        }
-        //        // 다른 동작 수행...
-        //    }
+                // Check for obstacles at the generated position
+                if (!NavMesh.Raycast(transform.position, hit.position, out NavMeshHit hitInfo, NavMesh.AllAreas))
+                {
+                    agent.SetDestination(hit.position); // Set the agent's destination to the new position
+                    stuckTimer = -1;
+                }
+            }
+        }
+        else
+        {
+            if (!agent.enabled)
+            {
+                agent.enabled = true; // Enable the NavMeshAgent
+                agent.isStopped = false;
+            }
+            // Perform other actions if the player is detected
+        }
     }
 }
