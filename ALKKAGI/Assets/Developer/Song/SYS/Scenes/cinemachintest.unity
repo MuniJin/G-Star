@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectColor: {r: 0.10263982, g: 0, b: 0.735849, a: 1}
   m_EffectDistance: {x: 3, y: 2}
   m_UseGraphicAlpha: 1
 --- !u!1 &263541375
@@ -833,6 +833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 8978417354644078537}
   Arrow: {fileID: 6424303971855363632}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!4 &729912253
 Transform:
@@ -1311,7 +1312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectColor: {r: 0.6320754, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: 2}
   m_UseGraphicAlpha: 1
 --- !u!1 &1629228011
@@ -1539,6 +1540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 8568185994818418401}
   Arrow: {fileID: 2143523385627478901}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!4 &1732838072
 Transform:
@@ -1618,6 +1620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 5020712867279254397}
   Arrow: {fileID: 8507309371529892633}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!4 &1769630259
 Transform:
@@ -1738,6 +1741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 5159643002031192083}
   Arrow: {fileID: 513562851994695332}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!4 &1846651333
 Transform:
@@ -2032,6 +2036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 2080436368772775873}
   Arrow: {fileID: 6413193170949069934}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!54 &2037791577
 Rigidbody:
@@ -2154,6 +2159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 3584774535995680898}
   Arrow: {fileID: 5419600216289894766}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!4 &2105263629
 Transform:
@@ -2296,6 +2302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainObj: {fileID: 3372283315263349668}
   Arrow: {fileID: 1574844147}
+  ConCircle: {fileID: 0}
   ShootPower: 0
 --- !u!65 &194375910720568609
 BoxCollider:
