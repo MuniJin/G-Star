@@ -9,6 +9,8 @@ public class animationctr : MonoBehaviour
     public Animator BlueObj;
     public Animator RedObj;
 
+    public Animation vsAnim;
+
     private AlKKAGIManager AlKKAGIManager;
     public GameObject CrashObjR; //빨강 충돌한 기물
     public GameObject CrashObjB; //파랑 충돌한 기물
@@ -16,6 +18,8 @@ public class animationctr : MonoBehaviour
     private void Awake()
     {
         AlKKAGIManager = FindObjectOfType<AlKKAGIManager>();
+
+        vsAnim.Play("vstxt");
 
         if (AlKKAGIManager != null)
         {
