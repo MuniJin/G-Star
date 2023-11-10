@@ -14,6 +14,8 @@ public class SoundFps : MonoBehaviour
 
     private void Start()
     {
+        DB = GameObject.Find("SoundSource");
+
         this.gameObject.SetActive(false);
         LoadVol();
         SetSFX();
