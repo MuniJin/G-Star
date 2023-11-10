@@ -16,7 +16,7 @@ public class PauseButton : MonoBehaviour
             PushPauseButton();
         }
     }
-    private void PushPauseButton() //퍼즈버튼
+    public void PushPauseButton() //퍼즈버튼
     {
         if (IsTrue == false)
         {
@@ -34,6 +34,7 @@ public class PauseButton : MonoBehaviour
             IsPause = false;
             Time.timeScale = 1;
             IsTrue = false;
+            FPSManager.Instance.ShowCursor();
             //옵션 비활성화,게임 일시정지 해제
 
         }

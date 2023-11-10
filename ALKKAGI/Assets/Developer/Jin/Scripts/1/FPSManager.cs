@@ -6,15 +6,10 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 
-public enum Pieces
+public enum GameState
 {
-    Solider = 0,
-    Guard,
-    Elephant,
-    Chariot,
-    Horse,
-    Cannon,
-    King
+    Run,
+    Pause
 }
 
 public class FPSManager : Singleton<FPSManager>
@@ -35,6 +30,8 @@ public class FPSManager : Singleton<FPSManager>
 
     public Image ScopeImg;
 
+    public GameState gs;
+
     private void Awake()
     {
         aum = AudioManager.Instance;
@@ -45,13 +42,14 @@ public class FPSManager : Singleton<FPSManager>
         if (ScopeImg.gameObject.activeInHierarchy == true)
             ScopeImg.gameObject.SetActive(false);
 
+        gs = GameState.Run;
     }
 
     private void Update()
     {
         // 각종 테스트때 마우스가 안보이기에 임의로 만들어 둔 조건문
-        if (Input.GetKeyDown(KeyCode.R))
-            ShowCursor();
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    ShowCursor();
     }
 
     private void MapInit()
@@ -238,7 +236,7 @@ public class FPSManager : Singleton<FPSManager>
     }
 
     // 테스트용, 마우스 보이기와 숨기기 기능 함수
-    private void ShowCursor()
+    public void ShowCursor()
     {
         if (Cursor.lockState == CursorLockMode.Locked)
         {

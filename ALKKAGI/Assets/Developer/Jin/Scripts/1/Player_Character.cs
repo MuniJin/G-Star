@@ -53,31 +53,33 @@ public class Player_Character : Default_Character
 
     private void Update()
     {
-        // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
-        if (Input.GetKeyDown(KeyCode.O))
-            fm.Win();
-        if (Input.GetKeyDown(KeyCode.P))
-            fm.Lose();
+        if (fm.gs == GameState.Run)
+        {// AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
+            if (Input.GetKeyDown(KeyCode.O))
+                fm.Win();
+            if (Input.GetKeyDown(KeyCode.P))
+                fm.Lose();
 
-        // 플레이어 움직임
-        Move();
-        // 마우스 움직임에 따른 카메라 회전값 변경
-        CamMove();
+            // 플레이어 움직임
+            Move();
+            // 마우스 움직임에 따른 카메라 회전값 변경
+            CamMove();
 
-        // 점프, velocity가 없을때 점프 가능하게
-        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
-            Jump();
+            // 점프, velocity가 없을때 점프 가능하게
+            if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
+                Jump();
 
-        // 총구 위치에서 총알 발사
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack(bulPos.transform.position);
-            fm.BulletSoundPlay(this.tag);
+            // 총구 위치에서 총알 발사
+            if (Input.GetMouseButtonDown(0))
+            {
+                Attack(bulPos.transform.position);
+                fm.BulletSoundPlay(this.tag);
+            }
+
+            // 스킬 사용
+            if (Input.GetKeyDown(KeyCode.Q))
+                UseSkill();
         }
-
-        // 스킬 사용
-        if (Input.GetKeyDown(KeyCode.Q))
-            UseSkill();
     }
 
     public void Hitted(int damage)
@@ -114,8 +116,6 @@ public class Player_Character : Default_Character
 
     private Camera cam;
 
-    public float sensitivity = 0.5f;
-
     private void CamMove()
     {
         cam.transform.position = this.gameObject.transform.position;
@@ -123,8 +123,8 @@ public class Player_Character : Default_Character
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * rotCamX * sensitivity;
-        eulerAngleY += mouseX * rotCamY * sensitivity;
+        eulerAngleX -= mouseY * rotCamX * Immortal.Instance.sensitivity;
+        eulerAngleY += mouseX * rotCamY * Immortal.Instance.sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 

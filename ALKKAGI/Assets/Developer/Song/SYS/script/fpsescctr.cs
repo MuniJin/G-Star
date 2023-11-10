@@ -30,16 +30,20 @@ public class fpsescctr : MonoBehaviour
             PauseOption.SetActive(true);
             IsPause = true;
             IsTrue = true;
+            Time.timeScale = 0f;
+            FPSManager.Instance.ShowCursor();
+            FPSManager.Instance.gs = GameState.Pause;
             //옵션 활성화,게임 일시정지
-
         }
         else
         {
             PauseOption.SetActive(false);
             IsPause = false;
             IsTrue = false;
+            Time.timeScale = 1f;
+            FPSManager.Instance.ShowCursor();
+            FPSManager.Instance.gs = GameState.Run;
             //옵션 비활성화,게임 일시정지 해제
-
         }
     }
 }
