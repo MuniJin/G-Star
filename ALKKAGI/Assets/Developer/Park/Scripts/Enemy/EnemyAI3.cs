@@ -55,16 +55,16 @@ public class EnemyAI3 : MonoBehaviour
                 // 플레이어를 공격
                 AttackPlayer();
                 lastAttackTime = Time.time;
-                //UseSkillAfterDelay();
+                UseSkillAfterDelay();
             }
 
-            //float heightDifference = player.position.y - transform.position.y;
+            float heightDifference = player.position.y - transform.position.y;
 
             //만약 플레이어가 적 캐릭터보다 maxHeightDifference 이상 높이에 있으면
-            //if (heightDifference > maxHeightDifference)
-            //{
-            //    ec.EJump();
-            //}
+            if (heightDifference > maxHeightDifference)
+            {
+                ec.EJump();
+            }
             if (IsPlayerVisible() == false)
             {
                 Debug.Log("타냐?");
@@ -82,7 +82,7 @@ public class EnemyAI3 : MonoBehaviour
         yield return new WaitForSeconds(5f); // 5초 대기
 
         // 5초가 지난 후에 플레이어가 보일 경우 스킬 사용
-        //if (IsPlayerVisible())
+        if (IsPlayerVisible())
         {
             PerformSkill(); // 스킬 사용하는 함수
         }
@@ -93,7 +93,7 @@ public class EnemyAI3 : MonoBehaviour
     // 스킬을 사용하는 함수
     void PerformSkill()
     {
-        if (Input.GetKeyDown(KeyCode.V))
+        //if (Input.GetKeyDown(KeyCode.V))
             // 스킬을 사용하는 코드를 여기에 추가
             ec.EUseSkill(); // Enemy_Character 스크립트의 스킬 사용 함수 호출
     }
@@ -102,21 +102,61 @@ public class EnemyAI3 : MonoBehaviour
     // 플레이어가 보이는지 확인하는 함수
     bool IsPlayerVisible()
     {
-        RaycastHit hit;
-        Vector3 direction = player.position - this.GetComponent<Enemy_Character>().bulPos.transform.position;
-        // 플레이어와 적 사이에 장애물이 없는지 확인
-        if (player != null)
+        //RaycastHit hit;
+        //Vector3 direction = player.position - this.GetComponent<Enemy_Character>().bulPos.transform.position;
+        //플레이어와 적 사이에 장애물이 없는지 확인
+        //if (player != null)
+        //{
+        //    Debug.DrawRay(transform.position, direction, Color.red);
+        //    if (Physics.Raycast(this.GetComponent<Enemy_Character>().bulPos.transform.position, direction, out hit, detectionRange))
+        //    {
+        //        Debug.Log(hit.transform.CompareTag("Player"));
+        //        return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
+        //        return hit.transform == player;
+        //    }
+        //}
+
+        //return false; // 플레이어가 보이지 않음
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
+
+        for (int i = 0; i < hitColliders.Length; i++)
         {
-            Debug.DrawRay(transform.position, direction, Color.red);
-            if (Physics.Raycast(this.GetComponent<Enemy_Character>().bulPos.transform.position, direction, out hit, detectionRange))
+            if (hitColliders[i].CompareTag("Player"))
             {
-                Debug.Log(hit.transform.CompareTag("Player"));
-                return hit.transform.CompareTag("Player"); // 플레이어 태그가 있는지 확인하여 반환
-                                                           //return hit.transform == player;
+                return true;
             }
         }
+        DrawDetectionRange();
+        return false;
+    }
 
-        return false; // 플레이어가 보이지 않음
+    void DrawDetectionRange()
+    {
+        // Visualize the detection range using Debug.DrawLine
+        Vector3 center = transform.position;
+        float radius = detectionRange;
+
+        DrawCircle(center, radius, Color.green);
+    }
+
+    void DrawCircle(Vector3 center, float radius, Color color)
+    {
+        int segments = 36;
+        float angleIncrement = 360f / segments;
+        Vector3 previousPoint = Vector3.zero;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = Mathf.Deg2Rad * i * angleIncrement;
+            Vector3 currentPoint = new Vector3(center.x + Mathf.Cos(angle) * radius, center.y, center.z + Mathf.Sin(angle) * radius);
+
+            if (i > 0)
+            {
+                Debug.DrawLine(previousPoint, currentPoint, color);
+            }
+
+            previousPoint = currentPoint;
+        }
     }
 
     // 플레이어를 쫓는 함수
