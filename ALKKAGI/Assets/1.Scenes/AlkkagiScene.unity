@@ -5371,7 +5371,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EXIT
+  m_Text: "\uB098\uAC00\uAE30"
 --- !u!222 &460933498
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9447,6 +9447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a0a08cae62ce74d9803139072987da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensitivity: 0
 --- !u!1 &976639364
 GameObject:
   m_ObjectHideFlags: 0
@@ -14182,6 +14183,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3768830980729275619, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
+      propertyPath: m_Text
+      value: "\uB4A4\uB85C \uAC00\uAE30"
+      objectReference: {fileID: 0}
     - target: {fileID: 3768830982283820346, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -18546,7 +18551,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OPTION
+  m_Text: "\uC635\uC158"
 --- !u!222 &1827539890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20435,7 +20440,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BACK
+  m_Text: "\uB4A4\uB85C \uAC00\uAE30"
 --- !u!222 &2040278827
 CanvasRenderer:
   m_ObjectHideFlags: 0
