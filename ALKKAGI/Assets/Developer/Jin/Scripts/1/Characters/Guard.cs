@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Guard : Decorator_Character
 {
-    private float cooldown = 10f;
+    private float cooldown;
     private bool useSkill = false;
 
     private GameObject basePlayer;
@@ -25,6 +25,27 @@ public class Guard : Decorator_Character
             eScript = basePlayer.GetComponent<Enemy_Character>();
             Destroy(pScript);
         }
+
+        cooldown = this.GetCoolDown();
+    }
+
+    float t = 0;
+    bool endOfUseSkill = false;
+
+    private void Update()
+    {
+        if (endOfUseSkill)
+        {
+            t += Time.deltaTime;
+            PHPCTR.Instance.rotBar.fillAmount = 1 - (t / cooldown);
+
+            if (t >= cooldown)
+            {
+                t = 0;
+                endOfUseSkill = false;
+                useSkill = false;
+            }
+        }
     }
 
     public override IEnumerator Skill(GameObject go)
@@ -32,22 +53,30 @@ public class Guard : Decorator_Character
         if (!useSkill)
         {
             useSkill = true;
+            FPSManager.Instance.SkillSoundPlay(go.tag);
 
             if (go.tag == "Player")
             {
-                Debug.Log("Use Skill");
                 pScript.damagebuff = true;
+                
                 yield return new WaitForSeconds(cooldown);
+                
                 pScript.damagebuff = false;
+                
+                endOfUseSkill = true;
+                PHPCTR.Instance.rotBar.fillAmount = 1f;
             }
             else if (go.tag == "Enemy")
             {
                 eScript.damagebuff = true;
-                yield return new WaitForSeconds(cooldown);
-                eScript.damagebuff = false;
-            }
 
-            useSkill = false;
+                yield return new WaitForSeconds(cooldown);
+
+                eScript.damagebuff = false;
+
+                yield return new WaitForSeconds(cooldown);
+                useSkill = false;
+            }
         }
     }
 }

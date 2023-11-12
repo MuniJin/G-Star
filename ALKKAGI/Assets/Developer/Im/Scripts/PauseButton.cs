@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseButton : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class PauseButton : MonoBehaviour
             PushPauseButton();
         }
     }
-    private void PushPauseButton() //퍼즈버튼
+    public void PushPauseButton() //퍼즈버튼
     {
         if (IsTrue == false)
         {
@@ -34,6 +35,8 @@ public class PauseButton : MonoBehaviour
             IsPause = false;
             Time.timeScale = 1;
             IsTrue = false;
+            if(SceneManager.GetActiveScene().name =="Map1")
+                FPSManager.Instance.ShowCursor();
             //옵션 비활성화,게임 일시정지 해제
 
         }

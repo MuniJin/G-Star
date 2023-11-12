@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Chariot : Decorator_Character
 {
-    private float cooldown = 5f;
+    private float cooldown;
     private bool useSkill = false;
 
     private GameObject basePlayer;
@@ -32,6 +32,25 @@ public class Chariot : Decorator_Character
         cooldown = this.GetCoolDown();
     }
 
+    float t = 0;
+    bool endOfUseSkill = false;
+
+    private void Update()
+    {
+        if (endOfUseSkill)
+        {
+            t += Time.deltaTime;
+            PHPCTR.Instance.rotBar.fillAmount = 1 - (t / cooldown);
+
+            if (t >= cooldown)
+            {
+                t = 0;
+                endOfUseSkill = false;
+                useSkill = false;
+            }
+        }
+    }
+
     public override IEnumerator Skill(GameObject go)
     {
         if (!useSkill)
@@ -53,9 +72,11 @@ public class Chariot : Decorator_Character
                 g.transform.rotation = new Quaternion(0f, 180f, 0f, g.transform.rotation.w);
 
             go.GetComponent<Rigidbody>().AddForce(forwardDirection * 30f, ForceMode.Impulse);
-
-            yield return new WaitForSeconds(cooldown);
-            useSkill = false;
+         
+            yield return new WaitForSeconds(3f);
+            
+            endOfUseSkill = true;
+            PHPCTR.Instance.rotBar.fillAmount = 1f;
         }
     }
 }

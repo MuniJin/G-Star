@@ -5,10 +5,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
+public enum GameState
+{
+    Run,
+    Pause
+}
+
 public class FPSManager : Singleton<FPSManager>
 {
     private AlKKAGIManager am;
-
+    private AudioManager aum;
     // 맵 리스트
     [SerializeField]
     private List<GameObject> Maps;
@@ -23,20 +30,26 @@ public class FPSManager : Singleton<FPSManager>
 
     public Image ScopeImg;
 
+    public GameState gs;
+
     private void Awake()
     {
+        aum = AudioManager.Instance;
+
         ShowCursor();
         MapInit();
 
         if (ScopeImg.gameObject.activeInHierarchy == true)
             ScopeImg.gameObject.SetActive(false);
+
+        gs = GameState.Run;
     }
 
     private void Update()
     {
         // 각종 테스트때 마우스가 안보이기에 임의로 만들어 둔 조건문
-        if (Input.GetKeyDown(KeyCode.R))
-            ShowCursor();
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    ShowCursor();
     }
 
     private void MapInit()
@@ -58,14 +71,8 @@ public class FPSManager : Singleton<FPSManager>
             }
         }
 
-        // 테스트 씬과 메인 게임 씬 분리
-        //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Map1")
-        //    Init(p, e);
-        //else
-        //{
-            am = AlKKAGIManager.Instance;
-            Init(am.CrashObjR.name, am.CrashObjB.name);
-        //}
+        am = AlKKAGIManager.Instance;
+        Init(am.CrashObjR.name, am.CrashObjB.name);
     }
 
     // 기본 초기화 작업
@@ -97,6 +104,8 @@ public class FPSManager : Singleton<FPSManager>
 
         myP.transform.GetChild(1).tag = "Player";
 
+        pBulAS = myP.AddComponent<AudioSource>();
+
         return myP;
     }
 
@@ -120,11 +129,15 @@ public class FPSManager : Singleton<FPSManager>
 
         enemyP.AddComponent<NavMeshAgent>();
         enemyP.GetComponent<NavMeshAgent>().baseOffset = 1.5f;
+        enemyP.GetComponent<NavMeshAgent>().stoppingDistance = 30f;
+        enemyP.GetComponent<NavMeshAgent>().speed = 8f;
 
         foreach (Transform t in enemyP.transform)
             t.gameObject.layer = 7;
 
         enemyP.transform.GetChild(1).tag = "Enemy";
+
+        eBulAS = enemyP.AddComponent<AudioSource>();
     }
 
     // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
@@ -140,36 +153,77 @@ public class FPSManager : Singleton<FPSManager>
                     _d = go.gameObject.AddComponent<Solider>();
                     bullet = Resources.Load<GameObject>("Bullets\\Stone");
                     _d.SetStatus(100, 5f, 10);
-                    break;
-                case "Chariot":
-                    _d = go.gameObject.AddComponent<Chariot>();
-
-                    _d.SetStatus(110, 5f, 11);
-                    break;
-                case "Horse":
-                    _d = go.gameObject.AddComponent<Horse>();
-                    bullet = Resources.Load<GameObject>("Bullets\\HorseShoe");
-                    _d.SetStatus(120, 5f, 12);
-                    break;
-                case "Elephant":
-                    _d = go.gameObject.AddComponent<Elephant>();
-                    bullet = Resources.Load<GameObject>("Bullets\\Ivory");
-                    _d.SetStatus(130, 5f, 13);
-                    break;
-                case "Cannon":
-                    _d = go.gameObject.AddComponent<Cannon>();
-                    bullet = Resources.Load<GameObject>("Bullets\\Dynamite");
-                    _d.SetStatus(140, 5f, 14);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(100);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Solider");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[0], aum.BulletSound[5]);
                     break;
                 case "Guard":
                     _d = go.gameObject.AddComponent<Guard>();
                     bullet = Resources.Load<GameObject>("Bullets\\Book");
-                    _d.SetStatus(150, 5f, 15);
+                    _d.SetStatus(150, 6f, 15);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(150);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Guard");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[1], aum.BulletSound[1]);
+                    break;
+                case "Elephant":
+                    _d = go.gameObject.AddComponent<Elephant>();
+                    bullet = Resources.Load<GameObject>("Bullets\\Ivory");
+                    _d.SetStatus(130, 7f, 13);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(130);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Elephant");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[2], aum.BulletSound[2]);
+                    break;
+                case "Chariot":
+                    _d = go.gameObject.AddComponent<Chariot>();
+                    _d.SetStatus(110, 8f, 11);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(110);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Chariot");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[3], aum.BulletSound[3]);
+                    break;
+                case "Horse":
+                    _d = go.gameObject.AddComponent<Horse>();
+                    bullet = Resources.Load<GameObject>("Bullets\\HorseShoe");
+                    _d.SetStatus(120, 9f, 12);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(120);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Horse");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[4], aum.BulletSound[4]);
+                    break;
+                case "Cannon":
+                    _d = go.gameObject.AddComponent<Cannon>();
+                    bullet = Resources.Load<GameObject>("Bullets\\Dynamite");
+                    _d.SetStatus(140, 10f, 14);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(140);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Cannon");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[5], aum.BulletSound[5]);
                     break;
                 case "King":
                     _d = go.gameObject.AddComponent<King>();
                     bullet = Resources.Load<GameObject>("Bullets\\KingBullets");
-                    _d.SetStatus(160, 5f, 16);
+                    _d.SetStatus(160, 11f, 16);
+                    if (go.tag == "Player")
+                    {
+                        PHPCTR.Instance.SetHpUI(160);
+                        PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\King");
+                    }
+                    SelectBulSound(go.tag, aum.BulletSound[6], aum.BulletSound[6]);
                     break;
                 default:
                     Debug.Log("it does not exist");
@@ -182,7 +236,7 @@ public class FPSManager : Singleton<FPSManager>
     }
 
     // 테스트용, 마우스 보이기와 숨기기 기능 함수
-    private void ShowCursor()
+    public void ShowCursor()
     {
         if (Cursor.lockState == CursorLockMode.Locked)
         {
@@ -230,5 +284,55 @@ public class FPSManager : Singleton<FPSManager>
             ScopeImg.gameObject.SetActive(true);
         else
             ScopeImg.gameObject.SetActive(false);
+    }
+
+    [SerializeField] private AudioClip pBul, eBul;
+    [SerializeField] private AudioClip pSkill, eSkill;
+    [SerializeField] private AudioSource pBulAS, eBulAS;
+    
+    private void SelectBulSound(string tag, AudioClip ac, AudioClip sk)
+    {
+        if (tag == "Player")
+        {
+            pBul = ac;
+            pSkill = sk;
+            pBulAS.clip = pBul;
+            pBulAS.volume = 0.3f;
+        }
+        if (tag == "Enemy")
+        {
+            eBul = ac;
+            eSkill = sk;
+            eBulAS.clip = eBul;
+            eBulAS.volume = 0.3f;
+        }
+    }
+
+    public void BulletSoundPlay(string tag)
+    {
+        if (tag == "Player")
+        {
+            pBulAS.clip = pBul;
+            pBulAS.PlayOneShot(pBul);
+        }
+        if (tag == "Enemy")
+        {
+            eBulAS.clip = eBul;
+            eBulAS.PlayOneShot(eBul);
+        }
+    }
+
+    public void SkillSoundPlay(string tag)
+    {
+        if (tag == "Player")
+        {
+            pBulAS.clip = pSkill;
+            pBulAS.PlayOneShot(pBul);
+        }
+        if (tag == "Enemy")
+        {
+            eBulAS.clip = eSkill;
+            eBulAS.PlayOneShot(eBul);
+        }
     }
 }

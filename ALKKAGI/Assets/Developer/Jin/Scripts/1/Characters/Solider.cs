@@ -19,46 +19,63 @@ public class Solider : Decorator_Character
         if (basePlayer.CompareTag("Player"))
         {
             pScript = basePlayer.GetComponent<Player_Character>();
-            cooldown = pScript.pCoolDown;
             Destroy(eScript);
         }
         else if (basePlayer.CompareTag("Enemy"))
         {
             eScript = basePlayer.GetComponent<Enemy_Character>();
-            cooldown = eScript.eCoolDown;
             Destroy(pScript);
+        }
+
+        cooldown = this.GetCoolDown();
+    }
+
+    float t = 0;
+    bool endOfUseSkill = false;
+
+    private void Update()
+    {
+        if (endOfUseSkill)
+        {
+            t += Time.deltaTime;
+            PHPCTR.Instance.rotBar.fillAmount = 1 - (t / cooldown);
+
+            if (t >= cooldown)
+            {
+                t = 0;
+                endOfUseSkill = false;
+                useSkill = false;
+            }
         }
     }
 
     public override IEnumerator Skill(GameObject go)
     {
-        if (go.tag == "Player")
+        if (!useSkill)
         {
-            if (!useSkill)
+            useSkill = true;
+            FPSManager.Instance.SkillSoundPlay(go.tag);
+
+            if (go.tag == "Player")
             {
-                useSkill = true;
                 pScript.speed *= 2f;
 
                 yield return new WaitForSeconds(cooldown / 2);
-
                 pScript.speed /= 2f;
 
-                yield return new WaitForSeconds(cooldown / 2);
-                useSkill = false;
+                endOfUseSkill = true;
+                PHPCTR.Instance.rotBar.fillAmount = 1f;
             }
-        }
-        else if (go.tag == "Enemy")
-        {
-            if (!useSkill)
+            else if (go.tag == "Enemy")
             {
-                useSkill = true;
+
+                FPSManager.Instance.SkillSoundPlay(go.tag);
                 eScript.speed *= 2f;
 
                 yield return new WaitForSeconds(cooldown / 2);
-
                 eScript.speed /= 2f;
 
-                yield return new WaitForSeconds(cooldown / 2);
+                yield return new WaitForSeconds(cooldown);
                 useSkill = false;
             }
         }

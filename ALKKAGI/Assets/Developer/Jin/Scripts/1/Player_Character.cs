@@ -11,6 +11,7 @@ public class Player_Character : Default_Character
     // 알까기 매니저는 추후 싱글톤으로 변경할 예정
     private AlKKAGIManager am;
     private FPSManager fm;
+    private PHPCTR pc;
 
     // Default_Character를 상속받은 각각의 캐릭터(쫄, 상, 포, 마...)의 특성을 입힐 수 있게 선언
     private Decorator_Character _d;
@@ -29,9 +30,9 @@ public class Player_Character : Default_Character
 
     private void Start()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            am = AlKKAGIManager.Instance;
+        am = AlKKAGIManager.Instance;
         fm = FPSManager.Instance;
+        pc = PHPCTR.Instance;
 
         cam = Camera.main;
         bulPos = this.gameObject.transform.GetChild(0).gameObject;
@@ -52,38 +53,43 @@ public class Player_Character : Default_Character
 
     private void Update()
     {
-        // AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
-        if (Input.GetKeyDown(KeyCode.O))
-            fm.Win();
-        if (Input.GetKeyDown(KeyCode.P))
-            fm.Lose();
-        
-        // 플레이어 움직임
-        Move();
-        // 마우스 움직임에 따른 카메라 회전값 변경
-        CamMove();
+        if (fm.gs == GameState.Run)
+        {// AI 완성 전까지 게임 승패내기용으로 임의로 만들어 둔 조건문
+            if (Input.GetKeyDown(KeyCode.O))
+                fm.Win();
+            if (Input.GetKeyDown(KeyCode.P))
+                fm.Lose();
 
-        // 점프, velocity가 없을때 점프 가능하게
-        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
-            Jump();
+            // 플레이어 움직임
+            Move();
+            // 마우스 움직임에 따른 카메라 회전값 변경
+            CamMove();
 
-        // 총구 위치에서 총알 발사
-        if (Input.GetMouseButtonDown(0))
+            // 점프, velocity가 없을때 점프 가능하게
+            if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
+                Jump();
+
+            // 총구 위치에서 총알 발사
+            if (Input.GetMouseButtonDown(0))
+            {
                 Attack(bulPos.transform.position);
+                fm.BulletSoundPlay(this.tag);
+            }
 
-        // 스킬 사용
-        if (Input.GetKeyDown(KeyCode.Q))
-            UseSkill();
+            // 스킬 사용
+            if (Input.GetKeyDown(KeyCode.Q))
+                UseSkill();
+        }
     }
 
     public void Hitted(int damage)
     {
         _d.Attacked(damage);
         _d.GetStatus();
+        pc.PlayerHitted(damage);
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Map1")
-            if (_d.GetHp() <= 0f)
-                fm.Lose();
+        if (_d.GetHp() <= 0f)
+            fm.Lose();
     }
 
     float h, v;
@@ -94,9 +100,41 @@ public class Player_Character : Default_Character
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        Vector3 dir = transform.forward * v + transform.right * h;
+        //Vector3 dir = transform.forward * v + transform.right * h;
 
-        this.transform.position += dir * speed * Time.deltaTime;
+        //this.transform.position += dir * speed * Time.deltaTime;
+
+        Vector3 movement = new Vector3(h, 0f, v);
+
+        if (CheckHitWall(movement))
+            movement = Vector3.zero;
+
+        this.transform.Translate(movement * speed * Time.deltaTime);
+    }
+
+    private bool CheckHitWall(Vector3 m)
+    {
+        m = this.transform.TransformDirection(m);
+        var mc = this.transform.GetChild(1).GetComponent<MeshCollider>();
+
+        float scope = 1f;
+
+        var rayPositions = new List<Vector3>();
+        rayPositions.Add(this.transform.position + Vector3.up * 0.2f);
+        rayPositions.Add(this.transform.position + Vector3.up);
+        rayPositions.Add(this.transform.position + Vector3.up * -0.2f);
+
+
+        foreach(var p in rayPositions)
+        {
+            //Debug.DrawRay(p, m * scope, Color.red);
+
+            if (Physics.Raycast(p, m, out RaycastHit hit, scope))
+                if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("LimitArea"))
+                    return true;
+        }
+
+        return false;
     }
 
     private float mouseX, mouseY;
@@ -110,8 +148,6 @@ public class Player_Character : Default_Character
 
     private Camera cam;
 
-    public float sensitivity = 0.5f;
-
     private void CamMove()
     {
         cam.transform.position = this.gameObject.transform.position;
@@ -119,8 +155,8 @@ public class Player_Character : Default_Character
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
 
-        eulerAngleX -= mouseY * rotCamX * sensitivity;
-        eulerAngleY += mouseX * rotCamY * sensitivity;
+        eulerAngleX -= mouseY * rotCamX * Immortal.Instance.sensitivity;
+        eulerAngleY += mouseX * rotCamY * Immortal.Instance.sensitivity;
 
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
@@ -137,7 +173,17 @@ public class Player_Character : Default_Character
     }
 
     // 점프
-    protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    private float groundCheckDistance = 100f;
+    private bool isGround;
+
+    protected override void Jump()
+    {
+        isGround = Physics.Raycast(this.transform.position, Vector3.down, groundCheckDistance, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
+
+        if (isGround)
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
 
     // 공격
     public List<GameObject> bullets = new List<GameObject>();

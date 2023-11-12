@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ALKKAGI/Assets/Developer/Park/Matarial/Orange.mat.meta
+guid: 10fc75c7a3f0a54459ff14669b54bf3a
+NativeFormatImporter:
+========
 guid: 292f00be67bcc634682fe7c0577f82d5
 PrefabImporter:
+>>>>>>>> 3c599b9fabceda3b77bd1c543bdada46136dbcc2:ALKKAGI/Assets/Developer/Song/SYS/Ui prefab/NewHelp_1.prefab.meta
   externalObjects: {}
+  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

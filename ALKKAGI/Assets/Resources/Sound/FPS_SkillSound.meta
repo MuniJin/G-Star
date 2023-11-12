@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ALKKAGI/Assets/Developer/Park/Matarial/Green.mat.meta
+guid: 423711b405873904680c4cbefd384c95
+NativeFormatImporter:
+========
 guid: 7405d7fc2aff839409a1755cc549c456
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> 3c599b9fabceda3b77bd1c543bdada46136dbcc2:ALKKAGI/Assets/Resources/Sound/FPS_SkillSound.meta
   externalObjects: {}
+  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

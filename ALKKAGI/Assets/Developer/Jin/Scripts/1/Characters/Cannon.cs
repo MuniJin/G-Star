@@ -40,6 +40,25 @@ public class Cannon : Decorator_Character
         cooldown = this.GetCoolDown();
     }
 
+    float t = 0;
+    bool endOfUseSkill = false;
+
+    private void Update()
+    {
+        if (endOfUseSkill)
+        {
+            t += Time.deltaTime;
+            PHPCTR.Instance.rotBar.fillAmount = 1 - (t / cooldown);
+
+            if (t >= cooldown)
+            {
+                t = 0;
+                endOfUseSkill = false;
+                useSkill = false;
+            }
+        }
+    }
+
     public override IEnumerator Skill(GameObject go)
     {
         if (basePlayer.tag == "Player")
@@ -78,6 +97,9 @@ public class Cannon : Decorator_Character
 
                     yield return null;
                 }
+
+                endOfUseSkill = true;
+                PHPCTR.Instance.rotBar.fillAmount = 1f;
             }
         }
         if (basePlayer.tag == "Enemy")
@@ -101,9 +123,9 @@ public class Cannon : Decorator_Character
                     GameObject p = Instantiate(AtferCastingSkillParticle, go.transform.position + (Vector3.down * 0.75f), AtferCastingSkillParticle.transform.rotation);
                 }
             }
-        }
 
-        yield return new WaitForSeconds(cooldown);
-        useSkill = false;
+            yield return new WaitForSeconds(cooldown);
+            useSkill = false;
+        }
     }
 }

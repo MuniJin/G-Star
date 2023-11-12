@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 49ab10d3a74766b45b8fd56d11604b07
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - debugMaterialOrange: {fileID: 2100000, guid: 2bff244e17a22cd418d09f67e6cb8bcf, type: 2}
+  - debugMaterialGreen: {fileID: 2100000, guid: 12eb51de0a29f814cb851e97d670a4af, type: 2}
+  - debugMesh: {instanceID: 0}
+  - target: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

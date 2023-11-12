@@ -6,7 +6,7 @@ using UnityEngine;
 // 왕 : 병사 벽세우기
 public class King : Decorator_Character
 {
-    private float cooldown = 5f;
+    private float cooldown;
     private bool useSkill = false;
 
     private GameObject basePlayer;
@@ -31,6 +31,27 @@ public class King : Decorator_Character
             ks = Resources.Load<GameObject>("Skills\\KingSkill_Blue");
             Destroy(pScript);
         }
+
+        cooldown = this.GetCoolDown();
+    }
+
+    float t = 0;
+    bool endOfUseSkill = false;
+
+    private void Update()
+    {
+        if (endOfUseSkill)
+        {
+            t += Time.deltaTime;
+            PHPCTR.Instance.rotBar.fillAmount = 1 - (t / cooldown);
+
+            if (t >= cooldown)
+            {
+                t = 0;
+                endOfUseSkill = false;
+                useSkill = false;
+            }
+        }
     }
 
     public override IEnumerator Skill(GameObject go)
@@ -42,9 +63,9 @@ public class King : Decorator_Character
                 useSkill = true;
 
                 Instantiate(ks, go.transform.position, Quaternion.identity);
-
-                yield return new WaitForSeconds(cooldown);
-                useSkill = false;
+             
+                endOfUseSkill = true;
+                PHPCTR.Instance.rotBar.fillAmount = 1f;
             }
         }
         else if (go.tag == "Enemy")
