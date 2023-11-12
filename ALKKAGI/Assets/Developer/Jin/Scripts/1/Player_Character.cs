@@ -47,7 +47,7 @@ public class Player_Character : Default_Character
 
         pCoolDown = _d.GetCoolDown();
         damagebuff = false;
-        Debug.Log(pCoolDown);
+
         ObjPullingBullet();
     }
 
@@ -100,9 +100,41 @@ public class Player_Character : Default_Character
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        Vector3 dir = transform.forward * v + transform.right * h;
+        //Vector3 dir = transform.forward * v + transform.right * h;
 
-        this.transform.position += dir * speed * Time.deltaTime;
+        //this.transform.position += dir * speed * Time.deltaTime;
+
+        Vector3 movement = new Vector3(h, 0f, v);
+
+        if (CheckHitWall(movement))
+            movement = Vector3.zero;
+
+        this.transform.Translate(movement * speed * Time.deltaTime);
+    }
+
+    private bool CheckHitWall(Vector3 m)
+    {
+        m = this.transform.TransformDirection(m);
+        var mc = this.transform.GetChild(1).GetComponent<MeshCollider>();
+
+        float scope = 1f;
+
+        var rayPositions = new List<Vector3>();
+        rayPositions.Add(this.transform.position + Vector3.up * 0.2f);
+        rayPositions.Add(this.transform.position + Vector3.up);
+        rayPositions.Add(this.transform.position + Vector3.up * -0.2f);
+
+
+        foreach(var p in rayPositions)
+        {
+            //Debug.DrawRay(p, m * scope, Color.red);
+
+            if (Physics.Raycast(p, m, out RaycastHit hit, scope))
+                if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("LimitArea"))
+                    return true;
+        }
+
+        return false;
     }
 
     private float mouseX, mouseY;
@@ -141,7 +173,17 @@ public class Player_Character : Default_Character
     }
 
     // 점프
-    protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    private float groundCheckDistance = 100f;
+    private bool isGround;
+
+    protected override void Jump()
+    {
+        isGround = Physics.Raycast(this.transform.position, Vector3.down, groundCheckDistance, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
+
+        if (isGround)
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
 
     // 공격
     public List<GameObject> bullets = new List<GameObject>();

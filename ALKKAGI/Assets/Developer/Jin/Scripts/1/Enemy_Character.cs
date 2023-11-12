@@ -161,7 +161,6 @@ public class Enemy_Character : Default_Character
         }
         else
             temp = AttackingBulletSelect();
-        Debug.Log($"{temp}, {bullets[temp].GetComponent<Bullet>().guardBuffDamage}");
 
         bullets[temp].transform.parent = null;
 
