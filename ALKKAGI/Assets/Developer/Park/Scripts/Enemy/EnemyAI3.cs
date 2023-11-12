@@ -7,7 +7,7 @@ public class EnemyAI3 : MonoBehaviour
 {
     public float detectionRange = 100f;  // 플레이어를 감지하는 범위
     public float attackRange = 110f;    // 플레이어를 공격하는 범위
-    public float attackCooldown = 0.5f;   // 공격 쿨다운
+    public float attackCooldown = 0.3f;   // 공격 쿨다운
     public float maxHeightDifference = 3f; // 플레이어와 적 캐릭터 사이의 최대 높이 차이
 
     public Transform player;            // 플레이어의 위치
