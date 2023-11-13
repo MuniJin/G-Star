@@ -85,7 +85,7 @@ public class BlueMovement : MonoBehaviour
         if (!GM.GetComponent<AlKKAGIManager>().blueCrash)
         {
             Destroy(GameObject.Find("ArrowBlue(Clone)"));
-            IFC();
+            StartCoroutine(IFC());
         }
         else
         {
@@ -204,7 +204,7 @@ public class BlueMovement : MonoBehaviour
             redObj.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
-            Invoke("IFC", 1f);
+            StartCoroutine(IFC());
         }
         else
         {
@@ -212,7 +212,7 @@ public class BlueMovement : MonoBehaviour
             redObj.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
-            Invoke("IFC", 1f);
+            StartCoroutine(IFC());
         }
     }
     public void Redlose() //FPS ÆÐ¹è½Ã
@@ -223,7 +223,7 @@ public class BlueMovement : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f, ForceMode.Impulse);
-            Invoke("IFC", 1f);
+            StartCoroutine(IFC());
         }
         else
         {
@@ -231,11 +231,12 @@ public class BlueMovement : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f * 1.2f, ForceMode.Impulse);
-            Invoke("IFC", 1f);
+            StartCoroutine(IFC());
         }
     }
-    private void IFC()
+    IEnumerator IFC()
     {
+        yield return new WaitForSeconds(1f);
         StartCoroutine(GM.GetComponent<AlKKAGIManager>().RedTurnChange());
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;

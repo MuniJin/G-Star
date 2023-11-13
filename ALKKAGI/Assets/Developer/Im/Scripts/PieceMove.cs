@@ -69,13 +69,6 @@ public class PieceMove : MonoBehaviour
                 totalSpeed = SaveSpeed.magnitude / 2;
                 dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
 
-                //Debug.Log("totals - red : " + totalSpeed);
-                //if (totalSpeed < 1f)
-                //{
-                //    Debug.Log("Á¦¹ß R");
-                //    totalSpeed = 20f;
-                //}
-
                 rb.isKinematic = true;
                 GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
