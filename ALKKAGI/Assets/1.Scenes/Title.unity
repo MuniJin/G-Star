@@ -391,7 +391,6 @@ MonoBehaviour:
   soundctr: {fileID: 6501186568848456048}
   OptionsImg: {fileID: 992796760}
   SkillExplain: {fileID: 2142669802}
-  startani: {fileID: 477425264}
 --- !u!1 &338602987
 GameObject:
   m_ObjectHideFlags: 0
