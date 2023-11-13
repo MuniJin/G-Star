@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 1
+    accuratePlacement: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -11528,7 +11528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce10495243381fc46a1fe65adcff4f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinOrLose: {fileID: 2105485039}
   Maps:
   - {fileID: 1349260628}
   - {fileID: 727354824}
@@ -11947,11 +11946,6 @@ PrefabInstance:
 --- !u!224 &2105485038 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3707248585643141874, guid: 247068a6982f04c4c8f043b910304f24, type: 3}
-  m_PrefabInstance: {fileID: 2105485037}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2105485039 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3707248585643141873, guid: 247068a6982f04c4c8f043b910304f24, type: 3}
   m_PrefabInstance: {fileID: 2105485037}
   m_PrefabAsset: {fileID: 0}
 --- !u!64 &2114762478
