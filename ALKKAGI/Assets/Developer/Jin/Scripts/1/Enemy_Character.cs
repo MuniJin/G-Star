@@ -196,7 +196,7 @@ public class Enemy_Character : Default_Character
         brb.velocity = direction * bulletSpeed;
     }
 
-    protected override void Jump() => rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    protected override void Jump() => throw new System.NotImplementedException();
 
 
     protected override void Move()

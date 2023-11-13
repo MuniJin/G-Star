@@ -16,6 +16,8 @@ public class EnemyAI : MonoBehaviour
     private float rotationSpeed;
     private RaycastHit hit;
 
+    public string parentPlayer;
+
     // 초기화 함수
     void Start()
     {
@@ -23,6 +25,14 @@ public class EnemyAI : MonoBehaviour
         range = 80;
         speed = 10f;
         rotationSpeed = 15f;
+
+        if (this.gameObject.transform.parent.tag == "Player")
+            target = GameObject.FindWithTag("Enemy").gameObject;
+
+        if (this.gameObject.transform.parent.tag == "Enemy")
+            target = GameObject.FindWithTag("Player").gameObject;
+
+        this.transform.parent = null;
     }
 
     // 프레임마다 호출되는 업데이트 함수
@@ -55,7 +65,7 @@ public class EnemyAI : MonoBehaviour
             if (Physics.Raycast(leftRay.position + (transform.right * 7), transform.forward, out hit, range) ||
             Physics.Raycast(rightRay.position - (transform.right * 7), transform.forward, out hit, range))
             {
-                if (hit.collider.gameObject.CompareTag("Obstacles"))
+                if (hit.collider.gameObject.CompareTag("Ground"))
                 {
                     isThereAnyThing = true;
                     transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
@@ -70,7 +80,7 @@ public class EnemyAI : MonoBehaviour
         if (Physics.Raycast(transform.position - (transform.forward * 4), transform.right, out hit, 10) ||
             Physics.Raycast(transform.position - (transform.forward * 4), -transform.right, out hit, 10))
         {
-            if (hit.collider.gameObject.CompareTag("Obstacles"))
+            if (hit.collider.gameObject.CompareTag("Ground"))
             {
                 isThereAnyThing = false;
             }

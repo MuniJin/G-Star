@@ -26,7 +26,7 @@ public class EnemyAI3 : MonoBehaviour
     private bool isSkillReady = false; // 스킬 사용 준비 상태
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); // Get the Rigidbody component
+        //rb = GetComponent<Rigidbody>(); // Get the Rigidbody component
         agent = GetComponent<NavMeshAgent>();  // NavMesh 에이전트 설정
         ec = this.GetComponent<Enemy_Character>();  // Enemy_Character 스크립트 참조
         agent.enabled = true;
@@ -55,7 +55,7 @@ public class EnemyAI3 : MonoBehaviour
                 // 플레이어를 공격
                 AttackPlayer();
                 lastAttackTime = Time.time;
-                UseSkillAfterDelay();
+                //UseSkillAfterDelay();
             }
 
             float heightDifference = player.position.y - transform.position.y;
@@ -63,7 +63,7 @@ public class EnemyAI3 : MonoBehaviour
             //만약 플레이어가 적 캐릭터보다 maxHeightDifference 이상 높이에 있으면
             if (heightDifference > maxHeightDifference)
             {
-                ec.EJump();
+                //ec.EJump();
             }
             if (IsPlayerVisible() == false)
             {
@@ -72,19 +72,23 @@ public class EnemyAI3 : MonoBehaviour
                 PatrollingBehavior();
             }
             //ec.EUseSkill();
+            if (isSkillReady == false)
+            {
+                isSkillReady = true;
+                StartCoroutine(UseSkillAfterDelay());
+            }
         }
     }
 
     // 플레이어가 보이고 5초 후에 스킬을 사용하는 함수
     IEnumerator UseSkillAfterDelay()
     {
-        isSkillReady = true; // 스킬 사용 준비됨
         yield return new WaitForSeconds(5f); // 5초 대기
 
         // 5초가 지난 후에 플레이어가 보일 경우 스킬 사용
         if (IsPlayerVisible())
         {
-            PerformSkill(); // 스킬 사용하는 함수
+            ec.EUseSkill(); // 스킬 사용하는 함수
         }
 
         isSkillReady = false; // 스킬 사용이 끝남

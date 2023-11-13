@@ -79,6 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   bulPos: {fileID: 0}
+  parentPlayer: 
+  guardBuffDamage: 0
 --- !u!114 &1519517033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104aab77c07c9f34b9968a274acb1507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ps: {fileID: 5313657840976968424, guid: ff876111376ce7d4c989b958688347c5, type: 3}
+  ps: {fileID: 1814787259836723169, guid: 79bba1d4a6e18ad49a25167d749c41f4, type: 3}
 --- !u!114 &1519517036
 MonoBehaviour:
   m_ObjectHideFlags: 0
