@@ -40,7 +40,7 @@ public class Player_Character : Default_Character
         // 플레이어 오브젝트와 rigidbody 받아오기
         rb = this.gameObject.GetComponent<Rigidbody>();
 
-        this.speed = 15f;
+        this.speed = 20f;
         this.jumpForce = 10f;
 
         fm.ChooseCharacter(ref _d, ref bullet, this.gameObject);
@@ -100,10 +100,6 @@ public class Player_Character : Default_Character
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        //Vector3 dir = transform.forward * v + transform.right * h;
-
-        //this.transform.position += dir * speed * Time.deltaTime;
-
         Vector3 movement = new Vector3(h, 0f, v);
 
         if (CheckHitWall(movement))
@@ -120,14 +116,16 @@ public class Player_Character : Default_Character
         float scope = 1f;
 
         var rayPositions = new List<Vector3>();
-        rayPositions.Add(this.transform.position + Vector3.up * 0.2f);
+        
         rayPositions.Add(this.transform.position + Vector3.up);
-        rayPositions.Add(this.transform.position + Vector3.up * -0.2f);
+        rayPositions.Add(this.transform.position);
+        rayPositions.Add(this.transform.position + Vector3.down);
+        rayPositions.Add(this.transform.position + Vector3.right);
+        rayPositions.Add(this.transform.position + Vector3.left);
 
-
-        foreach(var p in rayPositions)
+        foreach (var p in rayPositions)
         {
-            //Debug.DrawRay(p, m * scope, Color.red);
+            Debug.DrawRay(p, m * scope, Color.red);
 
             if (Physics.Raycast(p, m, out RaycastHit hit, scope))
                 if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("LimitArea"))
@@ -243,7 +241,7 @@ public class Player_Character : Default_Character
 
             go.transform.parent = bulPos.transform;
 
-            go.GetComponent<Bullet>().damage = _d.GetDamage() * 2;
+            go.GetComponent<Bullet>().damage = 0;
             go.GetComponent<Bullet>().bulPos = bulPos.transform;
 
             go.GetComponent<Bullet>().parentPlayer = this.tag;
@@ -292,9 +290,19 @@ public class Player_Character : Default_Character
             {
                 if (this.gameObject.name.Split('_')[0] == "Horse")
                 {
-                    bullets[bullets.Count - 1].SetActive(true);
+                    int t = bullets.Count - 1;
+                    bullets[t].SetActive(true);
 
-                    ShootBul(bullets.Count - 1, bulpos, hit);
+                    bullets[t].transform.parent = null;
+                    bullets[t].transform.position = bulpos;
+
+                    Vector3 direction = (hit.point - bullets[t].transform.position).normalized;
+                    Rigidbody brb = bullets[t].GetComponent<Rigidbody>();
+                    brb.interpolation = RigidbodyInterpolation.Interpolate;
+                    brb.velocity = direction * bulletSpeed * 3f;
+
+                    if(hit.collider.gameObject.tag == "Enemy")
+                        GameObject.FindWithTag("Enemy").gameObject.GetComponent<Enemy_Character>().Hitted(_d.GetDamage() * 3);
 
                     damagebuff = false;
                 }
@@ -333,7 +341,6 @@ public class Player_Character : Default_Character
 
     private void ShootBul(int bulNum, Vector3 bulpos, RaycastHit hit)
     {
-
         bullets[bulNum].transform.parent = null;
         bullets[bulNum].transform.position = bulpos;
 

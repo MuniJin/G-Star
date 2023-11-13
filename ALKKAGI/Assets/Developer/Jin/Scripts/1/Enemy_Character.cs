@@ -110,6 +110,22 @@ public class Enemy_Character : Default_Character
                 go.SetActive(false);
             }
         }
+
+        if (this.name.Split('_')[0] == "Horse")
+        {
+            bullet = Resources.Load<GameObject>("Bullets\\HorseShoe2");
+            GameObject go = Instantiate(bullet, bulPos.transform.position, bullet.transform.rotation);
+
+            go.transform.parent = bulPos.transform;
+
+            go.GetComponent<Bullet>().damage = 0;
+            go.GetComponent<Bullet>().bulPos = bulPos.transform;
+
+            go.GetComponent<Bullet>().parentPlayer = this.tag;
+
+            bullets.Add(go);
+            go.SetActive(false);
+        }
     }
 
     private int AttackingBulletSelect()
