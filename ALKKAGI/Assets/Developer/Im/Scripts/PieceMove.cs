@@ -87,13 +87,11 @@ public class PieceMove : MonoBehaviour
     {
         rb.isKinematic = false;
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f, ForceMode.Impulse);
-        rb.AddForce(dir * totalSpeed * 0.3f / 2, ForceMode.Impulse);
     }
 
     public void lose() //FPS ÆÐ¹è½Ã
     {
         rb.isKinematic = false;
-        GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.3f, ForceMode.Impulse);
         rb.AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
     }
 }

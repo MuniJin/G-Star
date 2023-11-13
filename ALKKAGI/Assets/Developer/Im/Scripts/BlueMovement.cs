@@ -198,11 +198,11 @@ public class BlueMovement : MonoBehaviour
     public void RedWin() //FPS ½Â¸®½Ã
     {
         GameObject redObj = GM.GetComponent<AlKKAGIManager>().CrashObjR;
-        if (redObj.transform.localPosition.x <= 160 || redObj.transform.localPosition.x >= 144 || redObj.transform.localPosition.z >= -144 || redObj.transform.localPosition.z <= -180)
+        if (redObj.transform.position.x <= 16 && redObj.transform.position.x >= 0 && redObj.transform.position.z >= -18 && redObj.transform.position.z <= 0)
         {
+            Debug.Log("SHOW : " +redObj.transform.position);
             redObj.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            redObj.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.3f, ForceMode.Impulse);
             this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
             Invoke("IFC", 1f);
         }
@@ -211,7 +211,6 @@ public class BlueMovement : MonoBehaviour
             Debug.Log("¿Ü°û");
             redObj.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            redObj.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.3f * 1.2f, ForceMode.Impulse);
             this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.5f, ForceMode.Impulse);
             Invoke("IFC", 1f);
         }
@@ -224,7 +223,6 @@ public class BlueMovement : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f, ForceMode.Impulse);
-            this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.3f, ForceMode.Impulse);
             Invoke("IFC", 1f);
         }
         else
@@ -233,7 +231,6 @@ public class BlueMovement : MonoBehaviour
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
             this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             GM.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f * 1.2f, ForceMode.Impulse);
-            this.gameObject.GetComponent<Rigidbody>().AddForce(dir * totalSpeed * 0.3f, ForceMode.Impulse);
             Invoke("IFC", 1f);
         }
     }

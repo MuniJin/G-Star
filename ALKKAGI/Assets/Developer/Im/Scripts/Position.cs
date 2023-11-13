@@ -30,9 +30,12 @@ public class Position : MonoBehaviour
     {
         AutoPos();
         AutoPosBlue();
-        ClassicButton.SetActive(true);
+        SetType = Random.Range(1,5);
+        GAS();
+       
         SetButtons[0].SetActive(false);
         SetButtons[1].SetActive(false);
+        GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().StartSound);
     }
 
     public void Custom()

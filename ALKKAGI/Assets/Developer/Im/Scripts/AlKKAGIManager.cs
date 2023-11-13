@@ -337,7 +337,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             Time.timeScale = 0;
             TurnObj.SetActive(false);
             GameOverObj.SetActive(true);
-            GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=blue>ÆÐ¹è!";
+            GameOverObj.GetComponent<GameOver>().lose();
         }
 
         if (who == 1)
@@ -347,7 +347,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
             Time.timeScale = 0;
             TurnObj.SetActive(false);
             GameOverObj.SetActive(true);
-            GameOverObj.GetComponent<TextMeshProUGUI>().text = "<color=red>½Â¸®!";
+            GameOverObj.GetComponent<GameOver>().vic();
         }
     }
 
