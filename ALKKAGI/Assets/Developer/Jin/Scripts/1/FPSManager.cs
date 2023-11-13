@@ -32,6 +32,9 @@ public class FPSManager : Singleton<FPSManager>
 
     public GameState gs;
 
+    public GameObject Tabui;
+    public GameObject[] panners;
+
     private void Awake()
     {
         aum = AudioManager.Instance;
@@ -50,6 +53,16 @@ public class FPSManager : Singleton<FPSManager>
         // 각종 테스트때 마우스가 안보이기에 임의로 만들어 둔 조건문
         //if (Input.GetKeyDown(KeyCode.R))
         //    ShowCursor();
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Tabui.gameObject.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.F1))
+        {
+            Tabui.gameObject.SetActive(false);
+        }
+
     }
 
     private void MapInit()
@@ -140,6 +153,8 @@ public class FPSManager : Singleton<FPSManager>
         eBulAS = enemyP.AddComponent<AudioSource>();
     }
 
+    
+
     // 임의로 캐릭터 선택 가능하게 해주는 함수, 버튼과 연결
     public void ChooseCharacter(ref Decorator_Character _d, ref GameObject bullet, GameObject go)
     {
@@ -157,6 +172,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(100);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Solider");
+                        panners[0].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[0], aum.BulletSound[5]);
                     break;
@@ -168,6 +184,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(150);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Guard");
+                        panners[1].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[1], aum.BulletSound[1]);
                     break;
@@ -179,6 +196,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(130);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Elephant");
+                        panners[4].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[2], aum.BulletSound[2]);
                     break;
@@ -189,6 +207,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(110);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Chariot");
+                        panners[3].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[3], aum.BulletSound[3]);
                     break;
@@ -200,6 +219,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(120);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Horse");
+                        panners[5].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[4], aum.BulletSound[4]);
                     break;
@@ -211,6 +231,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(140);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Cannon");
+                        panners[2].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[5], aum.BulletSound[5]);
                     break;
@@ -222,6 +243,7 @@ public class FPSManager : Singleton<FPSManager>
                     {
                         PHPCTR.Instance.SetHpUI(160);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\King");
+                        panners[6].SetActive(true);
                     }
                     SelectBulSound(go.tag, aum.BulletSound[6], aum.BulletSound[6]);
                     break;

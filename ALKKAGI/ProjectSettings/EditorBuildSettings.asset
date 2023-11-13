@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Developer/Song/SYS/Scenes/cinemachintest.unity
     guid: 0a47721bccf3c2c4ba4472ad6e08813b
   - enabled: 1
+    path: Assets/Developer/Song/SYS/Scenes/testtest.unity
+    guid: 13b1afab4bdeede4d98329a350dade04
+  - enabled: 1
     path: Assets/1.Scenes/Map1.unity
     guid: 877c787fd43a5e045aad3a02309353a0
   - enabled: 1

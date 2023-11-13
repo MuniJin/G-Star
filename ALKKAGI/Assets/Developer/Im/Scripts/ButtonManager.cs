@@ -10,6 +10,8 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private GameObject soundctr;
     [SerializeField] private GameObject OptionsImg;
     [SerializeField] private GameObject SkillExplain;
+    [SerializeField] private Animator   startani;
+    
 
     private void Update()
     {
@@ -76,6 +78,7 @@ public class ButtonManager : MonoBehaviour
     IEnumerator loadScene()
     {
         audioManager.GetComponent<AudioManager>().SFXSource.PlayOneShot(audioManager.GetComponent<AudioManager>().ButtonSound);
+        startani.SetTrigger("New Trigger1");
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene("AlkkagiScene");
     }
