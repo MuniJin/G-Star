@@ -15,22 +15,75 @@ public class AlggagiDrag : MonoBehaviour
     private float Pita = 0f; //피타고라스를 이용하여 빗변의 길이를 구한 뒤 이를 힘으로 바꾼다
     private GameObject GM;
     private GameObject PauseButton;
+    private bool[] CameraZoom;
 
+    [SerializeField] private GameObject MainCamera;
     [SerializeField] private GameObject MainObj;   //메인 오브젝트(부모 오브젝트)
     [SerializeField] private GameObject Arrow;     //오브젝트의 예상 진행 방향
     [SerializeField] private GameObject ConCircle; //오브젝트의 힘을 보여주는 동심원
     public float ShootPower = 0f; //발사 힘
     private float trigo; //코사인, 사인값을 가지는 값
     double angleA; //동심원의 각도를 구하기 위한 float값
+    private Vector3 OriginCamera;
 
     private void Start()
     {
         PauseButton = GameObject.Find("PauseButton");
         GM = GameObject.Find("AlKKAGIManager");
-    }
+        MainCamera = GameObject.Find("Main Camera");
 
+        OriginCamera = MainCamera.transform.localPosition;
+
+        CameraZoom = new bool[6];
+        CameraZoom[0] = true;
+        CameraZoom[1] = true;
+        CameraZoom[2] = true;
+        CameraZoom[3] = true;
+        CameraZoom[4] = true;
+        CameraZoom[5] = true;
+    }
+    private void ReturnCamera()
+    {
+        MainCamera.transform.localPosition = OriginCamera;
+        for (int i = 0; i < CameraZoom.Length; i++)
+            CameraZoom[i] = true;
+    }
     void OnMouseDrag()
     {
+        if (this.gameObject.transform.position.z < -19)
+        {
+            for (int i = 0; i < CameraZoom.Length; i++)
+            {
+                float threshold = -19 - i * 0.8f;
+                if (this.gameObject.transform.position.z < threshold && CameraZoom[i])
+                {
+                    MainCamera.transform.localPosition = new Vector3(MainCamera.transform.localPosition.x, MainCamera.transform.localPosition.y + 1, MainCamera.transform.localPosition.z);
+                    CameraZoom[i] = false;
+                }
+            }
+        }
+        else if (this.gameObject.transform.position.z > -19 && this.gameObject.transform.position.z < 2)
+        {
+            ReturnCamera();
+        }
+
+        if (this.gameObject.transform.position.z > 2)
+        {
+            for (int i = 0; i < CameraZoom.Length; i++)
+            {
+                float threshold = 2+ i*0.65f;
+                if (this.gameObject.transform.position.z > threshold && CameraZoom[i])
+                {
+                    MainCamera.transform.localPosition = new Vector3(MainCamera.transform.localPosition.x, MainCamera.transform.localPosition.y + 1, MainCamera.transform.localPosition.z);
+                    CameraZoom[i] = false;
+                }
+            }
+        }
+        else if (this.gameObject.transform.position.z > -19 && this.gameObject.transform.position.z < 2)
+        {
+            ReturnCamera();
+        }
+
         if (GM.GetComponent<AlKKAGIManager>().IsMyTurn && !PauseButton.GetComponent<PauseButton>().IsPause && GM.GetComponent<AlKKAGIManager>().IsMove) // 내턴일때 드래그시
         {
             float distance = Camera.main.WorldToScreenPoint(transform.position).z;
@@ -106,6 +159,7 @@ public class AlggagiDrag : MonoBehaviour
     }
 
 
+
     private void DragReset()
     {
         GM.GetComponent<AlKKAGIManager>().IsMove = true;
@@ -113,6 +167,7 @@ public class AlggagiDrag : MonoBehaviour
     }
     private void OnMouseUp()
     {
+        ReturnCamera();
         MoveDis = this.gameObject.transform.localPosition;
         this.gameObject.transform.localPosition = new Vector3(0, 0.15f, 0);
         Arrow.transform.localPosition = new Vector3(0, 0.2f, 0);
