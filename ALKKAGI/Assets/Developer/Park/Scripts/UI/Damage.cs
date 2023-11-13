@@ -4,15 +4,49 @@ using UnityEngine;
 
 public class Damage : MonoBehaviour
 {
-    public float damageAmount = 10f;
-
+    public int damage;
+    public Transform SkillPos;
+    public string parentPlayer; // 플레이어랑 충돌 주의
     private void OnTriggerEnter(Collider other)
     {
-        // 플레이어 또는 다른 대상과 충돌 시 피해를 입힙니다.
-        Health health = other.GetComponent<Health>();
-        if (health != null)
+        if (other.tag == "Bullet")
+            return;
+
+
+        CheckTag(other);
+
+        ReturnBulPos();
+    }
+    private void CheckTag(Collider other)
+    {
+        if (other.tag == "LimitArea")
+            return;
+        if (other.tag == parentPlayer)
+            return;
+
+        if (other.tag == "Player")
         {
-            health.TakeDamage(damageAmount);
+            GameObject go = other.transform.parent.gameObject;
+            go.GetComponent<Player_Character>().Hitted(damage);
         }
+        else if (other.tag == "Enemy")
+        {
+            GameObject go = other.transform.parent.gameObject;
+            go.GetComponent<Enemy_Character>().Hitted(damage);
+        }
+        else
+            Debug.Log("지형지물 맞음");
+    }
+
+    private void ReturnBulPos()
+    {
+        if (this.GetComponent<Explode>() != null)
+            this.GetComponent<Explode>().Explosion(this.transform.position);
+
+        this.transform.parent = SkillPos.transform;
+        this.transform.position = SkillPos.transform.position;
+        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+       
+        this.gameObject.SetActive(false);
     }
 }
