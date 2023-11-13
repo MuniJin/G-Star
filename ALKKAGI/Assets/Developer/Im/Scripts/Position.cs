@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Position : MonoBehaviour
 {
@@ -21,18 +22,23 @@ public class Position : MonoBehaviour
     public GameObject ClassicButton;
     public GameObject[] SetButtons;
     public GameObject CustomSet;
+    private int GameSet = 0;
+
+    [SerializeField] TMP_Text TypeTitle;
+    [SerializeField] TMP_Text TypeExplain;
 
     private void Start()
     {
+        GameSet = 2;
         GameStart();
     }
     public void Classic()
     {
         AutoPos();
         AutoPosBlue();
-        SetType = Random.Range(1,5);
+        SetType = Random.Range(1, 5);
         GAS();
-       
+
         SetButtons[0].SetActive(false);
         SetButtons[1].SetActive(false);
         GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().StartSound);
@@ -44,11 +50,44 @@ public class Position : MonoBehaviour
         SetButtons[0].SetActive(false);
         SetButtons[1].SetActive(false);
     }
+
     private void GameStart()
     {
         SelPannel.SetActive(true);
         DeathRange.SetActive(true);
         BST = Random.Range(1, 5);
+    }
+
+    public void CuButton()
+    {
+        TypeTitle.text = "커스텀 : ";
+        TypeExplain.text = "스스로 배치합니다.";
+        GameSet = 0;
+    }
+
+    public void ClButton()
+    {
+        TypeTitle.text = "클래식 : ";
+        TypeExplain.text = "자동으로 배치됩니다.";
+        GameSet = 1;
+    }
+
+    public void ButtonSet(int GameType)
+    {
+        GameType = GameSet;
+        if (GameSet == 0)
+        {
+            Custom();
+        }
+        else if (GameSet == 1)
+        {
+            Classic();
+        }
+        else
+        {
+            TypeTitle.text = "배치 방법을 선택해주세요";
+            TypeExplain.text = "";
+        }
     }
 
     public void GAS()

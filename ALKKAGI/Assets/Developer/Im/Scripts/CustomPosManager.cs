@@ -26,6 +26,7 @@ public class CustomPosManager : MonoBehaviour
         PosMan.GetComponent<Position>().CustomPosBlue(1);
         PosMan.GetComponent<Position>().BlueSetting();
         GM.GetComponent<AlKKAGIManager>().PieceSet();
+        GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().StartSound);
         this.gameObject.SetActive(false);
     }
 }
