@@ -52,13 +52,13 @@ public class Position : MonoBehaviour
     public void CuButton()
     {
         TypeTitle.text = "커스텀 : ";
-        TypeExplain.text = "자동으로 배치됩니다.";
+        TypeExplain.text = "스스로 배치합니다.";
         GameSet = 0;
     }
     public void ClButton()
     {
         TypeTitle.text = "클래식 : ";
-        TypeExplain.text = "스스로 배치합니다";
+        TypeExplain.text = "자동으로 배치됩니다.";
         GameSet = 1;
     }
     public void ButtonSet(int GameType)

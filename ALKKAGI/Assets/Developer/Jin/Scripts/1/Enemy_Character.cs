@@ -51,7 +51,7 @@ public class Enemy_Character : Default_Character
         _d.GetStatus();
 
         if (_d.GetHp() <= 0f)
-            fm.Lose();
+            fm.Win();
     }
 
     public void EAttack()
