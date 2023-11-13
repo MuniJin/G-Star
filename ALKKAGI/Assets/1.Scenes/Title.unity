@@ -391,6 +391,7 @@ MonoBehaviour:
   soundctr: {fileID: 6501186568848456048}
   OptionsImg: {fileID: 992796760}
   SkillExplain: {fileID: 2142669802}
+  startani: {fileID: 477425264}
 --- !u!1 &338602987
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,6 +505,7 @@ GameObject:
   - component: {fileID: 477425263}
   - component: {fileID: 477425262}
   - component: {fileID: 477425261}
+  - component: {fileID: 477425264}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -599,6 +601,18 @@ MonoBehaviour:
           m_StringArgument: StartMove
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 477425264}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &477425262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,6 +651,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477425259}
   m_CullTransparentMesh: 1
+--- !u!95 &477425264
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477425259}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccfae3005f7919f429aea33b7cf0f544, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &479154113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,7 +2396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3768830980690786266, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3768830980690786270, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_Pivot.x
@@ -2454,43 +2488,43 @@ PrefabInstance:
       objectReference: {fileID: 260582140}
     - target: {fileID: 7959348670912331473, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.44444442
       objectReference: {fileID: 0}
     - target: {fileID: 7959348670912331473, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7959348670980516553, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.4949495
       objectReference: {fileID: 0}
     - target: {fileID: 7959348670980516553, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7959348670980516553, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.4949495
       objectReference: {fileID: 0}
     - target: {fileID: 7959348671126683306, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.44444442
       objectReference: {fileID: 0}
     - target: {fileID: 7959348671126683306, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7959348671126683306, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.44444442
       objectReference: {fileID: 0}
     - target: {fileID: 7959348672260235020, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.4949495
       objectReference: {fileID: 0}
     - target: {fileID: 7959348672260235020, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8529206483150524485, guid: 26d96f3217f644940b244e5fb1a0008c, type: 3}
       propertyPath: DB
