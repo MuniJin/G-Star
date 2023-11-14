@@ -127,7 +127,7 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
         }
     }
 
-    private void BlueSelect()
+    public void BlueSelect()
     {
         BluePattern = Random.Range(1, 5);
         if (BluePattern == 1) //패턴1 뒷열 오브젝트들
@@ -317,6 +317,11 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
                 l++;
             }
         }
+    }
+    
+    public void RTC()
+    {
+        StartCoroutine(RedTurnChange());
     }
 
     public IEnumerator RedTurnChange()

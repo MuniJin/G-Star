@@ -23,7 +23,9 @@ public class CustomPosManager : MonoBehaviour
     public void SettingEnd()
     {
         PosMan.GetComponent<Position>().BST = Random.Range(1, 5);
-        PosMan.GetComponent<Position>().CustomPosBlue(1);
+        //PosMan.GetComponent<Position>().CustomPosBlue(1);
+        PosMan.GetComponent<Position>().BlueSettingSelect();
+        PosMan.GetComponent<Position>().AutoPosBlue();
         PosMan.GetComponent<Position>().BlueSetting();
         GM.GetComponent<AlKKAGIManager>().SFX.PlayOneShot(GM.GetComponent<AlKKAGIManager>().audioManager.GetComponent<AudioManager>().StartSound);
         GM.GetComponent<AlKKAGIManager>().PieceSet();

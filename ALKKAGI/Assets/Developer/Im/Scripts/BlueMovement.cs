@@ -163,7 +163,8 @@ public class BlueMovement : MonoBehaviour
 
         if (redObjects.Count == 0) //감지 실패시 다른 오브젝트로 이동 후 감지
         {
-
+            Debug.Log("special");
+            GM.GetComponent<AlKKAGIManager>().BlueSelect();
         }
         else //감지 성공시 배열 정렬 후 공격
         {
@@ -183,8 +184,8 @@ public class BlueMovement : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
 
             MoveMath();
+            GM.GetComponent<AlKKAGIManager>().isGetRedPiecesCoroutineRunning = false;
         }
-        GM.GetComponent<AlKKAGIManager>().isGetRedPiecesCoroutineRunning = false;
     }
 
     private void BlueShootEffect(GameObject target)
@@ -237,7 +238,7 @@ public class BlueMovement : MonoBehaviour
     IEnumerator IFC()
     {
         yield return new WaitForSeconds(1f);
-        StartCoroutine(GM.GetComponent<AlKKAGIManager>().RedTurnChange());
+        GM.GetComponent<AlKKAGIManager>().RTC();
         GM.GetComponent<AlKKAGIManager>().IsMyTurn = true;
         GM.GetComponent<AlKKAGIManager>().IsFirstCrash = true;
     }
