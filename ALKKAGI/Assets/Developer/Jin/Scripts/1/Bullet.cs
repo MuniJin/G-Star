@@ -55,8 +55,11 @@ public class Bullet : MonoBehaviour
         if (this.GetComponent<Explode>() != null)
             this.GetComponent<Explode>().Explosion(this.transform.position);
 
+        Vector3 forwardDirection = this.gameObject.transform.forward;
+        
         this.transform.parent = bulPos.transform;
-        this.transform.position = bulPos.transform.position;
+        //this.transform.position = bulPos.transform.position;
+        this.transform.position = bulPos.transform.position + forwardDirection;
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
         this.transform.rotation = originRot;
 

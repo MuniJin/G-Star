@@ -53,33 +53,43 @@ public class PieceMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject
-            && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
+        if (this.gameObject.transform.position.y <= 0.15F)
         {
-            GM.GetComponent<AlKKAGIManager>().RedCrash = true;
-            GameObject collidedObject = collision.gameObject;
-            GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
-            GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
-
-            if (GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash == false)
+            if (collision.gameObject.tag == "BluePiece" && this.gameObject.tag == "RedPiece" && GM.GetComponent<AlKKAGIManager>().CrashObjB != collision.gameObject
+                && GM.GetComponent<AlKKAGIManager>().IsMyTurn)
             {
-                GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash = true;
+                GM.GetComponent<AlKKAGIManager>().RedCrash = true;
+                GameObject collidedObject = collision.gameObject;
+                GM.GetComponent<AlKKAGIManager>().CrashObjR = this.gameObject;
+                GM.GetComponent<AlKKAGIManager>().CrashObjB = collidedObject;
 
-                SaveSpeed = rb.velocity;
-                totalSpeed = SaveSpeed.magnitude / 2;
-                dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
+                if (GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash == false)
+                {
+                    GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<BlueMovement>().redTurnCrash = true;
 
-                rb.isKinematic = true;
-                GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
+                    SaveSpeed = rb.velocity;
+                    totalSpeed = SaveSpeed.magnitude / 2;
+                    dir = this.gameObject.transform.localPosition - collidedObject.transform.localPosition;
+
+                    rb.isKinematic = true;
+                    GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    StartCoroutine(GM.GetComponent<AlKKAGIManager>().Crash());
+                }
             }
         }
     }
 
     public void Win() //FPS 승리시
     {
+        if(totalSpeed < 1f)
+        {
+            Debug.Log("show");
+            
+            totalSpeed = 10f;
+        }
         rb.isKinematic = false;
         GM.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().AddForce(-dir * totalSpeed * 0.5f, ForceMode.Impulse);
+
     }
 
     public void lose() //FPS 패배시

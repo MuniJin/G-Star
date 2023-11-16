@@ -68,6 +68,17 @@ public class Cannon : Decorator_Character
                 useSkill = true;
                 while (true)
                 {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Debug.Log("show");
+
+                        Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
+                        Cursor.visible = false; // 마우스를 보이지 않게 설정
+
+                        useSkill = false;
+                        break;
+                    }
+                    
                     Cursor.lockState = CursorLockMode.None; // 마우스를 중앙에 고정
                     Cursor.visible = true; // 마우스를 보이지 않게 설정
 
@@ -91,15 +102,13 @@ public class Cannon : Decorator_Character
                             Cursor.lockState = CursorLockMode.Locked; // 마우스를 중앙에 고정
                             Cursor.visible = false; // 마우스를 보이지 않게 설정
                         }
-
+                        endOfUseSkill = true;
+                        PHPCTR.Instance.rotBar.fillAmount = 1f;
                         break;
                     }
 
                     yield return null;
                 }
-
-                endOfUseSkill = true;
-                PHPCTR.Instance.rotBar.fillAmount = 1f;
             }
         }
         if (basePlayer.tag == "Enemy")

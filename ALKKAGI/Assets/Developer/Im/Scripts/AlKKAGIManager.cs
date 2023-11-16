@@ -59,6 +59,12 @@ public class AlKKAGIManager : Singleton<AlKKAGIManager>
 
         audioManager.GetComponent<AudioManager>().PauseBGM();
 
+        this.gameObject.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().isKinematic = false;
+        this.gameObject.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().isKinematic = false;
+
+        this.gameObject.GetComponent<AlKKAGIManager>().CrashObjR.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        this.gameObject.GetComponent<AlKKAGIManager>().CrashObjB.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
         yield return new WaitForSeconds(0.5f);
 
         SceneManager.LoadScene("cinemachintest");  //fps ¾À º¯È¯

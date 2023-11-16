@@ -33,8 +33,6 @@ public class Position : MonoBehaviour
     }
     public void Classic()
     {
-        AutoPos();
-        AutoPosBlue();
         SetType = Random.Range(1,5);
         GAS();
        
@@ -88,6 +86,8 @@ public class Position : MonoBehaviour
 
     public void GAS()
     {
+        AutoPos();
+        AutoPosBlue();
         SettingSelect();
         BlueSettingSelect();
         PosSetting();

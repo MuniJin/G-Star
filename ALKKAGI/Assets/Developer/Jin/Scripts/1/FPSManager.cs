@@ -34,6 +34,7 @@ public class FPSManager : Singleton<FPSManager>
 
     public GameObject Tabui;
     public GameObject[] panners;
+    [SerializeField] private GameObject Help;
 
     private void Awake()
     {
@@ -57,6 +58,7 @@ public class FPSManager : Singleton<FPSManager>
         if (Input.GetKeyDown(KeyCode.F1))
         {
             Tabui.gameObject.SetActive(true);
+            Help.gameObject.SetActive(false);
         }
         if (Input.GetKeyUp(KeyCode.F1))
         {
@@ -179,10 +181,10 @@ public class FPSManager : Singleton<FPSManager>
                 case "Guard":
                     _d = go.gameObject.AddComponent<Guard>();
                     bullet = Resources.Load<GameObject>("Bullets\\Book");
-                    _d.SetStatus(150, 6f, 15);
+                    _d.SetStatus(110, 6f, 15);
                     if (go.tag == "Player")
                     {
-                        PHPCTR.Instance.SetHpUI(150);
+                        PHPCTR.Instance.SetHpUI(105);
                         PHPCTR.Instance.skillImg.sprite = Resources.Load<Sprite>("Skillimg\\Guard");
                         panners[1].SetActive(true);
                     }
